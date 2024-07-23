@@ -18,74 +18,74 @@ $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
    -s22019 \
-   -odata/extracted_phenotypes/sex_chrom_aneuploidy
+   -odata/extracted_data_fields/sex_chrom_aneuploidy
 
 # Self-reported sex
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
    -s31 \
-   -odata/extracted_phenotypes/reported_sex
+   -odata/extracted_data_fields/reported_sex
 
 # Sex determined from genotyping analysis
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
    -s22001 \
-   -odata/extracted_phenotypes/genetic_sex
+   -odata/extracted_data_fields/genetic_sex
 
 # Outliers for heterozygosity or missing rate
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
    -s22027 \
-   -odata/extracted_phenotypes/outlier_heterozygosity
+   -odata/extracted_data_fields/outlier_heterozygosity
 
 # Genotype missingness
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
    -s22005 \
-   -odata/extracted_phenotypes/genotype_missingness
+   -odata/extracted_data_fields/genotype_missingness
 
 # Genetic kinship
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
    -s22021 \
-   -odata/extracted_phenotypes/genetic_kinship
+   -odata/extracted_data_fields/genetic_kinship
 
 # Age
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
    -s21022 \
-   -odata/extracted_phenotypes/age
+   -odata/extracted_data_fields/age
 
 # PC
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
    -s22009 \
-   -odata/extracted_phenotypes/pc
+   -odata/extracted_data_fields/pc
 
 # Ethnic background
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
    -s21000 \
-   -odata/extracted_phenotypes/ethnic_background
+   -odata/extracted_data_fields/ethnic_background
 
 # Caucasian as determined by genetics
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
    -s22006 \
-   -odata/extracted_phenotypes/caucasian
+   -odata/extracted_data_fields/caucasian
 
 # Genotype array used
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
    -s22006 \
-   -odata/extracted_phenotypes/array_type
+   -odata/extracted_data_fields/array_type
