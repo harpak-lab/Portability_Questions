@@ -25,7 +25,7 @@ We recommend creating a [conda](https://docs.conda.io/projects/conda/en/stable/)
 ```
 git clone https://github.com/harpak-lab/Portability_Questions
 cd Portability_Questions
-conda env create --name pgs --file=environment.yml
+conda env create -f environment.yml
 ```
 
 ## Modification
