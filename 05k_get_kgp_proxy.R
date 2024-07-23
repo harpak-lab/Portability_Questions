@@ -63,7 +63,7 @@ for(i in 1:20){
 pc_dist_chb <- as.data.frame(apply(pc_dist_chb_sq[, c(3:22)], 2, sqrt))
 pc_dist_chb <- cbind.data.frame(pc[, c(1:2)], pc_dist_chb)
 
-pc_dist_yri_sq = pc[, c(1,2)]
+pc_dist_yri_sq <- pc[, c(1,2)]
 for(i in 1:20){
   if(i == 1){
     pc_dist_yri_sq[["PC1_dist"]] <- get_pc_dist(pc[["PC1"]], yri_centroid[["PC1"]],

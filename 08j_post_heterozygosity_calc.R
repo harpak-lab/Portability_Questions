@@ -38,9 +38,9 @@ for(i in 1:500){
     colnames(temp2)[1] <- "ID"
     temp2 <- snp_lst[[trait]] %>% left_join(temp2, by = "ID")
     
+    temp2 <- temp2 %>% na.omit()
     temp2$beta_sq_size <- ntile(temp2$beta_sq, 3)
     
-    temp2 <- temp2 %>% na.omit()
     # Calculate the heterozygosity of each SNP
     temp2$het <- temp2$`C(HET)` / ( temp2$`C(HOM A1)` +  temp2$`C(HET)` +  temp2$`C(HOM A2)`)
     # Take the mean of each stratum
@@ -51,7 +51,7 @@ for(i in 1:500){
   }
 }
 
-heterozygosity = cbind.data.frame(phenotype = rep(rep(pheno, each = 3), 500),
+heterozygosity <- cbind.data.frame(phenotype = rep(rep(pheno, each = 3), 500),
                                   weighted_pc_groups = rep(1:500, each = 15 * 3),
                                   size = rep(1:3, 500 * 15),
                                   mean_het = het)

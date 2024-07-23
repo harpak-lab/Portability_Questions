@@ -15,7 +15,7 @@ for (file in list.files(path = 'data/fst',
 
 row_num = c()
 for(i in 1:round(nrow(fst_df) / 3)){
-  row_num = c(row_num, rep(i, 3))
+  row_num <- c(row_num, rep(i, 3))
 }
 
 fst_df <- fst_df %>% mutate(row_num = row_num) %>%

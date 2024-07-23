@@ -1,22 +1,6 @@
 library(tidyverse)
 library(tibble)
 
-# Table of each trait's name, code, field ID, and dtype (including eid)
-traits_info <- read_delim('/work2/06568/joyce_w/stampede2/pgs_portability/data/martin_gwas_info.txt', delim = ' ',
-                          col_types = cols_only(Trait = col_character(),
-                                                UKBB_code = col_character())) %>%
-  mutate(
-    ukb_field = str_glue('{UKBB_code}-0.0') %>% as.character,
-    dtype = 'd'
-  ) %>%
-  add_row(Trait = 'eid', UKBB_code = 'eid', ukb_field = 'eid', dtype = 'c')
-
-# Load only the 18 columns of interest
-field_to_dtype <- traits_info %>%
-  select(ukb_field, dtype) %>%
-  deframe %>%
-  as.list
-
 # Table of each trait's name, field ID, and data type
 traits_info <- cbind.data.frame(
   trait = c("Height", "Cystatin_C", "Platelet", "MCV", "Weight", 
