@@ -1,6 +1,6 @@
 # Three Open Questions in Polygenic Score Portability
 
-Joyce Wang<sup>1</sup>, Michael Zietz<sup>2</sup>, Jason Mares<sup>3</sup>, Vagheesh M. Narasimhan<sup>1,4</sup>, Paul J. Rathouz<sup>4,5</sup> and Arbel Harpak<sup>1,5,+</sup>
+Joyce Y. Wang<sup>1</sup>, Neeka Lin<sup>1</sup>, Michael Zietz<sup>2</sup>, Jason Mares<sup>3</sup>, Vagheesh M. Narasimhan<sup>1,4</sup>, Paul J. Rathouz<sup>4,5</sup> and Arbel Harpak<sup>1,5,+</sup>
 
 <sub><sup>1</sup> Department of Integrative Biology, The University of Texas at Austin, Austin, TX</sub>
 
