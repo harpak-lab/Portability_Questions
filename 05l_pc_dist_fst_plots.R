@@ -48,9 +48,6 @@ plot_pc_fst <- pc_dist_further_rand %>%
   theme_bw() + 
   theme(axis.title=element_text(size=24, family = "Helvetica"),
         axis.text=element_text(size=20, family = "Helvetica"),
-        plot.title=element_text(size=28, family = "Helvetica"),
-        plot.subtitle=element_text(size=18, family = "Helvetica"),
-        plot.caption=element_text(size=16, family = "Helvetica"),
         legend.title=element_text(size=16, family = "Helvetica"),
         legend.text = element_text(size=16, family = "Helvetica"),
         legend.position=c(0.92, 0.34),
