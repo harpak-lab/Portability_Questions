@@ -27,14 +27,15 @@ upper <- unname(quantile(pc_dist_gwas$pc_dist, 0.975))
 # Get positions of the knots by density
 temp <- ind_pgs_df %>% filter(phenotype == "Height" & pc_dist > upper)
 temp <- temp %>% arrange(pc_dist)
-knots <- c(temp$pc_dist[round(nrow(temp) / 9)], 
-          temp$pc_dist[round(nrow(temp) / 9 * 2)], 
-          temp$pc_dist[round(nrow(temp) / 9 * 3)], 
-          temp$pc_dist[round(nrow(temp) / 9 * 4)],
-          temp$pc_dist[round(nrow(temp) / 9 * 5)], 
-          temp$pc_dist[round(nrow(temp) / 9 * 6)], 
-          temp$pc_dist[round(nrow(temp) / 9 * 7)], 
-          temp$pc_dist[round(nrow(temp) / 9 * 8)])
+knots <- c(upper,
+           temp$pc_dist[round(nrow(temp) / 9)], 
+           temp$pc_dist[round(nrow(temp) / 9 * 2)], 
+           temp$pc_dist[round(nrow(temp) / 9 * 3)], 
+           temp$pc_dist[round(nrow(temp) / 9 * 4)],
+           temp$pc_dist[round(nrow(temp) / 9 * 5)], 
+           temp$pc_dist[round(nrow(temp) / 9 * 6)], 
+           temp$pc_dist[round(nrow(temp) / 9 * 7)], 
+           temp$pc_dist[round(nrow(temp) / 9 * 8)])
 
 # Group level plot
 plot_group_level <- function(pgs_df, trait, upper){
@@ -154,7 +155,7 @@ plot_ind_level <- function(pgs_df, trait, upper, full_range = F){
   
   plot <- ggplot(plot_df, aes(x = pc_dist, y = relative_performance)) +
     geom_hline(yintercept = 1, size = 0.5) +
-    geom_point(size=2.5, alpha=0.1, shape = 16, color = "gray")+
+    geom_point(size=2.5, alpha=0.1, shape = 16, color = "#beb0d7")+
     scale_x_continuous(breaks=c(0, 20, 40, 60, 80, 100, 120, 140, 160, 180), expand = c(0, 0)) +
     geom_line(data = plot_df_2,
               aes(x = pc_dist, y = fitted_val), size=2.5, color = "#5D3A9B")
@@ -279,7 +280,7 @@ plot_ind_full_ldl <- plot_ind_level(ind_pgs_df, "LDL", upper, full_range = T)
 # Main fig
 fig_2 <- plot_grid(NULL, NULL, plot_group_height, plot_ind_height, 
                   NULL, NULL, plot_group_weight, plot_ind_weight, 
-                  NULL, NULL, plot_group_triglycerides, plot_ind_triglycerides, 
+                  NULL, NULL, plot_group_wbc, plot_ind_wbc, 
                   labels = c('A. Height (group level)', 
                              'B. Height (individual level)', 
                              '',
@@ -288,8 +289,8 @@ fig_2 <- plot_grid(NULL, NULL, plot_group_height, plot_ind_height,
                              'D. Weight (individual level)', 
                              '',
                              '',
-                             'E. Triglycerides (group level)', 
-                             'F. Triglycerides (individual level)',
+                             'E. White blood cell (group level)', 
+                             'F. White blood cell (individual level)',
                              '',
                              ''), ncol = 2, nrow = 6,
                   label_x = 0.01, hjust = 0,
@@ -321,7 +322,6 @@ fig_s2 <- plot_grid(NULL, NULL, plot_group_bmi, plot_ind_bmi,
 
 fig_s3 <- plot_grid(NULL, NULL, plot_group_monocyte, plot_ind_monocyte, 
                     NULL, NULL, plot_group_lymphocyte, plot_ind_lymphocyte, 
-                    NULL, NULL, plot_group_wbc, plot_ind_wbc, 
                     NULL, NULL, plot_group_eosinophil, plot_ind_eosinophil, 
                     labels = c('A. Monocyte (group level)', 
                                'B. Monocyte (individual level)',
@@ -331,17 +331,13 @@ fig_s3 <- plot_grid(NULL, NULL, plot_group_monocyte, plot_ind_monocyte,
                                'D. Lymphocyte (individual level)', 
                                '',
                                '',
-                               'E. White blood cell (group level)', 
-                               'F. White blood cell (individual level)', 
+                               'E. Eosinophil (group level)', 
+                               'F. Eosinophil (individual level)', 
                                '',
-                               '',
-                               'G. Eosinophil (group level)', 
-                               'H. Eosinophil (individual level)', 
-                               '',
-                               ''), ncol = 2, nrow = 8,
+                               ''), ncol = 2, nrow = 6,
                     label_x = 0.01, hjust = 0,
                     label_size = 28, scale = 1,
-                    rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1, 0.1, 1),
+                    rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1),
                     label_fontfamily = "Helvetica")
 
 fig_s4 <- plot_grid(NULL, NULL, plot_group_mcv, plot_ind_mcv, 
@@ -366,6 +362,7 @@ fig_s4 <- plot_grid(NULL, NULL, plot_group_mcv, plot_ind_mcv,
 
 fig_s5 <- plot_grid(NULL, NULL, plot_group_cystatin_c, plot_ind_cystatin_c, 
                     NULL, NULL, plot_group_platelet, plot_ind_platelet, 
+                    NULL, NULL, plot_group_triglycerides, plot_ind_triglycerides,
                     NULL, NULL, plot_group_ldl, plot_ind_ldl, 
                     labels = c('A. Cystatic C (group level)', 
                                'B. Cystatic C (individual level)', 
@@ -375,13 +372,17 @@ fig_s5 <- plot_grid(NULL, NULL, plot_group_cystatin_c, plot_ind_cystatin_c,
                                'D. Platelet (individual level)',
                                '',
                                '',
-                               'E. LDL cholesterol (group level)', 
-                               'F. LDL cholesterol (individual level)', 
+                               'E. Triglycerides (group level)', 
+                               'F. Triglycerides (individual level)', 
                                '',
-                               ''), ncol = 2, nrow = 6,
+                               '',
+                               'G. LDL cholesterol (group level)', 
+                               'H. LDL cholesterol (individual level)', 
+                               '',
+                               ''), ncol = 2, nrow = 8,
                     label_x = 0.01, hjust = 0,
                     label_size = 28, scale = 1,
-                    rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1),
+                    rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1, 0.1, 1),
                     label_fontfamily = "Helvetica")
 
 grDevices::cairo_pdf("img/fig_s2_group_ind_pred_physical.pdf", width = 24, height = 12, onefile = T)
@@ -390,7 +391,7 @@ grid.arrange(arrangeGrob(fig_s2,
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s3_group_ind_pred_wbc.pdf", width = 24, height = 24, onefile = T)
+grDevices::cairo_pdf("img/fig_s3_group_ind_pred_wbc.pdf", width = 24, height = 18, onefile = T)
 grid.arrange(arrangeGrob(fig_s3,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
@@ -402,7 +403,7 @@ grid.arrange(arrangeGrob(fig_s4,
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s5_group_ind_pred_other.pdf", width = 24, height = 18, onefile = T)
+grDevices::cairo_pdf("img/fig_s5_group_ind_pred_other.pdf", width = 24, height = 24, onefile = T)
 grid.arrange(arrangeGrob(fig_s5,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
