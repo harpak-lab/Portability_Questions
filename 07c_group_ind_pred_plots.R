@@ -305,7 +305,7 @@ grid.arrange(arrangeGrob(fig_2,
 dev.off()
 
 # Supp fig for group and individual pred
-fig_s2 <- plot_grid(NULL, NULL, plot_group_bmi, plot_ind_bmi, 
+fig_s1 <- plot_grid(NULL, NULL, plot_group_bmi, plot_ind_bmi, 
                     NULL, NULL, plot_group_body_fat_perc, plot_ind_body_fat_perc, 
                     labels = c('A. BMI (group level)', 
                                'B. BMI (individual level)',
@@ -320,7 +320,7 @@ fig_s2 <- plot_grid(NULL, NULL, plot_group_bmi, plot_ind_bmi,
                     rel_heights = c(0.1, 1, 0.1, 1),
                     label_fontfamily = "Helvetica")
 
-fig_s3 <- plot_grid(NULL, NULL, plot_group_monocyte, plot_ind_monocyte, 
+fig_s2 <- plot_grid(NULL, NULL, plot_group_monocyte, plot_ind_monocyte, 
                     NULL, NULL, plot_group_lymphocyte, plot_ind_lymphocyte, 
                     NULL, NULL, plot_group_eosinophil, plot_ind_eosinophil, 
                     labels = c('A. Monocyte (group level)', 
@@ -340,7 +340,7 @@ fig_s3 <- plot_grid(NULL, NULL, plot_group_monocyte, plot_ind_monocyte,
                     rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1),
                     label_fontfamily = "Helvetica")
 
-fig_s4 <- plot_grid(NULL, NULL, plot_group_mcv, plot_ind_mcv, 
+fig_s3 <- plot_grid(NULL, NULL, plot_group_mcv, plot_ind_mcv, 
                     NULL, NULL, plot_group_mch, plot_ind_mch, 
                     NULL, NULL, plot_group_rbc, plot_ind_rbc, 
                     labels = c('A. Mean corpuscular volume (group level)', 
@@ -360,7 +360,7 @@ fig_s4 <- plot_grid(NULL, NULL, plot_group_mcv, plot_ind_mcv,
                     rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1),
                     label_fontfamily = "Helvetica")
 
-fig_s5 <- plot_grid(NULL, NULL, plot_group_cystatin_c, plot_ind_cystatin_c, 
+fig_s4 <- plot_grid(NULL, NULL, plot_group_cystatin_c, plot_ind_cystatin_c, 
                     NULL, NULL, plot_group_platelet, plot_ind_platelet, 
                     NULL, NULL, plot_group_triglycerides, plot_ind_triglycerides,
                     NULL, NULL, plot_group_ldl, plot_ind_ldl, 
@@ -385,32 +385,32 @@ fig_s5 <- plot_grid(NULL, NULL, plot_group_cystatin_c, plot_ind_cystatin_c,
                     rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1, 0.1, 1),
                     label_fontfamily = "Helvetica")
 
-grDevices::cairo_pdf("img/fig_s2_group_ind_pred_physical.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s1_group_ind_pred_physical.pdf", width = 24, height = 12, onefile = T)
+grid.arrange(arrangeGrob(fig_s1,
+                         bottom = textGrob("Genetic distance from the GWAS sample", 
+                                           gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+dev.off()
+
+grDevices::cairo_pdf("img/fig_s2_group_ind_pred_wbc.pdf", width = 24, height = 18, onefile = T)
 grid.arrange(arrangeGrob(fig_s2,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s3_group_ind_pred_wbc.pdf", width = 24, height = 18, onefile = T)
+grDevices::cairo_pdf("img/fig_s3_group_ind_pred_rbc.pdf", width = 24, height = 18, onefile = T)
 grid.arrange(arrangeGrob(fig_s3,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s4_group_ind_pred_rbc.pdf", width = 24, height = 18, onefile = T)
+grDevices::cairo_pdf("img/fig_s4_group_ind_pred_other.pdf", width = 24, height = 24, onefile = T)
 grid.arrange(arrangeGrob(fig_s4,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s5_group_ind_pred_other.pdf", width = 24, height = 24, onefile = T)
-grid.arrange(arrangeGrob(fig_s5,
-                         bottom = textGrob("Genetic distance from the GWAS sample", 
-                                           gp=gpar(fontfamily = "Helvetica", fontsize=24))))
-dev.off()
-
 # Supp fig for full-ranged individual pred
-fig_s6_full = plot_grid(NULL, NULL, plot_ind_full_height, plot_ind_full_weight, 
+fig_s5_full = plot_grid(NULL, NULL, plot_ind_full_height, plot_ind_full_weight, 
                         NULL, NULL, plot_ind_full_bmi, plot_ind_full_body_fat_perc, 
                         labels = c('A. Height', 
                                    'B. Weight',
@@ -425,7 +425,7 @@ fig_s6_full = plot_grid(NULL, NULL, plot_ind_full_height, plot_ind_full_weight,
                         rel_heights = c(0.1, 1, 0.1, 1),
                         label_fontfamily = "Helvetica")
 
-fig_s7_full = plot_grid(NULL, NULL, plot_ind_full_monocyte, plot_ind_full_lymphocyte, 
+fig_s6_full = plot_grid(NULL, NULL, plot_ind_full_monocyte, plot_ind_full_lymphocyte, 
                         NULL, NULL, plot_ind_full_wbc, plot_ind_full_eosinophil, 
                         labels = c('A. Monocyte', 
                                    'B. Lymphocyte',
@@ -440,7 +440,7 @@ fig_s7_full = plot_grid(NULL, NULL, plot_ind_full_monocyte, plot_ind_full_lympho
                         rel_heights = c(0.1, 1, 0.1, 1),
                         label_fontfamily = "Helvetica")
 
-fig_s8_full = plot_grid(NULL, NULL, plot_ind_full_mcv, plot_ind_full_mch, 
+fig_s7_full = plot_grid(NULL, NULL, plot_ind_full_mcv, plot_ind_full_mch, 
                         NULL, NULL, plot_ind_full_rbc, NULL, 
                         labels = c('A. Mean corpuscular volume', 
                                    'B. Mean corpuscular hemoglobin',
@@ -455,7 +455,7 @@ fig_s8_full = plot_grid(NULL, NULL, plot_ind_full_mcv, plot_ind_full_mch,
                         rel_heights = c(0.1, 1, 0.1, 1),
                         label_fontfamily = "Helvetica")
 
-fig_s9_full = plot_grid(NULL, NULL, plot_ind_full_cystatin_c, plot_ind_full_platelet, 
+fig_s8_full = plot_grid(NULL, NULL, plot_ind_full_cystatin_c, plot_ind_full_platelet, 
                         NULL, NULL, plot_ind_full_triglycerides, plot_ind_full_ldl, 
                         labels = c('A. Cystatin C', 
                                    'B. Platelet',
@@ -470,26 +470,26 @@ fig_s9_full = plot_grid(NULL, NULL, plot_ind_full_cystatin_c, plot_ind_full_plat
                         rel_heights = c(0.1, 1, 0.1, 1),
                         label_fontfamily = "Helvetica")
 
-grDevices::cairo_pdf("img/fig_s6_ind_full_pred_physical.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s5_ind_full_pred_physical.pdf", width = 24, height = 12, onefile = T)
+grid.arrange(arrangeGrob(fig_s5_full,
+                         bottom = textGrob("Genetic distance from the GWAS sample", 
+                                           gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+dev.off()
+
+grDevices::cairo_pdf("img/fig_s6_ind_full_pred_wbc.pdf", width = 24, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_s6_full,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s7_ind_full_pred_wbc.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s7_ind_full_pred_rbc.pdf", width = 24, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_s7_full,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s8_ind_full_pred_rbc.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s8_ind_full_pred_other.pdf", width = 24, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_s8_full,
-                         bottom = textGrob("Genetic distance from the GWAS sample", 
-                                           gp=gpar(fontfamily = "Helvetica", fontsize=24))))
-dev.off()
-
-grDevices::cairo_pdf("img/fig_s9_ind_full_pred_other.pdf", width = 24, height = 12, onefile = T)
-grid.arrange(arrangeGrob(fig_s9_full,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()

@@ -413,6 +413,6 @@ plot_heterozygosity_supp <- heterozygosity %>%
   guides(fill = guide_legend(title = "effect"),
          color = guide_legend(title = "effect"))
 
-grDevices::cairo_pdf("img/fig_s1_heterozygosity.pdf", width = 18, height = 20)
+grDevices::cairo_pdf("img/fig_s17_heterozygosity.pdf", width = 18, height = 20)
 print(plot_heterozygosity_supp)
 dev.off()

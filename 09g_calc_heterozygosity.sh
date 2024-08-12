@@ -24,7 +24,7 @@ plink2='/work2/06568/joyce_w/stampede2/software/plink/plink2/plink2'
 scratch='/scratch/06568/joyce_w/pgs_portability_questions/data'
 
 # Prepare IDs in each bin
-Rscript 08i_prepare_heterozygosity.R
+Rscript 09h_prepare_heterozygosity.R
 
 # Calculate heterozygosity in each bin
 for i in $(seq 1 500);
@@ -38,6 +38,6 @@ do
 done
 
 # Stratify the SNPs by effect sizes and calculate the mean heterozygosity
-Rscript 08j_post_heterozygosity_calc.R
+Rscript 09i_post_heterozygosity_calc.R
 
 conda deactivate

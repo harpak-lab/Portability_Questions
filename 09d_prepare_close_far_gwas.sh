@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH -J prepare_close_far_PCA
-#SBATCH -o prepare_close_far_PCA.o%j
-#SBATCH -e prepare_close_far_PCA.o%j
+#SBATCH -J prepare_close_far_GWAS
+#SBATCH -o prepare_close_far_GWAS.o%j
+#SBATCH -e prepare_close_far_GWAS.o%j
 #SBATCH -p normal
 #SBATCH -N 1
 #SBATCH -n 1
@@ -18,6 +18,6 @@ conda init bash
 conda activate pgs
 
 # Prepare IDs for the close and far groups
-Rscript 08b_prepare_close_far_pca.R
+Rscript 09e_prepare_close_far_gwas.R
 
 conda deactivate
