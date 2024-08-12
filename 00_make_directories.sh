@@ -31,6 +31,8 @@ mkdir data \
       data/ukb_populations/bins \
       img
 
+mv ind_pred_r2.csv data/pgs_pred
+
 # For placing large data
 scratch='/scratch/06568/joyce_w/'
 mkdir ${scratch}/pgs_portability_questions \
