@@ -82,14 +82,9 @@ plot_dist <- best_pc_dist %>%
   theme_bw() + 
   theme(axis.title=element_text(size=24, family = "Helvetica"),
         axis.text=element_text(size=20, family = "Helvetica"),
-        plot.title=element_text(size=28, family = "Helvetica"),
-        plot.subtitle=element_text(size=18, family = "Helvetica"),
-        plot.caption=element_text(size=16, family = "Helvetica"),
-        legend.title=element_text(size=16, family = "Helvetica"),
-        legend.text=element_text(size=16, family = "Helvetica"),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()) +
-  geom_vline(xintercept = upper, size = 0.5, linetype = "dashed") +
+  geom_vline(xintercept = upper, size = 1, linetype = "dashed") +
   xlab("Genetic distance from the GWAS sample") +
   ylab("Count") +
   guides(fill = "none",
@@ -125,15 +120,10 @@ plot_dist_inset <- best_pc_dist %>%
   theme_light() + 
   theme(axis.title=element_blank(),
         axis.text=element_text(size=20, family = "Helvetica"),
-        plot.title=element_text(size=28, face = "bold", family = "Helvetica"),
-        plot.subtitle=element_text(size=18, face = "bold", family = "Helvetica"),
-        plot.caption=element_text(size=16, family = "Helvetica"),
-        legend.title=element_text(size=16, family = "Helvetica"),
-        legend.text=element_text(size=16, family = "Helvetica"),
-        legend.position=c(0.9, 0.82),
+        axis.text.y = element_text(vjust = 0.25, hjust = 0.5),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()) +
-  geom_vline(xintercept = upper, size = 0.5, linetype = "dashed") +
+  geom_vline(xintercept = upper, size = 1, linetype = "dashed") +
   xlab("Genetic distance from the GWAS sample") +
   ylab("Count\n") +
   guides(fill = "none",
