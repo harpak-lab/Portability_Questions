@@ -51,9 +51,12 @@ Execute all the bash scripts ending with `.sh` with `bash <script_name.sh>` in t
 13. `05j_pc_dist_fst_plots.sh`
 14. `06_compute_prs.sh`
 15. `07_group_ind_level_pred.sh`
-16. `08a_prepare_close_far_pca.sh`
-17. `08c_close_far_pca.sh`
-18. `08d_prepare_close_far_gwas.sh`
-19. `08f_gwas_close.sh` and `08f_gwas_far.sh`
-20. `08h_calc_heterozygosity.sh`
-21. `08k_compare_effect_sizes_heterozygosity_var_pgs_plots.sh`
+16. `08a_prepare_for_ma_counts.sh`
+17. `08b_calc_ma_counts.sh`
+18. `08d_ind_pred_plots.sh`
+19. `09a_prepare_close_far_pca.sh`
+20. `09c_close_far_pca.sh`
+21. `09d_prepare_close_far_gwas.sh`
+22. `09f_gwas_close.sh` and `09f_gwas_far.sh`
+23. `09g_calc_heterozygosity.sh`
+24. `09j_compare_effect_sizes_heterozygosity_var_pgs_plots.sh`
