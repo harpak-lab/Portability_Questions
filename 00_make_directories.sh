@@ -41,4 +41,5 @@ mkdir ${scratch}/pgs_portability_questions \
       ${scratch}/pgs_portability_questions/data/genotype_calls \
       ${scratch}/pgs_portability_questions/data/pgs \
       ${scratch}/pgs_portability_questions/data/ukb_filtered \
-      ${scratch}/pgs_portability_questions/data/ukb_merged
+      ${scratch}/pgs_portability_questions/data/ukb_merged \
+      ${scratch}/pgs_portability_questions/data/ukb_merged/geno_group

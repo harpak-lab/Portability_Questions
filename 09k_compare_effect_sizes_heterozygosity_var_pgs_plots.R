@@ -294,7 +294,7 @@ lymphocyte_plot_2 <- plot_grid(NULL, plot_compare_beta,
 lymphocyte_plot <- plot_grid(lymphocyte_plot_2, lymphocyte_plot,
                             nrow = 2)
 
-grDevices::cairo_pdf("img/fig_3_lymphocyte.pdf", width = 18, height = 12)
+grDevices::cairo_pdf("img/fig_4_lymphocyte.pdf", width = 18, height = 12)
 grid.arrange(arrangeGrob(lymphocyte_plot,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))

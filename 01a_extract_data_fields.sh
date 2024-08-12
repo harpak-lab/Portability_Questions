@@ -89,3 +89,24 @@ $file_handlers/ukbconv \
    txt \
    -s22006 \
    -odata/extracted_data_fields/array_type
+
+# Townsend deprivation index
+$file_handlers/ukbconv \
+   $file_handlers/ukb45020.enc_ukb \
+   txt \
+   -s189 \
+   -odata/extracted_data_fields/townsend
+
+# Total household income
+$file_handlers/ukbconv \
+   $file_handlers/ukb45020.enc_ukb \
+   txt \
+   -s738 \
+   -odata/extracted_data_fields/income
+
+# Educational attainment
+$file_handlers/ukbconv \
+   $file_handlers/ukb45020.enc_ukb \
+   txt \
+   -s6138 \
+   -odata/extracted_data_fields/education
