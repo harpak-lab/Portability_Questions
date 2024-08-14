@@ -407,8 +407,8 @@ plot_heterozygosity_supp <- heterozygosity %>%
             family = "Helvetica") +
   geom_segment(data = heterozygosity_segment, aes(xend = median_pc, y = y, yend = yend), size = 1) +
   facet_wrap(~phenotype, ncol = 3) +
-  scale_color_manual(values = c("#ffb581", "#ff8934", "#e76100")) +
-  scale_fill_manual(values = c("#ffb581", "#ff8934", "#e76100")) +
+  scale_color_manual(values = c("#ffcd34", "#ff8934", "#ff3434")) +
+  scale_fill_manual(values = c("#ffcd34", "#ff8934", "#ff3434")) +
   coord_cartesian(xlim = c(upper, 200)) +
   guides(fill = guide_legend(title = "effect"),
          color = guide_legend(title = "effect"))
