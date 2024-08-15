@@ -48,6 +48,6 @@ $plink \
   --out data/heterozygosity/heterozygosity_far
 
 # Make the plots
-Rscript 10b_genetic_variance_plots.R
+Rscript 10b_heritability_plots.R
 
 conda deactivate

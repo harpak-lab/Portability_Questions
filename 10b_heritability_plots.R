@@ -270,7 +270,7 @@ snp_beta_2$labels <- factor(snp_beta_2$labels,
                                           "Lymphocyte in \"close\"",
                                           "Lymphocyte in \"far\"")))
 
-plot_genetic_variance <- snp_beta_2 %>% 
+plot_heritability <- snp_beta_2 %>% 
   ggplot(aes(x = beta_sq_by_het, y = labels, color = category)) + 
   geom_point(size = 2, alpha = 0.05, position = position_dodge(width=0.9)) +
   theme_bw() + 
@@ -282,7 +282,7 @@ plot_genetic_variance <- snp_beta_2 %>%
         plot.caption=element_text(size=16, family = "Helvetica"),
         axis.title.y=element_blank(),
         legend.position = "none") +
-  xlab("Genetic variance") +
+  xlab("Heritability") +
   guides(color = guide_legend(title="Effect size sq.")) +
   scale_x_log10(breaks = scales::trans_breaks("log10", function(x) 10^x),
                 labels = scales::trans_format("log10", scales::math_format(10^.x))) +
@@ -298,6 +298,6 @@ plot_genetic_variance <- snp_beta_2 %>%
   annotate("text", label = "large", x = 10^-12, y = 1, size = 8,  family = "Helvetica",
            color = "#ff3434", hjust = 0)
 
-pdf(file = "img/fig_s19_genetic_variance.pdf", width = 12, height = 18)
-print(plot_genetic_variance)
+pdf(file = "img/fig_s19_heritability.pdf", width = 12, height = 18)
+print(plot_heritability)
 dev.off()
