@@ -150,7 +150,8 @@ plot_beta_sq <- snp_beta %>%
         plot.subtitle=element_text(size=18, face = "bold", family = "Helvetica"),
         plot.caption=element_text(size=16, family = "Helvetica"),
         axis.title.y=element_blank(),
-        legend.position = "none") +
+        legend.position = "none",
+        panel.grid.major.y = element_blank()) +
   xlab("Squared allelic effect estimate") +
   guides(color = guide_legend(title="Effect size sq.")) +
   scale_x_log10(breaks = scales::trans_breaks("log10", function(x) 10^x),
@@ -158,6 +159,20 @@ plot_beta_sq <- snp_beta %>%
   annotation_logticks(base = 10, sides = "b", outside = T) + 
   coord_cartesian(clip = "off") +
   scale_color_manual(values = c("#ffcd34", "#ff8934", "#ff3434")) +
+  geom_hline(yintercept = 1.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 2.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 3.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 4.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 5.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 6.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 7.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 8.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 9.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 10.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 11.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 12.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 13.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 14.5, linewidth = 0.5, linetype = "dashed") +
   annotate("text", label = "Effect size", x = 10^-0.1, y = 3.4, size = 8,  family = "Helvetica",
            color = "black", hjust = 0) +
   annotate("text", label = "small", x = 10^-0.1, y = 2.6, size = 8,  family = "Helvetica",
@@ -255,11 +270,11 @@ snp_beta_2$labels <- factor(snp_beta_2$labels,
                                           "Weight in \"close\"",
                                           "Weight in \"far\"",
                                           "WBC (h² = 0.19) in GWAS",
-                                          "WBC \"close\"",
-                                          "WBC \"far\"",
+                                          "WBC in \"close\"",
+                                          "WBC in \"far\"",
                                           "Eosinophil (h² = 0.18) in GWAS",
-                                          "Eosinophil \"close\"",
-                                          "Eosinophil \"far\"",
+                                          "Eosinophil in \"close\"",
+                                          "Eosinophil in \"far\"",
                                           "BMI (h² = 0.25) in GWAS",
                                           "BMI in \"close\"",
                                           "BMI in \"far\"",
@@ -270,7 +285,7 @@ snp_beta_2$labels <- factor(snp_beta_2$labels,
                                           "Lymphocyte in \"close\"",
                                           "Lymphocyte in \"far\"")))
 
-plot_heritability <- snp_beta_2 %>% 
+plot_beta_sq_by_het <- snp_beta_2 %>% 
   ggplot(aes(x = beta_sq_by_het, y = labels, color = category)) + 
   geom_point(size = 2, alpha = 0.05, position = position_dodge(width=0.9)) +
   theme_bw() + 
@@ -281,13 +296,58 @@ plot_heritability <- snp_beta_2 %>%
         plot.subtitle=element_text(size=18, face = "bold", family = "Helvetica"),
         plot.caption=element_text(size=16, family = "Helvetica"),
         axis.title.y=element_blank(),
-        legend.position = "none") +
+        legend.position = "none",
+        panel.grid.major.y = element_blank()) +
   xlab("Heritability") +
   guides(color = guide_legend(title="Effect size sq.")) +
   scale_x_log10(breaks = scales::trans_breaks("log10", function(x) 10^x),
                 labels = scales::trans_format("log10", scales::math_format(10^.x))) +
   annotation_logticks(base = 10, sides = "b", outside = T) + 
   coord_cartesian(clip = "off") +
+  geom_hline(yintercept = 1.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 2.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 3.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 4.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 5.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 6.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 7.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 8.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 9.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 10.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 11.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 12.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 13.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 14.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 15.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 16.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 17.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 18.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 19.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 20.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 21.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 22.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 23.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 24.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 25.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 26.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 27.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 28.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 29.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 30.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 31.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 32.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 33.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 34.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 35.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 36.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 37.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 38.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 39.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 40.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 41.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 42.5, linewidth = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 43.5, linewidth = 0.5, linetype = "dotted") +
+  geom_hline(yintercept = 44.5, linewidth = 0.5, linetype = "dotted") +
   scale_color_manual(values = c("#ffcd34", "#ff8934", "#ff3434")) +
   annotate("text", label = "Effect size", x = 10^-12, y = 3.4, size = 8,  family = "Helvetica",
            color = "black", hjust = 0) +
