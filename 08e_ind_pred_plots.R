@@ -484,7 +484,7 @@ fig_weight <- grid.arrange(arrangeGrob(plot_pred_dist_weight,
                                                      gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#40B0A6", fontface = "bold"))))
 
 fig_ldl <- grid.arrange(arrangeGrob(plot_pred_dist_ldl,
-                                   top = textGrob("\tLDL cholesterol",
+                                   top = textGrob("LDL cholesterol level",
                                                   gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#DC3220", fontface = "bold"))))
 
 fig_dist <- plot_grid(fig_height, 
@@ -552,23 +552,23 @@ fig_bmi <- grid.arrange(arrangeGrob(plot_pred_dist_bmi,
                                                   gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#9e79cc", fontface = "bold"))))
 
 fig_body_fat_perc <- grid.arrange(arrangeGrob(plot_pred_dist_body_fat_perc,
-                                             top = textGrob("\tBody fat percentage",
+                                             top = textGrob("Body fat percentage",
                                                             gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#cc9e79", fontface = "bold"))))
 
 fig_monocyte <- grid.arrange(arrangeGrob(plot_pred_dist_monocyte,
-                                        top = textGrob("\tMonocyte",
+                                        top = textGrob("\tMonocyte count",
                                                        gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#CC79A7", fontface = "bold"))))
 
 fig_lymphocyte <- grid.arrange(arrangeGrob(plot_pred_dist_lymphocyte,
-                                          top = textGrob("\tLymphocyte",
+                                          top = textGrob("\tLymphocyte count",
                                                          gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#009E73", fontface = "bold"))))
 
 fig_wbc <- grid.arrange(arrangeGrob(plot_pred_dist_wbc,
-                                   top = textGrob("\tWhite blood cell",
+                                   top = textGrob("White blood cell count",
                                                   gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#0072B2", fontface = "bold"))))
 
 fig_eosinophil <- grid.arrange(arrangeGrob(plot_pred_dist_eosinophil,
-                                          top = textGrob("\tEosinphil",
+                                          top = textGrob("\tEosinphil count",
                                                          gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#79ccc7", fontface = "bold"))))
 
 fig_mcv <- grid.arrange(arrangeGrob(plot_pred_dist_mcv,
@@ -580,19 +580,19 @@ fig_mch <- grid.arrange(arrangeGrob(plot_pred_dist_mch,
                                                   gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#9e002b", fontface = "bold"))))
 
 fig_rbc <- grid.arrange(arrangeGrob(plot_pred_dist_rbc,
-                                   top = textGrob("\tRed blood cell\n",
+                                   top = textGrob("\tRed blood cell\n\tcount",
                                                   gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#b20072", fontface = "bold"))))
 
 fig_cystatin_c <- grid.arrange(arrangeGrob(plot_pred_dist_cystatin_c,
-                                          top = textGrob("\tCystatin C",
+                                          top = textGrob("\tCystatin C level",
                                                          gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#a7cc79", fontface = "bold"))))
 
 fig_platelet <- grid.arrange(arrangeGrob(plot_pred_dist_platelet,
-                                        top = textGrob("\tPlatelet",
+                                        top = textGrob("\tPlatelet count",
                                                        gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#a640b0", fontface = "bold"))))
 
 fig_triglycerides <- grid.arrange(arrangeGrob(plot_pred_dist_triglycerides,
-                                             top = textGrob("\tTriglycerides",
+                                             top = textGrob("Triglyceride level",
                                                             gp=gpar(fontfamily = "Helvetica", fontsize=24, col = "#56B4E9", fontface = "bold"))))
 
 fig_dist_1 <- plot_grid(fig_bmi, 
@@ -876,12 +876,12 @@ fig_r2_supp_1 <- plot_grid(NULL, NULL, plot_r2_supp_height, plot_r2_supp_weight,
 
 fig_r2_supp_2 <- plot_grid(NULL, NULL, plot_r2_supp_monocyte, plot_r2_supp_lymphocyte, 
                            NULL, NULL, plot_r2_supp_wbc, plot_r2_supp_eosinophil, 
-                           labels = c('A. Monocyte', 
-                                      'B. Lymphocyte', 
+                           labels = c('A. Monocyte count', 
+                                      'B. Lymphocyte count', 
                                       '',
                                       '',
-                                      'C. White blood cell', 
-                                      'D. Eosinophil', 
+                                      'C. White blood cell count', 
+                                      'D. Eosinophil count', 
                                       '',
                                       ''), ncol = 2, nrow = 4,
                            label_x = 0.01, hjust = 0,
@@ -895,7 +895,7 @@ fig_r2_supp_3 <- plot_grid(NULL, NULL, plot_r2_supp_mcv, plot_r2_supp_mch,
                                       'B. Mean corpuscular hemoglobin', 
                                       '',
                                       '',
-                                      'C. Red blood cell', 
+                                      'C. Red blood cell count', 
                                       '', 
                                       '',
                                       ''), ncol = 2, nrow = 4,
@@ -906,12 +906,12 @@ fig_r2_supp_3 <- plot_grid(NULL, NULL, plot_r2_supp_mcv, plot_r2_supp_mch,
 
 fig_r2_supp_4 <- plot_grid(NULL, NULL, plot_r2_supp_cystatin_c, plot_r2_supp_platelet, 
                            NULL, NULL, plot_r2_supp_triglycerides, plot_r2_supp_ldl, 
-                           labels = c('A. Cystatin C', 
-                                      'B. Platelet', 
+                           labels = c('A. Cystatin C level', 
+                                      'B. Platelet count', 
                                       '',
                                       '',
-                                      'C. Triglycerides', 
-                                      'D. LDL cholesterol', 
+                                      'C. Triglyceride level', 
+                                      'D. LDL cholesterol level', 
                                       '',
                                       ''), ncol = 2, nrow = 4,
                            label_x = 0.01, hjust = 0,

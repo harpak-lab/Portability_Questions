@@ -110,7 +110,7 @@ plot_compare_beta <- beta_plot_df %>%
            color = "#56B4E9") +
   annotate(geom = "segment", x = 1, y = 1.12, xend = 1, yend = 1.05, 
            color = "#56B4E9", size = 1) +
-  annotate("text", label = "Lymphocyte", x = 1.4, y = 0.8, size = 8,  family = "Helvetica",
+  annotate("text", label = "Lymphocyte", x = 1.3, y = 0.8, size = 8,  family = "Helvetica",
            color = "#009E73") +
   annotate(geom = "segment", x = 1.25, y = 0.88, xend = 1.2, yend = 0.95, 
            color = "#009E73", size = 1)
@@ -151,7 +151,7 @@ heterozygosity_label <- cbind.data.frame(phenotype = c(rep("Height", 3),
 heterozygosity_label$phenotype <- factor(heterozygosity_label$phenotype,
                                         levels = c("Height", "Triglycerides", "Lymphocyte"))
 trait_label <- heterozygosity_label
-trait_label$label <- c(rep("Height", 3), rep("Triglycerides", 3), rep("Lymphocyte", 3))
+trait_label$label <- c(rep("Height", 3), rep("Triglyceride level", 3), rep("Lymphocyte count", 3))
 trait_label$median_pc <- 5
 trait_label$mean_het <- 0.45
 
@@ -345,9 +345,9 @@ heterozygosity_label$phenotype <- factor(heterozygosity_label$phenotype,
                                                    "MCV", "MCH", "RBC",
                                                    "Cystatin C", "Platelet", "LDL"),
                                         labels = c("Weight", "BMI", "Body fat percentage",
-                                                   "Monocyte", "White blood cell", "Eosinophil",
-                                                   "Mean corpuscular volume", "Mean corpuscular hemoglobin", "Red blood cell",
-                                                   "Cystatin C", "Platelet", "LDL cholesterol"))
+                                                   "Monocyte count", "White blood cell count", "Eosinophil count",
+                                                   "Mean corpuscular volume", "Mean corpuscular hemoglobin", "Red blood cell count",
+                                                   "Cystatin C level", "Platelet count", "LDL cholesterol level"))
 
 heterozygosity_segment <- heterozygosity_label
 heterozygosity_segment$median_pc <- 150
@@ -384,9 +384,9 @@ plot_heterozygosity_supp <- heterozygosity %>%
                                                   "MCV", "MCH", "RBC",
                                                   "Cystatin C", "Platelet", "LDL"),
                             labels = c("Weight", "BMI", "Body fat percentage",
-                                       "Monocyte", "White blood cell", "Eosinophil",
-                                       "Mean corpuscular volume", "Mean corpuscular hemoglobin", "Red blood cell",
-                                       "Cystatin C", "Platelet", "LDL cholesterol"))) %>%
+                                       "Monocyte count", "White blood cell count", "Eosinophil count",
+                                       "Mean corpuscular volume", "Mean corpuscular hemoglobin", "Red blood cell count",
+                                       "Cystatin C level", "Platelet count", "LDL cholesterol level"))) %>%
   ggplot(aes(x = median_pc, y = mean_het, color = size, fill = size)) +
   scale_x_continuous(breaks=c(0, 40, 80, 120, 160),
                      expand = c(0, 0)) +
