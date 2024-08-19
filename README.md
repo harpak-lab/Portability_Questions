@@ -14,6 +14,8 @@ Joyce Y. Wang<sup>1</sup>, Neeka Lin<sup>1</sup>, Michael Zietz<sup>2</sup>, Jas
 
 <sub><sup>+</sup> Correspondence should be addressed to A.H. (arbelharpak@utexas.edu)</sub>
 
+Provided below are instructions and details for scripts used to generate the results and figures in ["Three Open Questions in Polygenic Score Portability"](link_here).
+
 ## Installation
 
 Install the software:
