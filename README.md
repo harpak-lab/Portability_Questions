@@ -37,7 +37,7 @@ Before execution, the directories contained in the scripts need to be modified s
 
 ## Execution
 
-Execute the bash scripts ending with .sh with bash <script_name.sh>. Please see the details for each scriptin the following sections.
+Execute the bash scripts ending with .sh with bash <script_name.sh>. Please see the details for each script in the following sections.
 
 ### Preparing the data
 
