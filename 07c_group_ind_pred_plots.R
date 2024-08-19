@@ -305,7 +305,7 @@ grid.arrange(arrangeGrob(fig_2,
 dev.off()
 
 # Supp fig for group and individual pred
-fig_s1 <- plot_grid(NULL, NULL, plot_group_bmi, plot_ind_bmi, 
+fig_s2 <- plot_grid(NULL, NULL, plot_group_bmi, plot_ind_bmi, 
                     NULL, NULL, plot_group_body_fat_perc, plot_ind_body_fat_perc, 
                     labels = c('A. BMI (group level)', 
                                'B. BMI (individual level)',
@@ -320,7 +320,7 @@ fig_s1 <- plot_grid(NULL, NULL, plot_group_bmi, plot_ind_bmi,
                     rel_heights = c(0.1, 1, 0.1, 1),
                     label_fontfamily = "Helvetica")
 
-fig_s2 <- plot_grid(NULL, NULL, plot_group_monocyte, plot_ind_monocyte, 
+fig_s3 <- plot_grid(NULL, NULL, plot_group_monocyte, plot_ind_monocyte, 
                     NULL, NULL, plot_group_lymphocyte, plot_ind_lymphocyte, 
                     NULL, NULL, plot_group_eosinophil, plot_ind_eosinophil, 
                     labels = c('A. Monocyte count (group level)', 
@@ -340,7 +340,7 @@ fig_s2 <- plot_grid(NULL, NULL, plot_group_monocyte, plot_ind_monocyte,
                     rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1),
                     label_fontfamily = "Helvetica")
 
-fig_s3 <- plot_grid(NULL, NULL, plot_group_mcv, plot_ind_mcv, 
+fig_s4 <- plot_grid(NULL, NULL, plot_group_mcv, plot_ind_mcv, 
                     NULL, NULL, plot_group_mch, plot_ind_mch, 
                     NULL, NULL, plot_group_rbc, plot_ind_rbc, 
                     labels = c('A. Mean corpuscular volume (group level)', 
@@ -360,7 +360,7 @@ fig_s3 <- plot_grid(NULL, NULL, plot_group_mcv, plot_ind_mcv,
                     rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1),
                     label_fontfamily = "Helvetica")
 
-fig_s4 <- plot_grid(NULL, NULL, plot_group_cystatin_c, plot_ind_cystatin_c, 
+fig_s5 <- plot_grid(NULL, NULL, plot_group_cystatin_c, plot_ind_cystatin_c, 
                     NULL, NULL, plot_group_platelet, plot_ind_platelet, 
                     NULL, NULL, plot_group_triglycerides, plot_ind_triglycerides,
                     NULL, NULL, plot_group_ldl, plot_ind_ldl, 
@@ -385,32 +385,32 @@ fig_s4 <- plot_grid(NULL, NULL, plot_group_cystatin_c, plot_ind_cystatin_c,
                     rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1, 0.1, 1),
                     label_fontfamily = "Helvetica")
 
-grDevices::cairo_pdf("img/fig_s1_group_ind_pred_physical.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s2_group_ind_pred_physical.pdf", width = 24, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_s1,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s2_group_ind_pred_wbc.pdf", width = 24, height = 18, onefile = T)
+grDevices::cairo_pdf("img/fig_s3_group_ind_pred_wbc.pdf", width = 24, height = 18, onefile = T)
 grid.arrange(arrangeGrob(fig_s2,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s3_group_ind_pred_rbc.pdf", width = 24, height = 18, onefile = T)
+grDevices::cairo_pdf("img/fig_s4_group_ind_pred_rbc.pdf", width = 24, height = 18, onefile = T)
 grid.arrange(arrangeGrob(fig_s3,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s4_group_ind_pred_other.pdf", width = 24, height = 24, onefile = T)
+grDevices::cairo_pdf("img/fig_s5_group_ind_pred_other.pdf", width = 24, height = 24, onefile = T)
 grid.arrange(arrangeGrob(fig_s4,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
 # Supp fig for full-ranged individual pred
-fig_s5_full = plot_grid(NULL, NULL, plot_ind_full_height, plot_ind_full_weight, 
+fig_s6_full <- plot_grid(NULL, NULL, plot_ind_full_height, plot_ind_full_weight, 
                         NULL, NULL, plot_ind_full_bmi, plot_ind_full_body_fat_perc, 
                         labels = c('A. Height', 
                                    'B. Weight',
@@ -425,7 +425,7 @@ fig_s5_full = plot_grid(NULL, NULL, plot_ind_full_height, plot_ind_full_weight,
                         rel_heights = c(0.1, 1, 0.1, 1),
                         label_fontfamily = "Helvetica")
 
-fig_s6_full = plot_grid(NULL, NULL, plot_ind_full_monocyte, plot_ind_full_lymphocyte, 
+fig_s7_full <- plot_grid(NULL, NULL, plot_ind_full_monocyte, plot_ind_full_lymphocyte, 
                         NULL, NULL, plot_ind_full_wbc, plot_ind_full_eosinophil, 
                         labels = c('A. Monocyte count', 
                                    'B. Lymphocyte count',
@@ -440,7 +440,7 @@ fig_s6_full = plot_grid(NULL, NULL, plot_ind_full_monocyte, plot_ind_full_lympho
                         rel_heights = c(0.1, 1, 0.1, 1),
                         label_fontfamily = "Helvetica")
 
-fig_s7_full = plot_grid(NULL, NULL, plot_ind_full_mcv, plot_ind_full_mch, 
+fig_s8_full <- plot_grid(NULL, NULL, plot_ind_full_mcv, plot_ind_full_mch, 
                         NULL, NULL, plot_ind_full_rbc, NULL, 
                         labels = c('A. Mean corpuscular volume', 
                                    'B. Mean corpuscular hemoglobin',
@@ -455,7 +455,7 @@ fig_s7_full = plot_grid(NULL, NULL, plot_ind_full_mcv, plot_ind_full_mch,
                         rel_heights = c(0.1, 1, 0.1, 1),
                         label_fontfamily = "Helvetica")
 
-fig_s8_full = plot_grid(NULL, NULL, plot_ind_full_cystatin_c, plot_ind_full_platelet, 
+fig_s9_full <- plot_grid(NULL, NULL, plot_ind_full_cystatin_c, plot_ind_full_platelet, 
                         NULL, NULL, plot_ind_full_triglycerides, plot_ind_full_ldl, 
                         labels = c('A. Cystatin C level', 
                                    'B. Platelet count',
@@ -470,26 +470,360 @@ fig_s8_full = plot_grid(NULL, NULL, plot_ind_full_cystatin_c, plot_ind_full_plat
                         rel_heights = c(0.1, 1, 0.1, 1),
                         label_fontfamily = "Helvetica")
 
-grDevices::cairo_pdf("img/fig_s5_ind_full_pred_physical.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s6_ind_full_pred_physical.pdf", width = 24, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_s5_full,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s6_ind_full_pred_wbc.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s7_ind_full_pred_wbc.pdf", width = 24, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_s6_full,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s7_ind_full_pred_rbc.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s8_ind_full_pred_rbc.pdf", width = 24, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_s7_full,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s8_ind_full_pred_other.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s9_ind_full_pred_other.pdf", width = 24, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_s8_full,
+                         bottom = textGrob("Genetic distance from the GWAS sample", 
+                                           gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+dev.off()
+
+# Variance explained at group and individual levels
+var_explained_group_ind <- function(group_df, ind_df, trait, upper){
+  group_df <- group_df %>% filter(phenotype == trait)
+  group_df$var_explained <- group_df$partial
+  group_df$Level <- "Group"
+  
+  ind_df <- ind_df %>% filter(phenotype == trait) %>%
+    group_by(weighted_pc_groups) %>%
+    summarize(median_pc = median(pc_dist, na.rm = T),
+              mse = mean(pred_error, na.rm = T),
+              var_z = var(Z, na.rm = T),
+              var_explained = 1 - mse / var_z)
+  ind_df$Level <- "Individual"
+  
+  plot_df <- group_df %>% select(weighted_pc_groups, median_pc, var_explained, Level)
+  plot_df <- plot_df %>% rbind.data.frame(ind_df[, c(1:2, 5:6)])
+  
+  group_ref <- mean(plot_df$var_explained[plot_df$Level == "Group" & plot_df$weighted_pc_groups <= 50], na.rm = T)
+  ind_ref <- mean(plot_df$var_explained[plot_df$Level == "Individual" & plot_df$weighted_pc_groups <= 50], na.rm = T)
+  
+  plot <- plot_df %>% ggplot(aes(x = median_pc, y = var_explained, color = Level, fill = Level, shape = Level)) +
+    geom_hline(yintercept = group_ref, color = "#ff8934", size = 0.5) +
+    geom_hline(yintercept = ind_ref, color = "#5D3A9B", size = 0.5) +
+    geom_point(size = 5, alpha = 0.4) +
+    scale_x_continuous(breaks = c(0, 40, 80, 120, 160),
+                       expand = c(0, 0)) +
+    scale_color_manual(values = c("#f8766d", "#5D3A9B")) + 
+    scale_fill_manual(values = c("#ff8934", "#beb0d7")) +
+    scale_shape_manual(values = c(23, 21)) +
+    theme_bw() + 
+    theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+    theme(axis.title=element_text(size=24, family = "Helvetica"),
+          axis.title.x = element_blank(),
+          axis.text = element_text(size=20, family = "Helvetica"),
+          legend.title = element_text(size = 18),
+          legend.text = element_text(size = 16)) +
+    ylab("Trait variance explained in bin\nby PGS") +
+    coord_cartesian(xlim = c(upper, 200)) +
+    theme(legend.position = c(0.9, 0.9))
+  
+  return(plot)
+}
+
+plot_var_explained_height <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "Height", upper)
+plot_var_explained_weight <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "Weight", upper)
+plot_var_explained_bmi <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "BMI", upper)
+plot_var_explained_body_fat_perc <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "Body_Fat_Perc", upper)
+plot_var_explained_monocyte <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "Monocyte", upper)
+plot_var_explained_lymphocyte <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "Lymphocyte", upper)
+plot_var_explained_wbc <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "WBC", upper)
+plot_var_explained_eosinophil <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "Eosinophil", upper)
+plot_var_explained_mcv <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "MCV", upper)
+plot_var_explained_mch <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "MCH", upper)
+plot_var_explained_rbc <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "RBC", upper)
+plot_var_explained_cystatin_c <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "Cystatin_C", upper)
+plot_var_explained_platelet <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "Platelet", upper)
+plot_var_explained_triglycerides <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "Triglycerides", upper)
+plot_var_explained_ldl <- var_explained_group_ind(group_pgs_df, ind_pgs_df, "LDL", upper)
+
+plot_mse <- function(ind_df, trait, upper){
+  ind_df <- ind_df %>% filter(phenotype == trait) %>%
+    group_by(weighted_pc_groups) %>%
+    summarize(median_pc = median(pc_dist, na.rm = T),
+              mse = mean(pred_error, na.rm = T),
+              var_z = var(Z, na.rm = T),
+              var_explained = 1 - mse / var_z)
+  
+  plot_df <- ind_df
+  
+  ref <- mean(plot_df$mse[plot_df$weighted_pc_groups <= 50], na.rm = T)
+  
+  # Remove the outlier(s) for plotting
+  if(trait %in% c("Monocyte", "Lymphocyte", "WBC", "Eosinophil")){
+    if(trait == "Monocyte"){
+      plot_df <- plot_df %>% filter(mse < 0.35)
+    } else if(trait == "Lymphocyte"){
+      plot_df <- plot_df %>% filter(mse < 5)
+    } else if(trait == "WBC"){
+      plot_df <- plot_df %>% filter(mse < 15)
+    } else{
+      plot_df <- plot_df %>% filter(mse < 0.1)
+    }
+  }
+  
+  plot <- plot_df %>% ggplot(aes(x = median_pc, y = mse)) +
+    geom_hline(yintercept = ref, color = "#5D3A9B", size = 0.5) +
+    geom_point(size = 5, alpha = 0.4, shape = 21, color = "#5D3A9B", fill = "#beb0d7") +
+    scale_x_continuous(breaks = c(0, 40, 80, 120, 160),
+                       expand = c(0, 0)) +
+    theme_bw() + 
+    theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+    theme(axis.title=element_text(size=24, family = "Helvetica"),
+          axis.title.x = element_blank(),
+          axis.text = element_text(size=20, family = "Helvetica"),
+          legend.title = element_text(size = 18),
+          legend.text = element_text(size = 16)) +
+    ylab("Mean squared prediction error (MSE)") +
+    ylim(min(c(plot_df$mse, plot_df$var_z)), max(c(plot_df$mse, plot_df$var_z))) +
+    coord_cartesian(xlim = c(upper, 200))
+  
+  return(plot)
+}
+
+plot_mse_height <- plot_mse(ind_pgs_df, "Height", upper)
+plot_mse_weight <- plot_mse(ind_pgs_df, "Weight", upper)
+plot_mse_bmi <- plot_mse(ind_pgs_df, "BMI", upper)
+plot_mse_body_fat_perc <- plot_mse(ind_pgs_df, "Body_Fat_Perc", upper)
+plot_mse_monocyte <- plot_mse(ind_pgs_df, "Monocyte", upper)
+plot_mse_lymphocyte <- plot_mse(ind_pgs_df, "Lymphocyte", upper)
+plot_mse_wbc <- plot_mse(ind_pgs_df, "WBC", upper)
+plot_mse_eosinophil <- plot_mse(ind_pgs_df, "Eosinophil", upper)
+plot_mse_mcv <- plot_mse(ind_pgs_df, "MCV", upper)
+plot_mse_mch <- plot_mse(ind_pgs_df, "MCH", upper)
+plot_mse_rbc <- plot_mse(ind_pgs_df, "RBC", upper)
+plot_mse_cystatin_c <- plot_mse(ind_pgs_df, "Cystatin_C", upper)
+plot_mse_platelet <- plot_mse(ind_pgs_df, "Platelet", upper)
+plot_mse_triglycerides <- plot_mse(ind_pgs_df, "Triglycerides", upper)
+plot_mse_ldl <- plot_mse(ind_pgs_df, "LDL", upper)
+
+
+plot_var_z <- function(ind_df, trait, upper){
+  ind_df <- ind_df %>% filter(phenotype == trait) %>%
+    group_by(weighted_pc_groups) %>%
+    summarize(median_pc = median(pc_dist, na.rm = T),
+              mse = mean(pred_error, na.rm = T),
+              var_z = var(Z, na.rm = T),
+              var_explained = 1 - mse / var_z)
+  
+  plot_df <- ind_df
+  
+  ref <- mean(plot_df$var_z[plot_df$weighted_pc_groups <= 50], na.rm = T)
+  
+  # Remove the outlier(s) for plotting
+  if(trait %in% c("Monocyte", "Lymphocyte", "WBC", "Eosinophil")){
+    if(trait == "Monocyte"){
+      plot_df <- plot_df %>% filter(var_z < 0.35)
+    } else if(trait == "Lymphocyte"){
+      plot_df <- plot_df %>% filter(var_z < 5)
+    } else if(trait == "WBC"){
+      plot_df <- plot_df %>% filter(var_z < 15)
+    } else{
+      plot_df <- plot_df %>% filter(var_z < 0.1)
+    }
+  }
+  
+  plot <- plot_df %>% ggplot(aes(x = median_pc, y = var_z)) +
+    geom_hline(yintercept = ref, color = "#5D3A9B", size = 0.5) +
+    geom_point(size = 5, alpha = 0.4, shape = 21, color = "#5D3A9B", fill = "#beb0d7") +
+    scale_x_continuous(breaks = c(0, 40, 80, 120, 160),
+                       expand = c(0, 0)) +
+    theme_bw() + 
+    theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+    theme(axis.title=element_text(size=24, family = "Helvetica"),
+          axis.title.x = element_blank(),
+          axis.text = element_text(size=20, family = "Helvetica"),
+          legend.title = element_text(size = 18),
+          legend.text = element_text(size = 16)) +
+    ylab("Variance of residualized\nphenotype (Var[Z])") +
+    ylim(min(c(plot_df$mse, plot_df$var_z)), max(c(plot_df$mse, plot_df$var_z))) +
+    coord_cartesian(xlim = c(upper, 200))
+  
+  return(plot)
+}
+
+plot_var_z_height <- plot_var_z(ind_pgs_df, "Height", upper)
+plot_var_z_weight <- plot_var_z(ind_pgs_df, "Weight", upper)
+plot_var_z_bmi <- plot_var_z(ind_pgs_df, "BMI", upper)
+plot_var_z_body_fat_perc <- plot_var_z(ind_pgs_df, "Body_Fat_Perc", upper)
+plot_var_z_monocyte <- plot_var_z(ind_pgs_df, "Monocyte", upper)
+plot_var_z_lymphocyte <- plot_var_z(ind_pgs_df, "Lymphocyte", upper)
+plot_var_z_wbc <- plot_var_z(ind_pgs_df, "WBC", upper)
+plot_var_z_eosinophil <- plot_var_z(ind_pgs_df, "Eosinophil", upper)
+plot_var_z_mcv <- plot_var_z(ind_pgs_df, "MCV", upper)
+plot_var_z_mch <- plot_var_z(ind_pgs_df, "MCH", upper)
+plot_var_z_rbc <- plot_var_z(ind_pgs_df, "RBC", upper)
+plot_var_z_cystatin_c <- plot_var_z(ind_pgs_df, "Cystatin_C", upper)
+plot_var_z_platelet <- plot_var_z(ind_pgs_df, "Platelet", upper)
+plot_var_z_triglycerides <- plot_var_z(ind_pgs_df, "Triglycerides", upper)
+plot_var_z_ldl <- plot_var_z(ind_pgs_df, "LDL", upper)
+
+# Combine the panels
+fig_s10 <- plot_grid(NULL, NULL, NULL, plot_var_explained_height, plot_mse_height, plot_var_z_height, 
+                     NULL, NULL, NULL, plot_var_explained_weight, plot_mse_weight, plot_var_z_weight, 
+                     NULL, NULL, NULL, plot_var_explained_bmi, plot_mse_bmi, plot_var_z_bmi, 
+                     NULL, NULL, NULL, plot_var_explained_body_fat_perc, plot_mse_body_fat_perc, plot_var_z_body_fat_perc, 
+                     labels = c('A. Height', 
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                'B. Weight',
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                'C. BMI', 
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                'D. Body fat percentage', 
+                                '',
+                                '',
+                                '',
+                                '',
+                                ''), ncol = 3, nrow = 8,
+                     label_x = 0.01, hjust = 0,
+                     label_size = 28, scale = 1,
+                     rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1, 0.1, 1),
+                     label_fontfamily = "Helvetica")
+
+fig_s11 <- plot_grid(NULL, NULL, NULL, plot_var_explained_monocyte, plot_mse_monocyte, plot_var_z_monocyte,
+                     NULL, NULL, NULL, plot_var_explained_lymphocyte, plot_mse_lymphocyte, plot_var_z_lymphocyte,
+                     NULL, NULL, NULL, plot_var_explained_wbc, plot_mse_wbc, plot_var_z_wbc,
+                     NULL, NULL, NULL, plot_var_explained_eosinophil, plot_mse_eosinophil, plot_var_z_eosinophil,
+                     labels = c('A. Monocyte count', 
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                'B. Lymphocyte count',
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                'C. White blood cell count', 
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                'D. Eosinophil count', 
+                                '',
+                                '',
+                                '',
+                                '',
+                                ''), ncol = 3, nrow = 8,
+                     label_x = 0.01, hjust = 0,
+                     label_size = 28, scale = 1,
+                     rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1, 0.1, 1),
+                     label_fontfamily = "Helvetica")
+
+fig_s12 <- plot_grid(NULL, NULL, NULL, plot_var_explained_mcv, plot_mse_mcv, plot_var_z_mcv,
+                     NULL, NULL, NULL, plot_var_explained_mch, plot_mse_mch, plot_var_z_mch,
+                     NULL, NULL, NULL, plot_var_explained_rbc, plot_mse_rbc, plot_var_z_rbc,
+                     labels = c('A. Mean corpuscular volume', 
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                'B. Mean corpuscular hemoglobin',
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                'C. Red blood cell count', 
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                ''), ncol = 3, nrow = 6,
+                     label_x = 0.01, hjust = 0,
+                     label_size = 28, scale = 1,
+                     rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1),
+                     label_fontfamily = "Helvetica")
+
+fig_s13 <- plot_grid(NULL, NULL, NULL, plot_var_explained_cystatin_c, plot_mse_cystatin_c, plot_var_z_cystatin_c,
+                     NULL, NULL, NULL, plot_var_explained_platelet, plot_mse_platelet, plot_var_z_platelet,
+                     NULL, NULL, NULL, plot_var_explained_triglycerides, plot_mse_triglycerides, plot_var_z_triglycerides,
+                     NULL, NULL, NULL, plot_var_explained_ldl, plot_mse_ldl, plot_var_z_ldl,
+                     labels = c('A. Cystatin C level', 
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                'B. Platelet count',
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                'C. Triglyceride level', 
+                                '',
+                                '',
+                                '',
+                                '',
+                                '',
+                                'D. LDL cholesterol level', 
+                                '',
+                                '',
+                                '',
+                                '',
+                                ''), ncol = 3, nrow = 8,
+                     label_x = 0.01, hjust = 0,
+                     label_size = 28, scale = 1,
+                     rel_heights = c(0.1, 1, 0.1, 1, 0.1, 1, 0.1, 1),
+                     label_fontfamily = "Helvetica")
+
+grDevices::cairo_pdf("img/fig_s10_group_ind_comparisons_physical.pdf", width = 24, height = 24, onefile = T)
+grid.arrange(arrangeGrob(fig_s10,
+                         bottom = textGrob("Genetic distance from the GWAS sample", 
+                                           gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+dev.off()
+
+grDevices::cairo_pdf("img/fig_s11_group_ind_comparisons_wbc.pdf", width = 24, height = 24, onefile = T)
+grid.arrange(arrangeGrob(fig_s11,
+                         bottom = textGrob("Genetic distance from the GWAS sample", 
+                                           gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+dev.off()
+
+grDevices::cairo_pdf("img/fig_s12_group_ind_comparisons_rbc.pdf", width = 24, height = 18, onefile = T)
+grid.arrange(arrangeGrob(fig_s12,
+                         bottom = textGrob("Genetic distance from the GWAS sample", 
+                                           gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+dev.off()
+
+grDevices::cairo_pdf("img/fig_s13_group_ind_comparisons_other.pdf", width = 24, height = 24, onefile = T)
+grid.arrange(arrangeGrob(fig_s13,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()

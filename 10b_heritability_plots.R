@@ -182,7 +182,7 @@ plot_beta_sq <- snp_beta %>%
   annotate("text", label = "large", x = 10^-0.1, y = 1, size = 8,  family = "Helvetica",
            color = "#ff3434", hjust = 0)
 
-pdf(file = "img/fig_s18_beta_sq.pdf", width = 12, height = 6)
+pdf(file = "img/fig_s23_beta_sq.pdf", width = 12, height = 6)
 print(plot_beta_sq)
 dev.off()
 
@@ -358,6 +358,6 @@ plot_beta_sq_by_het <- snp_beta_2 %>%
   annotate("text", label = "large", x = 10^-12, y = 1, size = 8,  family = "Helvetica",
            color = "#ff3434", hjust = 0)
 
-pdf(file = "img/fig_s19_heritability.pdf", width = 12, height = 18)
+pdf(file = "img/fig_s24_heritability.pdf", width = 12, height = 18)
 print(plot_heritability)
 dev.off()

@@ -44,7 +44,7 @@ plot_pc_fst <- pc_dist_further_rand %>%
   ggplot(aes(x = pc_dist, y = Weighted_Fst)) + 
   geom_point(alpha = 0.3, size = 3, aes(color = race)) +
   xlab("Genetic distance from the GWAS sample") +
-  ylab(expression(atop(F[ST]~between~individual, and~GWAS~sample))) +
+  ylab(expression(atop(F[st]~between~individual, and~GWAS~sample))) +
   theme_bw() + 
   theme(axis.title=element_text(size=24, family = "Helvetica"),
         axis.text=element_text(size=20, family = "Helvetica"),

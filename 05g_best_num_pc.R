@@ -29,6 +29,23 @@ for (i in 1:40){
   }
 }
 
+# Plot the correlation between fst and PC distance calculated from different numbers of PCs
+plot_fst_pc <- cbind.data.frame(num_pc = 1:40, corr = corr) %>%
+  ggplot(aes(x = num_pc, y = corr)) + 
+  geom_point(size = 3) +
+  geom_point(data = . %>% subset(num_pc == 40), color = "firebrick", fill = "firebrick", size = 3) +
+  xlab("Number of PCs used to calculate PC distance") +
+  ylab(expression(atop(Correlation~between~PC~distance, and~F[st]))) +
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(axis.title=element_text(size=24, family = "Helvetica"),
+        axis.text=element_text(size=20, family = "Helvetica"))
+
+pdf(file = "img/fig_s1_pc_fst_corr.pdf", width = 12, height = 6)
+print(plot_fst_pc)
+dev.off()
+
 # Use that number of PCs
 best_pc_dist <- cbind.data.frame(pc_dist[, c(1:2)], 
                                 pc_dist = pc_dist[[paste0("PC", max_corr_num, "_dist")]])

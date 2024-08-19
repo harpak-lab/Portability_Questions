@@ -635,7 +635,7 @@ fig_supp_mean_1 <- plot_grid(fig_supp_mean_1, NULL,
                             ncol = 2)
 
 
-grDevices::cairo_pdf("img/fig_s9_mean_trend_physical.pdf", width = 16, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s14_mean_trend_physical.pdf", width = 16, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_supp_mean_1,
                          left = textGrob("Mean squared prediction error", rot = 90,
                                          gp=gpar(fontfamily = "Helvetica", fontsize=24))))
@@ -682,7 +682,7 @@ fig_supp_mean_2 <- plot_grid(a_2, NULL, b_2, NULL, c_2,
                             nrow = 5)
 
 
-grDevices::cairo_pdf("img/fig_s10_mean_trend_wbc.pdf", width = 16, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s15_mean_trend_wbc.pdf", width = 16, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_supp_mean_2,
                          left = textGrob("Mean squared prediction error", rot = 90,
                                          gp=gpar(fontfamily = "Helvetica", fontsize=24))))
@@ -732,7 +732,7 @@ fig_supp_mean_3 <- plot_grid(fig_supp_mean_3, NULL,
                             rel_widths = c(3, 1))
 
 
-grDevices::cairo_pdf("img/fig_s11_mean_trend_rbc.pdf", width = 16, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s16_mean_trend_rbc.pdf", width = 16, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_supp_mean_3,
                          left = textGrob("Mean squared prediction error", rot = 90,
                                          gp=gpar(fontfamily = "Helvetica", fontsize=24))))
@@ -782,7 +782,7 @@ fig_supp_mean_4 <- plot_grid(fig_supp_mean_4, NULL,
                             rel_widths = c(3, 1))
 
 
-grDevices::cairo_pdf("img/fig_s12_mean_trend_other.pdf", width = 16, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s17_mean_trend_other.pdf", width = 16, height = 12, onefile = T)
 grid.arrange(arrangeGrob(fig_supp_mean_4,
                          left = textGrob("Mean squared prediction error", rot = 90,
                                          gp=gpar(fontfamily = "Helvetica", fontsize=24))))
@@ -919,18 +919,18 @@ fig_r2_supp_4 <- plot_grid(NULL, NULL, plot_r2_supp_cystatin_c, plot_r2_supp_pla
                            rel_heights = c(0.15, 1, 0.15, 1),
                            label_fontfamily = "Helvetica")
 
-grDevices::cairo_pdf("img/fig_s13_predictor_r2_physical.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s18_predictor_r2_physical.pdf", width = 24, height = 12, onefile = T)
 print(fig_r2_supp_1)
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s14_predictor_r2_wbc.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s19_predictor_r2_wbc.pdf", width = 24, height = 12, onefile = T)
 print(fig_r2_supp_2)
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s15_predictor_r2_rbc.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s20_predictor_r2_rbc.pdf", width = 24, height = 12, onefile = T)
 print(fig_r2_supp_3)
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s16_predictor_r2_other.pdf", width = 24, height = 12, onefile = T)
+grDevices::cairo_pdf("img/fig_s21_predictor_r2_other.pdf", width = 24, height = 12, onefile = T)
 print(fig_r2_supp_4)
 dev.off()
