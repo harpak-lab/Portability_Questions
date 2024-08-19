@@ -14,13 +14,16 @@ Joyce Y. Wang<sup>1</sup>, Neeka Lin<sup>1</sup>, Michael Zietz<sup>2</sup>, Jas
 
 <sub><sup>+</sup> Correspondence should be addressed to A.H. (arbelharpak@utexas.edu)</sub>
 
-## Abstract
-
-A major obstacle hindering the broad adoption of polygenic scores (PGS) is their lack of "portability" to people that differ--in genetic ancestry or other characteristics--from the GWAS samples in which genetic effects were estimated. Here, we use the UK Biobank to measure the change in PGS prediction accuracy as a continuous function of individuals' genome-wide genetic dissimilarity to the GWAS sample ("genetic distance"). Our results highlight three gaps in our understanding of PGS portability. First, prediction accuracy is extremely noisy at the individual level and not well predicted by genetic distance. In fact, variance in prediction accuracy is explained comparably well by socioeconomic measures. Second, trends of portability vary across traits. For several immunity-related traits, prediction accuracy drops near zero quickly even at intermediate levels of genetic distance. This quick drop may reflect GWAS associations being more ancestry-specific in immunity-related traits than in other traits. Third, we show that even qualitative trends of portability can depend on the measure of prediction accuracy used. For instance, for white blood cell count, a measure of prediction accuracy at the individual level (reduction in mean squared error) increases with genetic distance. Together, our results show that portability cannot be understood through global ancestry groupings alone. There are other, understudied factors influencing portability, such as the specifics of the evolution of the trait and its genetic architecture, social context, and the construction of the polygenic score. Addressing these gaps can aid in the development and application of PGS and inform more equitable genomic research.
-
 ## Installation
 
-We recommend creating a [conda](https://docs.conda.io/projects/conda/en/stable/) environment for running the code.
+Install the software:
+
+1. [<i>Plink 1.9</i> (Purcell, S. & Chang, C)](https://www.cog-genomics.org/plink/)
+2. [<i>Plink 2.0</i> (Purcell, S. & Chang, C)](https://www.cog-genomics.org/plink/2.0/)
+
+Download the [UK Biobank](https://www.ukbiobank.ac.uk/) (UKB) data and [1000 Genomes phase 3 data provided by Plink](https://www.cog-genomics.org/plink/2.0/resources), following their guidelines.
+
+For running the scripts, we recommend creating a [conda](https://docs.conda.io/projects/conda/en/stable/) environment.
 
 ```
 git clone https://github.com/harpak-lab/Portability_Questions
@@ -34,30 +37,78 @@ Before execution, the directories contained in the scripts need to be modified s
 
 ## Execution
 
-Execute all the bash scripts ending with `.sh` with `bash <script_name.sh>` in the following order:
+Execute the bash scripts ending with .sh with bash <script_name.sh>. Please see the details for each script in the following sections.
+
+### Preparing the data
+
+Execute the following files to filter and prepare the data:
 
 1. `00_make_directories.sh`
-2. `01a_extract_data_fields.sh`
+2. `01a_extract_data_fields.sh` (make sure to edit the file so it's pointing to the correct UKB basket file)
 3. `01b_filter_individuals_job.sh`
 4. `01d_filter_genotype_files.sh`
 5. `02_prepare_covariates_phenotypes.sh`
-6. `03_gwas.sh`
-7. `04a_clumping.sh`
-8. `04e_after_clumping.sh`
-9. `05a_pc_dist_fst.sh`
-10. All the scripts created under `temp_fst_path`
-11. `05e_find_best_num_pc.sh`
-12. `05h_ukb_kgp_pca.sh`
-13. `05j_pc_dist_fst_plots.sh`
-14. `06_compute_prs.sh`
-15. `07_group_ind_level_pred.sh`
-16. `08a_prepare_for_ma_counts.sh`
-17. `08b_calc_ma_counts.sh`
-18. `08d_ind_pred_plots.sh`
-19. `09a_prepare_close_far_pca.sh`
-20. `09c_close_far_pca.sh`
-21. `09d_prepare_close_far_gwas.sh`
-22. `09f_gwas_close.sh` and `09f_gwas_far.sh`
-23. `09g_calc_heterozygosity.sh`
-24. `09j_compare_effect_sizes_heterozygosity_var_pgs_plots.sh`
-25. `10a_compare_heritability.sh`
+
+### GWAS
+
+In the selection of the GWAS sample, we used the White British classification as provided by the UKB.
+
+Execute the following files to perform GWAS, clumping, and thresholding:
+
+1. `03_gwas.sh`
+2. `04a_clumping.sh`
+3. `04e_after_clumping.sh`
+
+### Genetic distance calculations
+
+The fixation index (<i>F<sub>st</sub></i>) is a natural metric, a single number, to measure the divergence between two sets of chromosomes and we considered using it to measure the distance between the pair of chromosomes of an individual and chromosomes in the GWAS sample. However, calculating Fst was computationally costly, so we used Euclidean distance in the PC space as a single number proxying genetic distance from the GWAS sample.
+
+Execute the following files to calculate <i>F<sub>st</sub></i>:
+
+1. `05a_pc_dist_fst.sh`
+2. All the scripts created under `temp_fst_path`
+
+Then, execute the following files to calculate Euclidean distance:
+
+1. `05e_find_best_num_pc.sh` (creates <b>Fig. S1</b>)
+2. `05h_ukb_kgp_pca.sh`
+3. `05j_pc_dist_fst_plots.sh` (creates <b>Fig. 1</b>)
+
+### PGS and evaluating PGS prediction accuracy
+
+Execute the following file to calculate PGS:
+
+1. `06_compute_prs.sh`
+
+We evaluated PGS prediction accuracy at both the group level and individual level:
+
+1. `07_group_ind_level_pred.sh` (creates <b>Fig. 2, S2-13</b>)
+
+We compared the variance in squared prediction error explained for 8 raw measures: genetic distance, Townsend Deprivation Index, average yearly total household income before tax, educational attainment, which we converted into years of education, minor allele counts for SNPs with different with different magnitudes of effects (three equally-sized bins of small, medium, and large squared effect sizes, see Fig. S23), and minor allele counts of all SNPs:
+
+1. `08a_prepare_for_ma_counts.sh`
+2. `08b_calc_ma_counts.sh`
+3. `08d_ind_pred_plots.sh` (creates <b>Fig. 3, S14-21</b>)
+
+### Additional analyses on lymphocyte count
+
+To understand why immunity-related traits like lymphocyte count have group-level prediction accuracy that drops near zero even at a short genetic distance, we performed additional analyses.
+
+We first performed two additional GWASs and compared the allelic effects across the three GWASs:
+
+1. `09a_prepare_close_far_pca.sh`
+2. `09c_close_far_pca.sh`
+3. `09d_prepare_close_far_gwas.sh`
+4. `09f_gwas_close.sh` and `09f_gwas_far.sh`
+
+We calculated heterozygosity at index SNPs as a function of genetic distance:
+
+1. `09g_calc_heterozygosity.sh`
+
+We examined the variance of PGS as a function of genetic distance:
+
+1. `09j_compare_effect_sizes_heterozygosity_var_pgs_plots.sh` (creates <b>Fig. 4, S22</b>)
+
+We estimated the heritability associated with each index SNP:
+
+1. `10a_compare_heritability.sh` (creates <b>Fig. S23-24</b>)
