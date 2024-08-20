@@ -23,7 +23,7 @@ Install the software:
 1. [<i>Plink 1.9</i> (Purcell, S. & Chang, C)](https://www.cog-genomics.org/plink/)
 2. [<i>Plink 2.0</i> (Purcell, S. & Chang, C)](https://www.cog-genomics.org/plink/2.0/)
 
-Download the [UK Biobank](https://www.ukbiobank.ac.uk/) (UKB) data and [1000 Genomes phase 3 data provided by Plink](https://www.cog-genomics.org/plink/2.0/resources), following their guidelines.
+Download the [UK Biobank](https://www.ukbiobank.ac.uk/) (UKB) dataset, following their guidelines. The scripts also use the [1000 Genomes phase 3 dataset provided by Plink](https://www.cog-genomics.org/plink/2.0/resources), but it is not necessary to download it beforehand, as `05h_ukb_kgp_pca.sh` contains scripts for downloading it.
 
 For running the scripts, we recommend creating a [conda](https://docs.conda.io/projects/conda/en/stable/) environment.
 
@@ -73,7 +73,7 @@ Execute the following files to calculate <i>F<sub>st</sub></i>:
 Then, execute the following files to calculate Euclidean distance:
 
 1. `05e_find_best_num_pc.sh` (creates <b>Fig. S1</b>)
-2. `05h_ukb_kgp_pca.sh`
+2. `05h_ukb_kgp_pca.sh` (downloads [1000 Genomes phase 3 dataset provided by Plink](https://www.cog-genomics.org/plink/2.0/resources))
 3. `05j_pc_dist_fst_plots.sh` (creates <b>Fig. 1</b>)
 
 ### PGS and evaluating PGS prediction accuracy
