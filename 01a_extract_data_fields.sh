@@ -110,3 +110,17 @@ $file_handlers/ukbconv \
    txt \
    -s6138 \
    -odata/extracted_data_fields/education
+
+# ICD 10 main
+$file_handlers/ukbconv \
+   $file_handlers/ukb45020.enc_ukb \
+   txt \
+   -s41202 \
+   -odata/extracted_data_fields/icd_10_main
+
+# ICD 10 secondary
+$file_handlers/ukbconv \
+   $file_handlers/ukb45020.enc_ukb \
+   txt \
+   -s41204 \
+   -odata/extracted_data_fields/icd_10_secondary
