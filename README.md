@@ -20,10 +20,10 @@ Provided below are instructions and details for scripts used to generate the res
 
 Install the software:
 
-1. [<i>Plink 1.9</i> (Purcell, S. & Chang, C)](https://www.cog-genomics.org/plink/)
-2. [<i>Plink 2.0</i> (Purcell, S. & Chang, C)](https://www.cog-genomics.org/plink/2.0/)
-3. [<i>regenie</i> (Mbatchou <i>et al.</i>)](https://rgcgithub.github.io/regenie/)
-4. [<i>PRS-CS</i> (Ge <i>et al.</i>)](https://github.com/getian107/PRScs/)
+1. [Plink 1.9 (Purcell, S. & Chang, C)](https://www.cog-genomics.org/plink/)
+2. [Plink 2.0 (Purcell, S. & Chang, C)](https://www.cog-genomics.org/plink/2.0/)
+3. [regenie (Mbatchou <i>et al.</i>)](https://rgcgithub.github.io/regenie/)
+4. [PRS-CS (Ge <i>et al.</i>)](https://github.com/getian107/PRScs/)
 
 Download the [UK Biobank](https://www.ukbiobank.ac.uk/) (UKB) dataset, following their guidelines. The scripts also use the [1000 Genomes phase 3 dataset provided by Plink](https://www.cog-genomics.org/plink/2.0/resources), but it is not necessary to download it beforehand, as `05h_ukb_kgp_pca.sh` contains scripts for downloading it.
 
