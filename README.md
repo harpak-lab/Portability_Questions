@@ -129,3 +129,13 @@ For these disease traits, we ran GWAS, clumped and thresholded the SNPs, and cal
 Then we estimated group level portability of the disease traits:
 
 1. `11h_group_level_pred_disease.sh` (creates <b>Fig. 5</b>)
+
+### Distribution of important variables in the dataset
+
+We first plotted the distribution of Townsend deprivation index, household income, sex, age, and country as a function of genetic distance:
+
+1. `12_townsend_income_sex_age_country.sh` (creates <b>Fig. S25-29</b>)
+
+Then we plotted the correlation between <i>F<sub>st</sub></i> and PCs 1, 2, 3, and 40:
+
+1. `13_pcs_vs_fst.sh` (creates <b>Fig. S30-33</b>)
