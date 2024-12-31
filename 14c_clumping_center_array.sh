@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH -J CT
-#SBATCH -o CT.o%j
-#SBATCH -e CT.o%j
+#SBATCH -J CT_array_center
+#SBATCH -o CT_array_center.o%j
+#SBATCH -e CT_array_center.o%j
 #SBATCH -p normal
 #SBATCH -N 3
 #SBATCH -n 10
@@ -30,40 +30,40 @@ do
   do
     # Convert the GWAS output file from the Plink 2 to Plink 1 
     python 04b_convert_plink2_glm_to_plink1.py \
-      data/gwas_results/${phenotype}.chr${chromosome}.${phenotype}.glm.linear \
-      --output data/gwas_results/${phenotype}.chr${chromosome}.${phenotype}.glm.assoc
+      data/gwas_results/${phenotype}.chr${chromosome}_array_center.${phenotype}.glm.linear \
+      --output data/gwas_results/${phenotype}.chr${chromosome}_array_center.${phenotype}.glm.assoc
 
     # Clump GWAS results using GWAS set
     $plink \
       --memory 70000 \
       --bfile ${scratch}/ukb_filtered/chr${chromosome}_filtered \
       --keep data/ukb_populations/wb_gwas_id.txt \
-      --clump data/gwas_results/${phenotype}.chr${chromosome}.${phenotype}.glm.assoc \
+      --clump data/gwas_results/${phenotype}.chr${chromosome}_array_center.${phenotype}.glm.assoc \
       --clump-p1 0.01 \
       --clump-r2 0.2 \
       --clump-kb 250 \
-      --out data/gwas_results/${phenotype}.chr${chromosome}.${phenotype}
+      --out data/gwas_results/${phenotype}.chr${chromosome}_array_center.${phenotype}
   done
 
   # Combine clumped SNPs across chromosomes
-  head -n 1 data/gwas_results/${phenotype}.chr1.${phenotype}.clumped > data/gwas_results/${phenotype}_combined.clumped 
-  tail -n +2 -q data/gwas_results/${phenotype}.chr*.${phenotype}.clumped >> data/gwas_results/${phenotype}_combined.clumped 
+  head -n 1 data/gwas_results/${phenotype}.chr1_array_center.${phenotype}.clumped > data/gwas_results/${phenotype}_array_center_combined.clumped 
+  tail -n +2 -q data/gwas_results/${phenotype}.chr*_array_center.${phenotype}.clumped >> data/gwas_results/${phenotype}_array_center_combined.clumped 
 
   # Create files of SNPs meeting several p-value thresholds. Files numbered 0-4.
   for threshold in 0 1 2 3 4
   do
     # Further filter clumped SNPs using p-value thresholds (removes multiallelic SNPs)
     python 04c_filter_snps_for_pgs.py \
-      data/gwas_results/${phenotype}_combined.clumped \
+      data/gwas_results/${phenotype}_array_center_combined.clumped \
       --threshold ${thresholds[$threshold]} \
-      --output data/pgs/${phenotype}_threshold_${threshold}.txt
+      --output data/pgs/${phenotype}_array_center_threshold_${threshold}.txt
   done
 
   # Create combined GWAS result files for each phenotype
   python 04d_combine_glm_threshold_4.py \
-    data/gwas_results/${phenotype}.chr*.${phenotype}.glm.linear \
-    --keep data/pgs/${phenotype}_threshold_4.txt \
-    --output data/gwas_results/${phenotype}_combined.glm.linear
+    data/gwas_results/${phenotype}.chr*_array_center.${phenotype}.glm.linear \
+    --keep data/pgs/${phenotype}_array_center_threshold_4.txt \
+    --output data/gwas_results/${phenotype}_array_center_combined.glm.linear
 done
 
 conda deactivate

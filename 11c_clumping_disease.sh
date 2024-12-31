@@ -53,7 +53,7 @@ do
   for threshold in 0 1 2 3 4
   do
     # Further filter clumped SNPs using p-value thresholds (removes multiallelic SNPs)
-    python 04c_filter_snps_for_prs.py \
+    python 04c_filter_snps_for_pgs.py \
       data/gwas_results/${phenotype}_disease_combined.clumped \
       --threshold ${thresholds[$threshold]} \
       --output data/pgs/${phenotype}_disease_threshold_${threshold}.txt
