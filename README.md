@@ -86,7 +86,7 @@ We evaluated PGS prediction accuracy at both the group level and individual leve
 
 1. `07_group_ind_level_pred.sh` (creates <b>Fig. 2, S2-13</b>)
 
-We compared the variance in squared prediction error explained for 8 raw measures: genetic distance, Townsend Deprivation Index, average yearly total household income before tax, educational attainment, which we converted into years of education, minor allele counts for SNPs with different with different magnitudes of effects (three equally-sized bins of small, medium, and large squared effect sizes, see Fig. S23), and minor allele counts of all SNPs:
+We compared the variance in squared prediction error explained for 8 raw measures: genetic distance, Townsend Deprivation Index, average yearly total household income before tax, educational attainment, which we converted into years of education, minor allele counts for SNPs with different magnitudes of effects (three equally-sized bins of small, medium, and large squared effect sizes, see Fig. S23), and minor allele counts of all SNPs:
 
 1. `08a_prepare_for_ma_counts.sh`
 2. `08b_calc_ma_counts.sh`
@@ -114,3 +114,18 @@ We examined the variance of PGS as a function of genetic distance:
 We estimated the heritability associated with each index SNP:
 
 1. `10a_compare_heritability.sh` (creates <b>Fig. S23-24</b>)
+
+### Portability of disease traits
+
+We estimated the PGS portability of 3 disease traits at the group level.
+
+For these disease traits, we ran GWAS, clumped and thresholded the SNPs, and calculated PGS:
+
+1. `11a_gwas_disease.sh`
+2. `11c_clumping_disease.sh`
+3. `11f_after_clumping_disease.sh`
+4. `11g_pgs_disease.sh`
+
+Then we estimated group level portability of the disease traits:
+
+1. `11h_group_level_pred_disease.sh`
