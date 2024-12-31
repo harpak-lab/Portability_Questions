@@ -128,4 +128,4 @@ For these disease traits, we ran GWAS, clumped and thresholded the SNPs, and cal
 
 Then we estimated group level portability of the disease traits:
 
-1. `11h_group_level_pred_disease.sh`
+1. `11h_group_level_pred_disease.sh` (creates <b>Fig. 5</b>)
