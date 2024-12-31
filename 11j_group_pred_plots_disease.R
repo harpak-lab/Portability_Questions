@@ -184,7 +184,7 @@ fig_rev_1 <- plot_grid(NULL, NULL, plot_group_alzheimer, plot_group_t2d,
                        rel_heights = c(0.1, 1, 0.1, 1),
                        label_fontfamily = "Helvetica")
 
-grDevices::cairo_pdf("img/fig_rev_1_group_pred_disease.pdf", width = 24, height = 12)
+grDevices::cairo_pdf("img/fig_5_group_pred_disease.pdf", width = 24, height = 12)
 grid.arrange(arrangeGrob(fig_2,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))

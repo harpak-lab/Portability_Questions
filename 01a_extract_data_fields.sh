@@ -124,3 +124,10 @@ $file_handlers/ukbconv \
    txt \
    -s41204 \
    -odata/extracted_data_fields/icd_10_secondary
+   
+# Assessment center
+$file_handlers/ukbconv \
+   $file_handlers/ukb45020.enc_ukb \
+   txt \
+   -s54 \
+   -odata/extracted_data_fields/assessment_center

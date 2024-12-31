@@ -44,7 +44,7 @@ plot_group_level <- function(pgs_df, trait, upper){
   
   # Plot prediction accuracy relative to the 50 bins with a genetic distance most similar
   # to the GWAS set
-  denominator = plot_df %>%
+  denominator <- plot_df %>%
     group_by(phenotype) %>%
     filter(group_close_to_gwas <= 50) %>%
     dplyr::summarise(ref_partial_r2 = mean(partial))
@@ -59,9 +59,9 @@ plot_group_level <- function(pgs_df, trait, upper){
   plot_df <- plot_df %>% filter(median_pc > upper)
   
   # Fit a spline
-  lm = lm(relative_performance ~ 
+  lm <- lm(relative_performance ~ 
             splines::bs(median_pc, knots = knots), data = plot_df)
-  plot_df_2 = cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
+  plot_df_2 <- cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = median_pc, y = relative_performance)) +
@@ -133,7 +133,7 @@ plot_ind_level <- function(pgs_df, trait, upper, full_range = F){
   
   # Plot prediction error relative to the 50 bins with a genetic distance most similar
   # to the GWAS set
-  denominator = plot_df %>%
+  denominator <- plot_df %>%
     group_by(phenotype) %>%
     filter(group_close_to_gwas <= 50) %>%
     dplyr::summarise(ref_pred_error = mean(pred_error))
@@ -148,9 +148,9 @@ plot_ind_level <- function(pgs_df, trait, upper, full_range = F){
   plot_df <- plot_df %>% filter(pc_dist > upper)
   
   # Fit a spline
-  lm = lm(relative_performance ~ 
+  lm <- lm(relative_performance ~ 
             splines::bs(pc_dist, knots = knots), data = plot_df)
-  plot_df_2 = cbind.data.frame(pc_dist = seq(1.908283, 197.5882, by = 0.4891998))
+  plot_df_2 <- cbind.data.frame(pc_dist = seq(1.908283, 197.5882, by = 0.4891998))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = pc_dist, y = relative_performance)) +
