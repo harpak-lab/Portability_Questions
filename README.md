@@ -141,3 +141,29 @@ We first plotted the distribution of Townsend deprivation index, household incom
 Then we plotted the correlation between <i>F<sub>st</sub></i> and PCs 1, 2, 3, and 40:
 
 1. `13_pcs_vs_fst.sh` (creates <b>Fig. S30-33</b>)
+
+### Sensitivity analyses for major portability trends
+
+We performed a few sensitivity analyses to test the major portability trends of the 15 quantitative traits.
+
+#### Adding assessment center and genotype array as covariates to GWAS:
+
+1. `14a_gwas_array_center.sh`
+2. `14c_clumping_center_array.sh`
+3. `14d_after_clumping_center_array.sh`
+4. `14e_compute_pgs_array_center.sh`
+
+#### Running GWAS with [regenie](https://rgcgithub.github.io/regenie/):
+
+1. `14f_gwas_regenie.sh`
+2. `14g_clumping_regenie.sh`
+3. `14j_after_clumping_regenie.sh`
+4. `14k_compute_pgs_regenie.sh`
+
+#### Estimating PGS with [PRS-CS](https://github.com/getian107/PRScs/):
+
+1. `14l_compute_pgs_prscs.sh`
+
+Then we evaluated PGS prediction accuracy at both the group level and individual level and compared the results with the original plots (<b>Fig. 2, S2-13</b>):
+
+1. `14q_group_ind_pred_plots_sensitivity.R` (creates <b>S34-65</b>)
