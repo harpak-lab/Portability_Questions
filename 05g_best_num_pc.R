@@ -52,6 +52,12 @@ best_pc_dist <- cbind.data.frame(pc_dist[, c(1:2)],
 
 best_pc_dist %>% write_tsv("data/pca/pc_dist_best.tsv")
 
+# PC distance with first 16 PCs
+pc_dist_16 = cbind.data.frame(pc_dist[, c(1:2)], 
+                              pc_dist = pc_dist[[paste0("PC", 16, "_dist")]])
+
+pc_dist_16 %>% write_tsv("data/pca/pc_dist_16.tsv")
+
 # Separete the GWAS and prediction set
 wb_gwas <- read_delim('data/ukb_populations/wb_gwas_id.txt', delim = ' ', trim_ws = T)
 
@@ -63,6 +69,12 @@ best_pc_dist_pred <- best_pc_dist %>% filter(best_pc_dist$IID %notin% wb_gwas$II
 best_pc_dist_gwas %>% write_tsv("data/pca/pc_dist_best_gwas.tsv")
 best_pc_dist_pred %>% write_tsv("data/pca/pc_dist_best_pred.tsv")
 
+pc_dist_gwas_16 <- pc_dist_16 %>% filter(pc_dist_16$IID %in% wb_gwas$IID)
+pc_dist_pred_16 <- pc_dist_16 %>% filter(pc_dist_16$IID %notin% wb_gwas$IID)
+
+pc_dist_gwas_16 %>% write_tsv("data/pca/pc_dist_16_gwas.tsv")
+pc_dist_pred_16 %>% write_tsv("data/pca/pc_dist_16_pred.tsv")
+
 # Standardize the PC distance according to the mean PC distance of the GWAS set
 best_pc_dist_gwas_std = cbind.data.frame(best_pc_dist_gwas[, c(1:2)],
                                          pc_dist = best_pc_dist_gwas$pc_dist / mean(best_pc_dist_gwas$pc_dist))
@@ -72,3 +84,12 @@ best_pc_dist_pred_std = cbind.data.frame(best_pc_dist_pred[, c(1:2)],
 
 best_pc_dist_gwas_std %>% write_tsv("data/pca/pc_dist_best_gwas_std.tsv")
 best_pc_dist_pred_std %>% write_tsv("data/pca/pc_dist_best_pred_std.tsv")
+
+pc_dist_gwas_std_16 = cbind.data.frame(pc_dist_gwas_16[, c(1:2)],
+                                       pc_dist = pc_dist_gwas_16$pc_dist / mean(pc_dist_gwas_16$pc_dist))
+
+pc_dist_pred_std_16 = cbind.data.frame(pc_dist_pred_16[, c(1:2)],
+                                         pc_dist = pc_dist_pred_16$pc_dist / mean(pc_dist_gwas_16$pc_dist))
+
+pc_dist_gwas_std_16 %>% write_tsv("data/pca/pc_dist_16_gwas_std.tsv")
+pc_dist_pred_std_16 %>% write_tsv("data/pca/pc_dist_16_pred_std.tsv")

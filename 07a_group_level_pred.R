@@ -85,8 +85,8 @@ get_r2_values <- function(df, group_var) {
         meta$weighted_pc_groups <- as.numeric(meta$weighted_pc_groups)
         meta$threshold <- as.numeric(meta$threshold)
         
-        # Use the array type as a covariate only when both types have more than 1 samples
-        if(length(temp$array_type[temp$array_type == "Axiom"]) > 1 & length(temp$array_type[temp$array_type == "BiLEVE"]) > 1){
+        # Use the array type as a covariate only when both types have more than 2 samples
+        if(length(temp$array_type[temp$array_type == "Axiom"]) > 2 & length(temp$array_type[temp$array_type == "BiLEVE"]) > 2){
           meta_2 <- meta %>%
             do(nested = lm(phenotype_value ~ sex + age + age_sq + age_sex + age_sq_sex + array_type, data = temp),
                full = lm(phenotype_value ~ pgs + sex + age + age_sq + age_sex + age_sq_sex + array_type, data = temp))
@@ -135,6 +135,7 @@ make_pgs_evaluation_df <- function(non_pgs_df, group_var_as_string) {
 
 # Data frame without PGS information
 non_pgs_df <- load_non_pgs_df(num_bins = 500)
+non_pgs_df <- non_pgs_df %>% filter(!is.na(weighted_pc_groups))
 non_pgs_df <- non_pgs_df %>%
   mutate(array_type = as.factor(array_type))
 
