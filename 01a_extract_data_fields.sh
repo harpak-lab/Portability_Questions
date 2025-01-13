@@ -87,7 +87,7 @@ $file_handlers/ukbconv \
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
-   -s22006 \
+   -s22000 \
    -odata/extracted_data_fields/array_type
 
 # Townsend deprivation index
