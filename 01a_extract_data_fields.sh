@@ -48,12 +48,12 @@ $file_handlers/ukbconv \
    -s22005 \
    -odata/extracted_data_fields/genotype_missingness
 
-# Genetic kinship
+# Used in PCA (for excluding close relatives)
 $file_handlers/ukbconv \
    $file_handlers/ukb45020.enc_ukb \
    txt \
-   -s22021 \
-   -odata/extracted_data_fields/genetic_kinship
+   -s22020 \
+   -odata/extracted_data_fields/used_in_pca
 
 # Age
 $file_handlers/ukbconv \
