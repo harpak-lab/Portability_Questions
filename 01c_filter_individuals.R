@@ -13,7 +13,10 @@ reported_sex <- read_table("data/extracted_data_fields/reported_sex.txt")
 gen_sex <- read_table("data/extracted_data_fields/genetic_sex.txt")
 outlier_missingness <- read_table("data/extracted_data_fields/outlier_heterozygosity.txt")
 missingness <- read_table("data/extracted_data_fields/genotype_missingness.txt")
-not_related = read_table("data/extracted_data_fields/used_in_pca.txt")
+not_related <- read_table("data/extracted_data_fields/used_in_pca.txt")
+withdrew <- read_table("data/ukb_meta/w61666_20241217.csv", col_names = F)
+
+unfiltered <- unfiltered[unfiltered %notin% withdrew$X1]
 
 # Remove those with sex chromosome aneuploidy
 filtered_1 <- unfiltered[unfiltered %notin% 
