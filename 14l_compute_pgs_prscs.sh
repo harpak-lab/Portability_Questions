@@ -30,8 +30,8 @@ conda deactivate
 conda activate prscs
 
 # Download and unzip the EUR LD reference panel
-wget -P ${scratch}/ukb_filtered/ https://www.dropbox.com/s/mt6var0z96vb6fv/ldblk_1kg_eur.tar.gz
-tar -zxvf ${scratch}/ukb_filtered/ldblk_1kg_eur.tar.gz -C ${scratch}/ukb_filtered/
+wget -P ${scratch}/ukb_filtered/ https://www.dropbox.com/s/t9opx2ty6ucrpib/ldblk_ukbb_eur.tar.gz
+tar -zxvf ${scratch}/ukb_filtered/ldblk_ukbb_eur.tar.gz -C ${scratch}/ukb_filtered/
 
 for phenotype in BMI Lymphocyte Height Eosinophil MCH MCV Monocyte Platelet RBC WBC LDL Weight Triglycerides Cystatin_C Body_Fat_Perc
 do
