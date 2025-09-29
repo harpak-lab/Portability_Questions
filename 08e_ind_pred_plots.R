@@ -612,15 +612,13 @@ a_1 <- grid.arrange(arrangeGrob(fig_dist_1,
                                                  gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 
 b_1 <- grid.arrange(arrangeGrob(fig_townsend_1,
-                               bottom = textGrob("Townsend deprivation index", 
-                                                 gp=gpar(fontfamily = "Helvetica", fontsize=24)),
-                               top = textGrob("──────────────────────────────────────────",
-                                              gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+                                bottom = textGrob("Townsend deprivation index",
+                                                  gp = gpar(fontfamily = "Helvetica", fontsize = 24)),
+                                top = linesGrob(x = c(0, 1), y = 0.5, gp = gpar(col = "black", lwd = 2))))
 c_1 <- grid.arrange(arrangeGrob(fig_income_1,
-                               bottom = textGrob("Household income (£)", 
-                                                 gp=gpar(fontfamily = "Helvetica", fontsize=24)),
-                               top = textGrob("──────────────────────────────────────────",
-                                              gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+                                bottom = textGrob("Household income (£)",
+                                                  gp = gpar(fontfamily = "Helvetica", fontsize = 24)),
+                                top = linesGrob(x = c(0, 1), y = 0.5, gp = gpar(col = "black", lwd = 2))))
 
 fig_supp_mean_1 <- plot_grid(a_1, NULL, b_1, NULL, c_1,
                             label_x = 0.01, hjust = 0,
@@ -664,15 +662,13 @@ a_2 <- grid.arrange(arrangeGrob(fig_dist_2,
                                                  gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 
 b_2 <- grid.arrange(arrangeGrob(fig_townsend_2,
-                               bottom = textGrob("Townsend deprivation index", 
-                                                 gp=gpar(fontfamily = "Helvetica", fontsize=24)),
-                               top = textGrob("─────────────────────────────────────────────────────────────────────────────────────",
-                                              gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+                                bottom = textGrob("Townsend deprivation index",
+                                                  gp = gpar(fontfamily = "Helvetica", fontsize = 24)),
+                                top = linesGrob(x = c(0, 1), y = 0.5, gp = gpar(col = "black", lwd = 2))))
 c_2 <- grid.arrange(arrangeGrob(fig_income_2,
-                               bottom = textGrob("Household income (£)", 
-                                                 gp=gpar(fontfamily = "Helvetica", fontsize=24)),
-                               top = textGrob("─────────────────────────────────────────────────────────────────────────────────────",
-                                              gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+                                bottom = textGrob("Household income (£)",
+                                                  gp = gpar(fontfamily = "Helvetica", fontsize = 24)),
+                                top = linesGrob(x = c(0, 1), y = 0.5, gp = gpar(col = "black", lwd = 2))))
 
 fig_supp_mean_2 <- plot_grid(a_2, NULL, b_2, NULL, c_2,
                             label_x = 0.01, hjust = 0,
@@ -708,15 +704,13 @@ a_3 <- grid.arrange(arrangeGrob(fig_dist_3,
                                                  gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 
 b_3 <- grid.arrange(arrangeGrob(fig_townsend_3,
-                               bottom = textGrob("Townsend deprivation index", 
-                                                 gp=gpar(fontfamily = "Helvetica", fontsize=24)),
-                               top = textGrob("────────────────────────────────────────────────────────────────",
-                                              gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+                                bottom = textGrob("Townsend deprivation index",
+                                                  gp = gpar(fontfamily = "Helvetica", fontsize = 24)),
+                                top = linesGrob(x = c(0, 1), y = 0.5, gp = gpar(col = "black", lwd = 2))))
 c_3 <- grid.arrange(arrangeGrob(fig_income_3,
-                               bottom = textGrob("Household income (£)", 
-                                                 gp=gpar(fontfamily = "Helvetica", fontsize=24)),
-                               top = textGrob("────────────────────────────────────────────────────────────────",
-                                              gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+                                bottom = textGrob("Household income (£)",
+                                                  gp = gpar(fontfamily = "Helvetica", fontsize = 24)),
+                                top = linesGrob(x = c(0, 1), y = 0.5, gp = gpar(col = "black", lwd = 2))))
 
 fig_supp_mean_3 <- plot_grid(a_3, NULL, b_3, NULL, c_3,
                             label_x = 0.01, hjust = 0,
@@ -758,15 +752,13 @@ a_4 <- grid.arrange(arrangeGrob(fig_dist_4,
                                                  gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 
 b_4 <- grid.arrange(arrangeGrob(fig_townsend_4,
-                               bottom = textGrob("Townsend deprivation index", 
-                                                 gp=gpar(fontfamily = "Helvetica", fontsize=24)),
-                               top = textGrob("────────────────────────────────────────────────────────────────",
-                                              gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+                                bottom = textGrob("Townsend deprivation index",
+                                                  gp = gpar(fontfamily = "Helvetica", fontsize = 24)),
+                                top = linesGrob(x = c(0, 1), y = 0.5, gp = gpar(col = "black", lwd = 2))))
 c_4 <- grid.arrange(arrangeGrob(fig_income_4,
-                               bottom = textGrob("Household income (£)", 
-                                                 gp=gpar(fontfamily = "Helvetica", fontsize=24)),
-                               top = textGrob("────────────────────────────────────────────────────────────────",
-                                              gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+                                bottom = textGrob("Household income (£)",
+                                                  gp = gpar(fontfamily = "Helvetica", fontsize = 24)),
+                                top = linesGrob(x = c(0, 1), y = 0.5, gp = gpar(col = "black", lwd = 2))))
 
 fig_supp_mean_4 <- plot_grid(a_4, NULL, b_4, NULL, c_4,
                             label_x = 0.01, hjust = 0,
