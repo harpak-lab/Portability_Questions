@@ -509,15 +509,13 @@ a <- grid.arrange(arrangeGrob(fig_dist,
                              top = textGrob("↑ Better prediction\t\t\t\t\t\t\t\t\t\t\t\t",
                                             gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 b <- grid.arrange(arrangeGrob(fig_townsend,
-                             bottom = textGrob("Townsend deprivation index", 
-                                               gp=gpar(fontfamily = "Helvetica", fontsize=24)),
-                             top = textGrob("─────────────────────────────────────────────────────────────",
-                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+                              bottom = textGrob("Townsend deprivation index",
+                                                gp = gpar(fontfamily = "Helvetica", fontsize = 24)),
+                              top = linesGrob(x = c(0, 1), y = 0.5, gp = gpar(col = "black", lwd = 2))))
 c <- grid.arrange(arrangeGrob(fig_income,
-                             bottom = textGrob("Household income (£)", 
-                                               gp=gpar(fontfamily = "Helvetica", fontsize=24)),
-                             top = textGrob("─────────────────────────────────────────────────────────────",
-                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+                              bottom = textGrob("Household income (£)",
+                                                gp = gpar(fontfamily = "Helvetica", fontsize = 24)),
+                              top = linesGrob(x = c(0, 1), y = 0.5, gp = gpar(col = "black", lwd = 2))))
 
 fig_3_a <- plot_grid(a, NULL, b, NULL, c,
                     label_x = 0.01, hjust = 0,
