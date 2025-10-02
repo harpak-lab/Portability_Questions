@@ -22,7 +22,7 @@ for(i in 1:40){
 
 # Find the number of PCs that produces the highest correlation with Fst
 max_corr <- max(corr)
-max_corr_num = 0
+max_corr_num <- 0
 for (i in 1:40){
   if(corr[i] == max_corr){
     max_corr_num <- i
@@ -76,19 +76,19 @@ pc_dist_gwas_16 %>% write_tsv("data/pca/pc_dist_16_gwas.tsv")
 pc_dist_pred_16 %>% write_tsv("data/pca/pc_dist_16_pred.tsv")
 
 # Standardize the PC distance according to the mean PC distance of the GWAS set
-best_pc_dist_gwas_std = cbind.data.frame(best_pc_dist_gwas[, c(1:2)],
+best_pc_dist_gwas_std <- cbind.data.frame(best_pc_dist_gwas[, c(1:2)],
                                          pc_dist = best_pc_dist_gwas$pc_dist / mean(best_pc_dist_gwas$pc_dist))
 
-best_pc_dist_pred_std = cbind.data.frame(best_pc_dist_pred[, c(1:2)],
+best_pc_dist_pred_std <- cbind.data.frame(best_pc_dist_pred[, c(1:2)],
                                          pc_dist = best_pc_dist_pred$pc_dist / mean(best_pc_dist_gwas$pc_dist))
 
 best_pc_dist_gwas_std %>% write_tsv("data/pca/pc_dist_best_gwas_std.tsv")
 best_pc_dist_pred_std %>% write_tsv("data/pca/pc_dist_best_pred_std.tsv")
 
-pc_dist_gwas_std_16 = cbind.data.frame(pc_dist_gwas_16[, c(1:2)],
+pc_dist_gwas_std_16 <- cbind.data.frame(pc_dist_gwas_16[, c(1:2)],
                                        pc_dist = pc_dist_gwas_16$pc_dist / mean(pc_dist_gwas_16$pc_dist))
 
-pc_dist_pred_std_16 = cbind.data.frame(pc_dist_pred_16[, c(1:2)],
+pc_dist_pred_std_16 <- cbind.data.frame(pc_dist_pred_16[, c(1:2)],
                                          pc_dist = pc_dist_pred_16$pc_dist / mean(pc_dist_gwas_16$pc_dist))
 
 pc_dist_gwas_std_16 %>% write_tsv("data/pca/pc_dist_16_gwas_std.tsv")
