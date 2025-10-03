@@ -46,7 +46,7 @@ plot_group_level <- function(pgs_df, trait, upper){
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_partial_r2 = mean(partial))
   
   plot_df <- plot_df %>%
@@ -135,7 +135,7 @@ plot_ind_level <- function(pgs_df, trait, upper, full_range = F){
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_pred_error = mean(pred_error))
   
   plot_df <- plot_df %>%
