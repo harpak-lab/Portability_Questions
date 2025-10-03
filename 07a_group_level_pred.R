@@ -134,7 +134,7 @@ make_pgs_evaluation_df <- function(non_pgs_df, group_var_as_string) {
 }
 
 # Data frame without PGS information
-non_pgs_df <- load_non_pgs_df(num_bins = 500)
+non_pgs_df <- load_non_pgs_df(num_bins = 250)
 non_pgs_df <- non_pgs_df %>% filter(!is.na(weighted_pc_groups))
 non_pgs_df <- non_pgs_df %>%
   mutate(array_type = as.factor(array_type))
@@ -158,11 +158,11 @@ get_median_pc <- function(file){
   return(median_pc_values)
 }
 
-# Order the bins by how close to genetic distance = 1 (mean distance to the GWAS centroidof the GWAS group)
+# Order the bins by how close to genetic distance = 1 (mean distance to the GWAS centroid of the GWAS group)
 median_pc <- get_median_pc(non_pgs_df)
 median_pc$group_close_to_gwas <- abs(median_pc$median_pc - 1)
 median_pc <- median_pc %>% arrange(group_close_to_gwas)
-median_pc$group_close_to_gwas <- 1:500
+median_pc$group_close_to_gwas <- 1:250
 median_pc <- median_pc %>% arrange(weighted_pc_groups)
 non_pgs_df <- non_pgs_df %>% left_join(median_pc[, c(1:2, 4)], by = "weighted_pc_groups")
 pgs_df <- pgs_df %>% left_join(median_pc[, c(1:2, 4)], by = "weighted_pc_groups")
