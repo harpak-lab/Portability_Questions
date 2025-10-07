@@ -147,10 +147,10 @@ plot_pred_dist <- function(pgs_df, trait, knots){
   }
   
   plot <- ggplot(mean_df, aes(x = median_pc, y = mean_pred)) +
+    geom_line(size = 0.5, color = c) +
     geom_errorbar(aes(ymin = mean_pred - se, ymax = mean_pred + se, color = tile),
                   width = 5, linewidth = 1) +
     geom_point(aes(color = tile), size = 3) +
-    geom_line(size = 0.5, color = c) +
     scale_x_continuous(breaks = c(0, 40, 80, 120, 160), expand = c(0, 0)) +
     scale_color_manual(values = val) +
     theme_bw() + 
@@ -261,10 +261,10 @@ plot_pred_townsend <- function(pgs_df, trait, knots){
   }
   
   plot <- ggplot(mean_df, aes(x = median_townsend, y = mean_pred)) +
+    geom_line(size = 0.5, color = c) +
     geom_errorbar(aes(ymin = mean_pred - se, ymax = mean_pred + se, color = tile),
                   width = 0.3, linewidth = 1) +
     geom_point(aes(color = tile), size = 3) +
-    geom_line(size = 0.5, color = c) +
     scale_x_continuous(breaks = c(-2.5, 0.0, 2.5, 5.0, 7.5), 
                        labels = c("-2.5", "0.0", "2.5", "5.0", "7.5"), expand = c(0, 0)) +
     scale_color_manual(values = val) +
@@ -373,10 +373,10 @@ plot_pred_income <- function(pgs_df, trait){
   }
   
   plot <- ggplot(mean_df, aes(x = tile, y = mean_pred)) +
+    geom_line(aes(group = phenotype), size = 0.5, color = c) +
     geom_errorbar(aes(ymin = mean_pred - se, ymax = mean_pred + se, color = tile),
                   width = 0.125, linewidth = 1) +
     geom_point(aes(color = tile), size = 3) +
-    geom_line(aes(group = phenotype), size = 0.5, color = c) +
     scale_color_manual(values = val) +
     theme_bw() + 
     theme(panel.border = element_blank(), panel.grid.major = element_blank(),
