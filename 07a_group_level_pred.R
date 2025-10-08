@@ -28,7 +28,9 @@ partial.R2 <- function(nested.lm.list, ref.lm.list){
 load_non_pgs_df <- function(num_bins) {
   # Load covariates (age, sex, age-sex interactions, PC1, ..., PC20)
   covar_df <- read_tsv('data/ukb_merged/covar.tsv')
-  covar_df <- covar_df %>% select(-c(8:47))
+  
+  # Drop all PC columns
+  covar_df <- covar_df %>% select(-starts_with("PC"))
   
   # Load array type
   array_df <- read_table("data/extracted_data_fields/array_type.txt")
