@@ -17,8 +17,7 @@ pheno <- c("Height","Platelet","MCV","MCH","BMI","RBC","Monocyte",
 # Read in group level and individual PGS files for covariates
 group_pgs_df <- read_tsv("data/pgs_pred/group_pgs_df.tsv") %>%
   filter(threshold == 1)
-ind_pgs_df <- read_tsv("data/pgs_pred/ind_pgs_df.tsv") %>%
-  select(-(16:34))
+ind_pgs_df <- read_tsv("data/pgs_pred/ind_pgs_df.tsv")
 
 # Upper limit for the GWAS set
 pc_dist_gwas <- read_tsv("data/pca/pc_dist_best_gwas_std.tsv")
