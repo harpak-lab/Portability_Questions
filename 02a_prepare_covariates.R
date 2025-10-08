@@ -28,11 +28,9 @@ df <- df %>%
 nwb_df <- read_delim("data/ukb_populations/nwb_all_id.txt", delim = " ", trim_ws = T)
 
 wb_gwas_df <- read_delim("data/ukb_populations/wb_gwas_id.txt", delim = " ", trim_ws = T)
-wb_pred_df <- read_delim("data/ukb_populations/wb_pred_id.txt", delim = " ", trim_ws = T)
 
 combined_labels <- bind_rows(
   wb_gwas_df %>% mutate(pop = 'WB_GWAS'),
-  wb_pred_df %>% mutate(pop = 'WB_pred'),
   nwb_df %>% mutate(pop = 'NWB')
 )
 
