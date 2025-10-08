@@ -73,7 +73,7 @@ if(length(temp$array_type[temp$array_type == "Axiom"]) > 1 &
 }
 
 # Repeat for the other bins
-for(i in 2:500){
+for(i in 2:250){
   temp2 <- pgs_df_array_center %>% filter(phenotype == pheno[1] & weighted_pc_groups == i)
   if(length(temp2$array_type[temp2$array_type == "Axiom"]) > 1 &
      length(temp2$array_type[temp2$array_type == "BiLEVE"]) > 1){
@@ -94,7 +94,7 @@ for(i in 2:500){
 # Do the same for the other phenotypes
 for(trait in pheno[2:15]){
   print(trait)
-  for(i in 1:500){
+  for(i in 1:250){
     temp2 <- pgs_df_array_center %>% filter(phenotype == trait & weighted_pc_groups == i)
     if(length(temp2$array_type[temp2$array_type == "Axiom"]) > 1 &
        length(temp2$array_type[temp2$array_type == "BiLEVE"]) > 1){
@@ -223,7 +223,7 @@ if(length(temp$array_type[temp$array_type == "Axiom"]) > 1 &
 }
 
 # Repeat for the other bins
-for(i in 2:500){
+for(i in 2:250){
   temp2 <- pgs_df_regenie %>% filter(phenotype == pheno[1] & weighted_pc_groups == i)
   if(length(temp2$array_type[temp2$array_type == "Axiom"]) > 1 &
      length(temp2$array_type[temp2$array_type == "BiLEVE"]) > 1){
@@ -244,7 +244,7 @@ for(i in 2:500){
 # Do the same for the other phenotypes
 for(trait in pheno[2:15]){
   print(trait)
-  for(i in 1:500){
+  for(i in 1:250){
     temp2 <- pgs_df_regenie %>% filter(phenotype == trait & weighted_pc_groups == i)
     if(length(temp2$array_type[temp2$array_type == "Axiom"]) > 1 &
        length(temp2$array_type[temp2$array_type == "BiLEVE"]) > 1){
@@ -373,7 +373,7 @@ if(length(temp$array_type[temp$array_type == "Axiom"]) > 1 &
 }
 
 # Repeat for the other bins
-for(i in 2:500){
+for(i in 2:250){
   temp2 <- pgs_df_prscs %>% filter(phenotype == pheno[1] & weighted_pc_groups == i)
   if(length(temp2$array_type[temp2$array_type == "Axiom"]) > 1 &
      length(temp2$array_type[temp2$array_type == "BiLEVE"]) > 1){
@@ -394,7 +394,7 @@ for(i in 2:500){
 # Do the same for the other phenotypes
 for(trait in pheno[2:15]){
   print(trait)
-  for(i in 1:500){
+  for(i in 1:250){
     temp2 <- pgs_df_prscs %>% filter(phenotype == trait & weighted_pc_groups == i)
     if(length(temp2$array_type[temp2$array_type == "Axiom"]) > 1 &
        length(temp2$array_type[temp2$array_type == "BiLEVE"]) > 1){
@@ -526,7 +526,7 @@ if(length(temp$array_type[temp$array_type == "Axiom"]) > 1 &
 }
 
 # Repeat for the other bins
-for(i in 2:500){
+for(i in 2:250){
   temp2 <- pgs_df_16 %>% filter(phenotype == pheno[1] & weighted_pc_groups == i)
   if(length(temp2$array_type[temp2$array_type == "Axiom"]) > 1 &
      length(temp2$array_type[temp2$array_type == "BiLEVE"]) > 1){
@@ -547,7 +547,7 @@ for(i in 2:500){
 # Do the same for the other phenotypes
 for(trait in pheno[2:15]){
   print(trait)
-  for(i in 1:500){
+  for(i in 1:250){
     temp2 <- pgs_df_16 %>% filter(phenotype == trait & weighted_pc_groups == i)
     if(length(temp2$array_type[temp2$array_type == "Axiom"]) > 1 &
        length(temp2$array_type[temp2$array_type == "BiLEVE"]) > 1){
