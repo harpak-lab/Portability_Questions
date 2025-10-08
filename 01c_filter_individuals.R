@@ -14,6 +14,7 @@ gen_sex <- read_table("data/extracted_data_fields/genetic_sex.txt")
 outlier_missingness <- read_table("data/extracted_data_fields/outlier_heterozygosity.txt")
 missingness <- read_table("data/extracted_data_fields/genotype_missingness.txt")
 not_related <- read_table("data/extracted_data_fields/used_in_pca.txt")
+caucasion <- read_table("data/extracted_data_fields/caucasian.txt")
 withdrew <- read_table("data/ukb_meta/w61666_20241217.csv", col_names = F)
 
 unfiltered <- unfiltered[unfiltered %notin% withdrew$X1]
@@ -35,37 +36,25 @@ filtered_3 <- filtered_2[filtered_2 %notin%
 filtered_4 <- filtered_3[filtered_3 %in% 
                            missingness$eid[missingness$`22005-0.0` <= 0.02]]
 
+# Remove relatives
+filtered_5 <- filtered_4[filtered_4 %in% not_related$eid[not_related$`22020-0.0` == 1]]
+
+
 keep_id = cbind.data.frame(`#FID` = filtered_4, IID = filtered_4)
 keep_id %>% write.table("data/ukb_populations/keep_id.txt", 
                         row.names = F, col.names = T, quote = F, sep = " ")
 
-# Data fields for identifying WB
-ethnic_background <- read_table("data/extracted_data_fields/ethnic_background.txt")
-
-wb <- filtered_4[filtered_4 %in% 
-                   ethnic_background$eid[ethnic_background$`21000-0.0` == 1001]]
-nwb <- filtered_4[filtered_4 %notin% wb]
+# Separate WB and NWB
+wb <- filtered_5[filtered_5 %in% caucasion$eid[caucasion$`22006-0.0` == 1]]
+nwb <- filtered_5[filtered_5 %notin% caucasion$eid[caucasion$`22006-0.0` == 1]]
 
 wb <- cbind.data.frame(`#FID` = wb, IID = wb)
 nwb <- cbind.data.frame(`#FID` = nwb, IID = nwb)
 
+# Use all WB for GWAS
 wb %>% write.table("data/ukb_populations/wb_all_id.txt", 
                    row.names = F, col.names = T, quote = F, sep = " ")
 
+# Use all NWB for prediction
 nwb %>% write.table("data/ukb_populations/nwb_all_id.txt", 
                     row.names = F, col.names = T, quote = F, sep = " ")
-
-# For GWAS, first remove relatives from WB
-gwas <- wb %>% filter(IID %in% not_related$eid[!is.na(not_related$`22020-0.0`) & not_related$`22020-0.0` == 1])
-
-# Sample 350K WB for GWAS
-set.seed(3)
-gwas <- sample_n(gwas, 350000)
-
-gwas <- gwas %>% arrange(IID)
-gwas %>% write.table("data/ukb_populations/wb_gwas_id.txt",
-                     sep = " ", col.names = T, row.names = F, quote = F)
-
-wb_pred <- wb %>% filter(IID %notin% gwas$IID)
-wb_pred %>% write.table("data/ukb_populations/wb_pred_id.txt",
-                        sep = " ", col.names = T, row.names = F, quote = F)
