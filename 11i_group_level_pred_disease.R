@@ -126,7 +126,7 @@ get_precision_recall_disease <- function(non_prs_df) {
 }
 
 # Data frame without PGS information
-non_pgs_df <- load_non_pgs_df_disease(num_bins = 500)
+non_pgs_df <- load_non_pgs_df_disease(num_bins = 250)
 non_pgs_df <- non_pgs_df %>%
   mutate(array_type = as.factor(array_type))
 
@@ -175,7 +175,7 @@ pgs_df_temp <- pgs_df %>%
 median_pc <- get_median_pc_disease_2(non_pgs_df)
 median_pc$group_close_to_gwas <- abs(median_pc$median_pc - 1)
 median_pc <- median_pc %>% arrange(group_close_to_gwas)
-median_pc$group_close_to_gwas <- 1:500
+median_pc$group_close_to_gwas <- 1:250
 median_pc <- median_pc %>% arrange(weighted_pc_groups)
 pgs_df_temp_2 <- pgs_df %>%
   filter(phenotype != "Alzheimer") %>%
