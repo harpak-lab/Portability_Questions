@@ -52,7 +52,7 @@ wb <- cbind.data.frame(`#FID` = wb, IID = wb)
 nwb <- cbind.data.frame(`#FID` = nwb, IID = nwb)
 
 # Use all WB for GWAS
-wb %>% write.table("data/ukb_populations/wb_all_id.txt", 
+wb %>% write.table("data/ukb_populations/wb_gwas_id.txt", 
                    row.names = F, col.names = T, quote = F, sep = " ")
 
 # Use all NWB for prediction
