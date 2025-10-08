@@ -28,7 +28,7 @@ for(trait in pheno){
 het <- c()
 dir <- "data/heterozygosity/"
 
-for(i in 1:500){
+for(i in 1:250){
   print(i)
   temp <- read_tsv(paste0(dir, "heterozygosity_bin_", i, ".frqx"))
   for(trait in pheno){
@@ -51,9 +51,9 @@ for(i in 1:500){
   }
 }
 
-heterozygosity <- cbind.data.frame(phenotype = rep(rep(pheno, each = 3), 500),
-                                  weighted_pc_groups = rep(1:500, each = 15 * 3),
-                                  size = rep(1:3, 500 * 15),
+heterozygosity <- cbind.data.frame(phenotype = rep(rep(pheno, each = 3), 250),
+                                  weighted_pc_groups = rep(1:250, each = 15 * 3),
+                                  size = rep(1:3, 250 * 15),
                                   mean_het = het)
 heterozygosity <- heterozygosity %>%
   arrange(phenotype, weighted_pc_groups, size)
