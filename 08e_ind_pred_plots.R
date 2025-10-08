@@ -16,9 +16,8 @@ pheno <- c("Height","Platelet","MCV","MCH","BMI","RBC","Monocyte",
            "Lymphocyte","WBC","Eosinophil", "LDL", "Weight", "Triglycerides", "Cystatin_C", 
            "Body_Fat_Perc")
 
-# Read in gindividual PGS file
-ind_pgs_df <- read_tsv("data/pgs_pred/ind_pgs_df.tsv") %>%
-  select(-(16:34))
+# Read in individual PGS file
+ind_pgs_df <- read_tsv("data/pgs_pred/ind_pgs_df.tsv")
 
 # Read in the predictors
 townsend_index <- read_tsv("data/extracted_data_fields/townsend.txt")
