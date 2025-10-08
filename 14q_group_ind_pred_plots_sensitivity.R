@@ -18,8 +18,7 @@ pheno <- c("Height","Platelet","MCV","MCH","BMI","RBC","Monocyte",
 # Read in group level and individual PGS files for covariates
 group_pgs_df <- read_tsv("data/pgs_pred/group_pgs_df.tsv") %>%
   filter(threshold == 1)
-ind_pgs_df <- read_tsv("data/pgs_pred/ind_pgs_df.tsv") %>%
-  select(-(16:34))
+ind_pgs_df <- read_tsv("data/pgs_pred/ind_pgs_df.tsv")
 
 # Upper limit for the GWAS set
 pc_dist_gwas <- read_tsv("data/pca/pc_dist_best_gwas_std.tsv")
@@ -44,11 +43,11 @@ plot_group_level <- function(pgs_df, trait, upper){
   
   plot_df <- pgs_df %>% filter(phenotype == trait)
   
-  # Plot prediction accuracy relative to the 50 bins with a genetic distance most similar
+  # Plot prediction accuracy relative to the 25 bins with a genetic distance most similar
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_partial_r2 = mean(partial))
   
   plot_df <- plot_df %>%
@@ -63,7 +62,12 @@ plot_group_level <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(median_pc, knots = knots), data = plot_df)
-  plot_df_2 <- cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
+           
+  start <- upper
+  stop <- max(plot_df$median_pc)
+  step <- (stop - start) / 400
+  
+  plot_df_2 <- cbind.data.frame(median_pc = seq(start, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = median_pc, y = relative_performance)) +
@@ -257,11 +261,11 @@ plot_group_level_ci <- function(pgs_df, trait, upper){
   
   plot_df <- pgs_df %>% filter(phenotype == trait)
   
-  # Plot prediction accuracy relative to the 50 bins with a genetic distance most similar
+  # Plot prediction accuracy relative to the 25 bins with a genetic distance most similar
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_partial_r2 = mean(partial))
   
   plot_df <- plot_df %>%
@@ -276,7 +280,12 @@ plot_group_level_ci <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(median_pc, knots = knots), data = plot_df)
-  plot_df_2 <- cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$median_pc)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(median_pc = seq(start, stop, by = step))
   predictions <- predict(lm, newdata = plot_df_2, interval = "confidence")
   
   plot_df_2$fitted_val <- unname(predictions[, "fit"])
@@ -362,7 +371,12 @@ plot_ind_level_ci <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(pc_dist, knots = knots), data = plot_df)
-  plot_df_2 <- cbind.data.frame(pc_dist = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$pc_dist)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(pc_dist = seq(start, stop, by = step))
   predictions <- predict(lm, newdata = plot_df_2, interval = "confidence")
   
   plot_df_2$fitted_val <- unname(predictions[, "fit"])
@@ -675,14 +689,14 @@ grid.arrange(arrangeGrob(plot_ci_4,
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-#================================= 1,000 bins =================================
+#================================= 500 bins =================================
 
 # Read in group level PGS files for covariates
-group_pgs_df_1000_bins <- read_tsv("data/pgs_pred/group_pgs_df_1000_bins.tsv") %>%
+group_pgs_df_500_bins <- read_tsv("data/pgs_pred/group_pgs_df_500_bins.tsv") %>%
   filter(threshold == 1)
 
 # Group level plot
-plot_group_level_1000_bins <- function(pgs_df, trait, upper){
+plot_group_level_500_bins <- function(pgs_df, trait, upper){
   
   plot_df <- pgs_df %>% filter(phenotype == trait)
   
@@ -705,7 +719,12 @@ plot_group_level_1000_bins <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(median_pc, knots = knots), data = plot_df)
-  plot_df_2 <- cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$median_pc)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(median_pc = seq(start, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = median_pc, y = relative_performance)) +
@@ -766,52 +785,52 @@ plot_group_level_1000_bins <- function(pgs_df, trait, upper){
 }
 
 # Make the plots
-plot_group_height_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "Height", upper)
+plot_group_height_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "Height", upper)
 
-plot_group_cystatin_c_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "Cystatin_C", upper)
+plot_group_cystatin_c_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "Cystatin_C", upper)
 
-plot_group_platelet_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "Platelet", upper)
+plot_group_platelet_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "Platelet", upper)
 
-plot_group_mcv_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "MCV", upper)
+plot_group_mcv_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "MCV", upper)
 
-plot_group_weight_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "Weight", upper)
+plot_group_weight_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "Weight", upper)
 
-plot_group_mch_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "MCH", upper)
+plot_group_mch_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "MCH", upper)
 
-plot_group_bmi_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "BMI", upper)
+plot_group_bmi_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "BMI", upper)
 
-plot_group_rbc_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "RBC", upper)
+plot_group_rbc_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "RBC", upper)
 
-plot_group_body_fat_perc_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "Body_Fat_Perc", upper)
+plot_group_body_fat_perc_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "Body_Fat_Perc", upper)
 
-plot_group_monocyte_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "Monocyte", upper)
+plot_group_monocyte_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "Monocyte", upper)
 
-plot_group_triglycerides_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "Triglycerides", upper)
+plot_group_triglycerides_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "Triglycerides", upper)
 
-plot_group_lymphocyte_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "Lymphocyte", upper)
+plot_group_lymphocyte_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "Lymphocyte", upper)
 
-plot_group_wbc_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "WBC", upper)
+plot_group_wbc_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "WBC", upper)
 
-plot_group_eosinophil_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "Eosinophil", upper)
+plot_group_eosinophil_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "Eosinophil", upper)
 
-plot_group_ldl_1000_bins <- plot_group_level_1000_bins(group_pgs_df_1000_bins, "LDL", upper)
+plot_group_ldl_500_bins <- plot_group_level_500_bins(group_pgs_df_500_bins, "LDL", upper)
 
-plot_1000_bins_1 <- plot_grid(NULL, NULL, NULL, NULL,
-                              plot_group_height_1000_bins, plot_group_height, plot_group_weight_1000_bins, plot_group_weight,
+plot_500_bins_1 <- plot_grid(NULL, NULL, NULL, NULL,
+                              plot_group_height_500_bins, plot_group_height, plot_group_weight_500_bins, plot_group_weight,
                               NULL, NULL, NULL, NULL, 
-                              plot_group_bmi_1000_bins, plot_group_bmi, plot_group_body_fat_perc_1000_bins, plot_group_body_fat_perc,
-                              labels = c('A. Height (group level, 1000 bins)',
-                                         'B. Height (group level, 500 bins, main text ver.)',
-                                         'C. Weight (group level, 1000 bins)',
-                                         'D. Weight (group level, 500 bins, main text ver.)',
+                              plot_group_bmi_500_bins, plot_group_bmi, plot_group_body_fat_perc_500_bins, plot_group_body_fat_perc,
+                              labels = c('A. Height (group level, 500 bins)',
+                                         'B. Height (group level, 250 bins, main text ver.)',
+                                         'C. Weight (group level, 500 bins)',
+                                         'D. Weight (group level, 250 bins, main text ver.)',
                                          '',
                                          '',
                                          '',
                                          '',
-                                         'E. BMI (group level, 1000 bins)',
-                                         'F. BMI (group level, 500 bins, main text ver.)',
-                                         'G. Body fat percentage (group level, 1000 bins)',
-                                         'H. Body fat percentage (group level, 500 bins, main text ver.)',
+                                         'E. BMI (group level, 500 bins)',
+                                         'F. BMI (group level, 250 bins, main text ver.)',
+                                         'G. Body fat percentage (group level, 500 bins)',
+                                         'H. Body fat percentage (group level, 250 bins, main text ver.)',
                                          '',
                                          '',
                                          '',
@@ -822,22 +841,22 @@ plot_1000_bins_1 <- plot_grid(NULL, NULL, NULL, NULL,
                               rel_heights = c(0.1, 1, 0.1, 1),
                               label_fontfamily = "Helvetica")
 
-plot_1000_bins_2 <- plot_grid(NULL, NULL, NULL, NULL, 
-                              plot_group_monocyte_1000_bins, plot_group_monocyte, plot_group_lymphocyte_1000_bins, plot_group_lymphocyte,
+plot_500_bins_2 <- plot_grid(NULL, NULL, NULL, NULL, 
+                              plot_group_monocyte_500_bins, plot_group_monocyte, plot_group_lymphocyte_500_bins, plot_group_lymphocyte,
                               NULL, NULL, NULL, NULL, 
-                              plot_group_wbc_1000_bins, plot_group_wbc, plot_group_eosinophil_1000_bins, plot_group_eosinophil, 
-                              labels = c('A. Monocyte count (group level, 1000 bins)', 
-                                         'B. Monocyte count (group level, 500 bins, main text ver.)',
-                                         'C. Lymphocyte count (group level, 1000 bins)',
-                                         'D. Lymphocyte count (group level, 500 bins, main text ver.)',
+                              plot_group_wbc_500_bins, plot_group_wbc, plot_group_eosinophil_500_bins, plot_group_eosinophil, 
+                              labels = c('A. Monocyte count (group level, 500 bins)', 
+                                         'B. Monocyte count (group level, 250 bins, main text ver.)',
+                                         'C. Lymphocyte count (group level, 500 bins)',
+                                         'D. Lymphocyte count (group level, 250 bins, main text ver.)',
                                          '',
                                          '',
                                          '',
                                          '',
-                                         'E. White blood cell count (group level, 1000 bins)', 
-                                         'F. White blood cell count (group level, 500 bins, main text ver.)', 
-                                         'G. Eosinophil count (group level, 1000 bins)',
-                                         'H. Eosinophil count (group level, 500 bins, main text ver.)',
+                                         'E. White blood cell count (group level, 500 bins)', 
+                                         'F. White blood cell count (group level, 250 bins, main text ver.)', 
+                                         'G. Eosinophil count (group level, 500 bins)',
+                                         'H. Eosinophil count (group level, 250 bins, main text ver.)',
                                          '',
                                          '',
                                          '',
@@ -848,20 +867,20 @@ plot_1000_bins_2 <- plot_grid(NULL, NULL, NULL, NULL,
                               rel_heights = c(0.1, 1, 0.1, 1),
                               label_fontfamily = "Helvetica")
 
-plot_1000_bins_3 <- plot_grid(NULL, NULL, NULL, NULL, 
-                              plot_group_mch_1000_bins, plot_group_mch, plot_group_mcv_1000_bins, plot_group_mch, 
+plot_500_bins_3 <- plot_grid(NULL, NULL, NULL, NULL, 
+                              plot_group_mch_500_bins, plot_group_mch, plot_group_mcv_500_bins, plot_group_mch, 
                               NULL, NULL, NULL, NULL, 
-                              plot_group_rbc_1000_bins, plot_group_rbc, NULL, NULL, 
-                              labels = c('A. Mean corpuscular volume (group level, 1000 bins)\n', 
-                                         'B. Mean corpuscular volume (group level, 500 bins, main text\nver.)',
-                                         'C. Mean corpuscular hemoglobin (group level, 1000 bins)\n',
-                                         'D. Mean corpuscular hemoglobin (group level, 500 bins, main\ntext ver.)',
+                              plot_group_rbc_500_bins, plot_group_rbc, NULL, NULL, 
+                              labels = c('A. Mean corpuscular volume (group level, 500 bins)\n', 
+                                         'B. Mean corpuscular volume (group level, 250 bins, main text\nver.)',
+                                         'C. Mean corpuscular hemoglobin (group level, 500 bins)\n',
+                                         'D. Mean corpuscular hemoglobin (group level, 250 bins, main\ntext ver.)',
                                          '',
                                          '',
                                          '',
                                          '',
-                                         'E. Red blood cell count (group level, 1000 bins)', 
-                                         'F. Red blood cell count (group level, 500 bins, main text ver.)',
+                                         'E. Red blood cell count (group level, 500 bins)', 
+                                         'F. Red blood cell count (group level, 250 bins, main text ver.)',
                                          '',
                                          '',
                                          '',
@@ -872,22 +891,22 @@ plot_1000_bins_3 <- plot_grid(NULL, NULL, NULL, NULL,
                               rel_heights = c(0.25, 1, 0.1, 1),
                               label_fontfamily = "Helvetica")
 
-plot_1000_bins_4 <- plot_grid(NULL, NULL, NULL, NULL, 
-                              plot_group_cystatin_c_1000_bins, plot_group_cystatin_c, plot_group_platelet_1000_bins, plot_group_platelet,
+plot_500_bins_4 <- plot_grid(NULL, NULL, NULL, NULL, 
+                              plot_group_cystatin_c_500_bins, plot_group_cystatin_c, plot_group_platelet_500_bins, plot_group_platelet,
                               NULL, NULL, NULL, NULL, 
-                              plot_group_triglycerides_1000_bins, plot_group_triglycerides, plot_group_ldl_1000_bins, plot_group_ldl, 
-                              labels = c('A. Cystatin C level (group level, 1000 bins)', 
-                                         'B. Cystatin C level (group level, 500 bins, main text ver.)', 
-                                         'C. Platelet count (group level, 1000 bins)',
-                                         'D. Platelet count (group level, 500 bins, main text ver.)',
+                              plot_group_triglycerides_500_bins, plot_group_triglycerides, plot_group_ldl_500_bins, plot_group_ldl, 
+                              labels = c('A. Cystatin C level (group level, 500 bins)', 
+                                         'B. Cystatin C level (group level, 250 bins, main text ver.)', 
+                                         'C. Platelet count (group level, 500 bins)',
+                                         'D. Platelet count (group level, 250 bins, main text ver.)',
                                          '',
                                          '',
                                          '',
                                          '',
-                                         'E. Triglyceride level (group level, 1000 bins)', 
-                                         'F. Triglyceride level (group level, 500 bins, main text ver.)',
-                                         'G. LDL cholesterol level (group level, 1000 bins)',
-                                         'H. LDL cholesterol level (group level, 500 bins, main text ver.)',
+                                         'E. Triglyceride level (group level, 500 bins)', 
+                                         'F. Triglyceride level (group level, 250 bins, main text ver.)',
+                                         'G. LDL cholesterol level (group level, 500 bins)',
+                                         'H. LDL cholesterol level (group level, 250 bins, main text ver.)',
                                          '',
                                          '',
                                          '',
@@ -899,26 +918,26 @@ plot_1000_bins_4 <- plot_grid(NULL, NULL, NULL, NULL,
                               label_fontfamily = "Helvetica")
 
 
-grDevices::cairo_pdf("img/fig_s38_1000_bins_physical.pdf", width = 48, height = 12, onefile = T)
-grid.arrange(arrangeGrob(plot_1000_bins_1,
+grDevices::cairo_pdf("img/fig_s38_500_bins_physical.pdf", width = 48, height = 12, onefile = T)
+grid.arrange(arrangeGrob(plot_500_bins_1,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s39_1000_bins_wbc.pdf", width = 48, height = 12, onefile = T)
-grid.arrange(arrangeGrob(plot_1000_bins_2,
+grDevices::cairo_pdf("img/fig_s39_500_bins_wbc.pdf", width = 48, height = 12, onefile = T)
+grid.arrange(arrangeGrob(plot_500_bins_2,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s40_1000_bins_rbc.pdf", width = 48, height = 12.81, onefile = T)
-grid.arrange(arrangeGrob(plot_1000_bins_3,
+grDevices::cairo_pdf("img/fig_s40_500_bins_rbc.pdf", width = 48, height = 12.81, onefile = T)
+grid.arrange(arrangeGrob(plot_500_bins_3,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
 
-grDevices::cairo_pdf("img/fig_s41_1000_bins_other.pdf", width = 48, height = 12, onefile = T)
-grid.arrange(arrangeGrob(plot_1000_bins_4,
+grDevices::cairo_pdf("img/fig_s41_500_bins_other.pdf", width = 48, height = 12, onefile = T)
+grid.arrange(arrangeGrob(plot_500_bins_4,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
@@ -930,11 +949,11 @@ plot_group_level_gam <- function(pgs_df, trait, upper){
   
   plot_df <- pgs_df %>% filter(phenotype == trait)
   
-  # Plot prediction accuracy relative to the 50 bins with a genetic distance most similar
+  # Plot prediction accuracy relative to the 25 bins with a genetic distance most similar
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_partial_r2 = mean(partial))
   
   plot_df <- plot_df %>%
@@ -948,7 +967,12 @@ plot_group_level_gam <- function(pgs_df, trait, upper){
   
   # Fit a GAM model
   gam_model = gam(relative_performance ~ s(median_pc), knots = list(knots), data = plot_df)
-  plot_df_2 = cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$median_pc)
+  step <- (stop - start) / 400
+           
+  plot_df_2 = cbind.data.frame(median_pc = seq(start, stop, by = step))
   plot_df_2$fitted_val <- predict(gam_model, newdata = plot_df_2)
   
   plot <- ggplot(plot_df, aes(x = median_pc, y = relative_performance)) +
@@ -1010,11 +1034,11 @@ plot_ind_level_gam <- function(pgs_df, trait, upper){
   plot_df <- pgs_df %>% filter(phenotype == trait) %>%
     drop_na(pc_dist, pred_error)
   
-  # Plot prediction error relative to the 50 bins with a genetic distance most similar
+  # Plot prediction error relative to the 25 bins with a genetic distance most similar
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_pred_error = mean(pred_error))
   
   plot_df <- plot_df %>%
@@ -1028,7 +1052,12 @@ plot_ind_level_gam <- function(pgs_df, trait, upper){
   
   # Fit a GAM model
   gam_model = gam(relative_performance ~ s(pc_dist), knots = list(knots), data = plot_df)
-  plot_df_2 = cbind.data.frame(pc_dist = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$pc_dist)
+  step <- (stop - start) / 400
+           
+  plot_df_2 = cbind.data.frame(pc_dist = seq(start, stop, by = step))
   plot_df_2$fitted_val <- predict(gam_model, newdata = plot_df_2)
   
   plot <- ggplot(plot_df, aes(x = pc_dist, y = relative_performance)) +
@@ -1346,11 +1375,11 @@ plot_group_level_12_knots <- function(pgs_df, trait, upper){
   
   plot_df <- pgs_df %>% filter(phenotype == trait)
   
-  # Plot prediction accuracy relative to the 50 bins with a genetic distance most similar
+  # Plot prediction accuracy relative to the 25 bins with a genetic distance most similar
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_partial_r2 = mean(partial))
   
   plot_df <- plot_df %>%
@@ -1365,7 +1394,12 @@ plot_group_level_12_knots <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(median_pc, knots = knots_12), data = plot_df)
-  plot_df_2 <- cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$median_pc)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(median_pc = seq(start, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = median_pc, y = relative_performance)) +
@@ -1446,7 +1480,12 @@ plot_ind_level_12_knots <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(pc_dist, knots = knots_12), data = plot_df)
-  plot_df_2 <- cbind.data.frame(pc_dist = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$pc_dist)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(pc_dist = seq(start, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = pc_dist, y = relative_performance)) +
@@ -1764,11 +1803,11 @@ plot_group_level_array_center <- function(pgs_df, trait, upper){
   
   plot_df <- pgs_df %>% filter(phenotype == trait)
   
-  # Plot prediction accuracy relative to the 50 bins with a genetic distance most similar
+  # Plot prediction accuracy relative to the 25 bins with a genetic distance most similar
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_partial_r2 = mean(partial))
   
   plot_df <- plot_df %>%
@@ -1783,7 +1822,12 @@ plot_group_level_array_center <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(median_pc, knots = knots), data = plot_df)
-  plot_df_2 <- cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$median_pc)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(median_pc = seq(start, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = median_pc, y = relative_performance)) +
@@ -1845,11 +1889,11 @@ plot_ind_level_array_center <- function(pgs_df, trait, upper){
   plot_df <- pgs_df %>% filter(phenotype == trait) %>%
     drop_na(pc_dist, pred_error)
   
-  # Plot prediction error relative to the 50 bins with a genetic distance most similar
+  # Plot prediction error relative to the 25 bins with a genetic distance most similar
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_pred_error = mean(pred_error))
   
   plot_df <- plot_df %>%
@@ -1864,7 +1908,12 @@ plot_ind_level_array_center <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(pc_dist, knots = knots), data = plot_df)
-  plot_df_2 <- cbind.data.frame(pc_dist = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$pc_dist)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(pc_dist = seq(start, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = pc_dist, y = relative_performance)) +
@@ -2173,11 +2222,11 @@ plot_group_level_regenie <- function(pgs_df, trait, upper){
   
   plot_df <- pgs_df %>% filter(phenotype == trait)
   
-  # Plot prediction accuracy relative to the 50 bins with a genetic distance most similar
+  # Plot prediction accuracy relative to the 25 bins with a genetic distance most similar
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_partial_r2 = mean(partial))
   
   plot_df <- plot_df %>%
@@ -2192,7 +2241,12 @@ plot_group_level_regenie <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(median_pc, knots = knots), data = plot_df)
-  plot_df_2 <- cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$median_pc)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(median_pc = seq(start, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = median_pc, y = relative_performance)) +
@@ -2273,7 +2327,12 @@ plot_ind_level_regenie <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(pc_dist, knots = knots), data = plot_df)
-  plot_df_2 <- cbind.data.frame(pc_dist = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$pc_dist)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(pc_dist = seq(start, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = pc_dist, y = relative_performance)) +
@@ -2580,11 +2639,11 @@ plot_group_level_prscs <- function(pgs_df, trait, upper){
   
   plot_df <- pgs_df %>% filter(phenotype == trait)
   
-  # Plot prediction accuracy relative to the 50 bins with a genetic distance most similar
+  # Plot prediction accuracy relative to the 25 bins with a genetic distance most similar
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_partial_r2 = mean(partial))
   
   plot_df <- plot_df %>%
@@ -2599,7 +2658,12 @@ plot_group_level_prscs <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(median_pc, knots = knots), data = plot_df)
-  plot_df_2 <- cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$median_pc)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(median_pc = seq(start, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = median_pc, y = relative_performance)) +
@@ -2680,7 +2744,12 @@ plot_ind_level_prscs <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(pc_dist, knots = knots), data = plot_df)
-  plot_df_2 <- cbind.data.frame(pc_dist = seq(1.908283, 197.5882, by = 0.4891998))
+
+  start <- upper
+  stop <- max(plot_df$pc_dist)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(pc_dist = seq(start, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = pc_dist, y = relative_performance)) +
@@ -3008,11 +3077,11 @@ plot_group_level_16 <- function(pgs_df, trait, upper){
   
   plot_df <- pgs_df %>% filter(phenotype == trait)
   
-  # Plot prediction accuracy relative to the 50 bins with a genetic distance most similar
+  # Plot prediction accuracy relative to the 25 bins with a genetic distance most similar
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_partial_r2 = mean(partial))
   
   plot_df <- plot_df %>%
@@ -3027,7 +3096,12 @@ plot_group_level_16 <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(median_pc, knots = knots_16), data = plot_df)
-  plot_df_2 <- cbind.data.frame(median_pc = seq(1.996146, 206.3372, by = 0.5108526))
+
+  start <- upper
+  stop <- max(plot_df$median_pc)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(median_pc = seq(upper, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = median_pc, y = relative_performance)) +
@@ -3089,11 +3163,11 @@ plot_ind_level_16 <- function(pgs_df, trait, upper){
   plot_df <- pgs_df %>% filter(phenotype == trait) %>%
     drop_na(pc_dist, pred_error)
   
-  # Plot prediction error relative to the 50 bins with a genetic distance most similar
+  # Plot prediction error relative to the 25 bins with a genetic distance most similar
   # to the GWAS set
   denominator <- plot_df %>%
     group_by(phenotype) %>%
-    filter(group_close_to_gwas <= 50) %>%
+    filter(group_close_to_gwas <= 25) %>%
     dplyr::summarise(ref_pred_error = mean(pred_error))
   
   plot_df <- plot_df %>%
@@ -3108,7 +3182,12 @@ plot_ind_level_16 <- function(pgs_df, trait, upper){
   # Fit a spline
   lm <- lm(relative_performance ~ 
              splines::bs(pc_dist, knots = knots_16), data = plot_df)
-  plot_df_2 <- cbind.data.frame(pc_dist = seq(1.996146, 206.3372, by = 0.5108526))
+
+  start <- upper
+  stop <- max(plot_df$pc_dist)
+  step <- (stop - start) / 400
+           
+  plot_df_2 <- cbind.data.frame(pc_dist = seq(start, stop, by = step))
   plot_df_2$fitted_val = unname(predict(lm, newdata = plot_df_2))
   
   plot <- ggplot(plot_df, aes(x = pc_dist, y = relative_performance)) +
