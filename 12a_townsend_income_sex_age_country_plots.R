@@ -6,11 +6,8 @@ library(data.table)
 library(RColorBrewer)
 
 gwas_id <- read_table('data/ukb_populations/wb_gwas_id.txt')
-pred_id <- read_table('data/ukb_populations/wb_pred_id.txt')
-pred_id_temp <- read_table('data/ukb_populations/nwb_all_id.txt')
-pred_id <- pred_id %>% rbind.data.frame(pred_id_temp)
+pred_id <- read_table('data/ukb_populations/nwb_all_id.txt')
 pred_id <- pred_id %>% arrange(IID)
-rm(pred_id_temp)
 
 # Get bin info
 non_pgs_df <- read_tsv('data/pgs_pred/group_non_pgs_df.tsv')
