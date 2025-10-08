@@ -44,7 +44,9 @@ get_precision_recall <- function(df, phenotype, thres){
 load_non_pgs_df_disease <- function(num_bins) {
   # Load covariates (age, sex, age-sex interactions, PC1, ..., PC20)
   covar_df <- read_tsv('data/ukb_merged/covar.tsv')
-  covar_df <- covar_df %>% select(-c(8:47))
+
+  # Drop the PC columns
+  covar_df <- covar_df %>% select(-starts_with("PC"))
   
   # Load array type
   array_df <- read_table("data/extracted_data_fields/array_type.txt")
@@ -60,8 +62,7 @@ load_non_pgs_df_disease <- function(num_bins) {
   
   # Load the individuals 
   population_files <- c('data/ukb_populations/nwb_all_id.txt', 
-                        'data/ukb_populations/wb_gwas_id.txt', 
-                        'data/ukb_populations/wb_pred_id.txt')
+                        'data/ukb_populations/wb_gwas_id.txt')
   populations_df <- data.frame()
   for (file in population_files) {
     pop_df <- read_delim(file, delim = ' ', trim_ws = T,
@@ -161,7 +162,7 @@ get_median_pc_disease_2 = function(file){
   return(median_pc_values)
 }
 
-# Order the bins by how close to genetic distance = 1 (mean distance to the GWAS centroidof the GWAS group)
+# Order the bins by how close to genetic distance = 1 (mean distance to the GWAS centroid of the GWAS group)
 median_pc_alzheimer <- get_median_pc_disease(non_pgs_df)
 median_pc_alzheimer$group_close_to_gwas <- abs(median_pc_alzheimer$median_pc - 1)
 median_pc_alzheimer <- median_pc_alzheimer %>% arrange(group_close_to_gwas)
