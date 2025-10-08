@@ -27,7 +27,7 @@ df <- df %>%
 # Import population files
 nwb_df <- read_delim("data/ukb_populations/nwb_all_id.txt", delim = " ", trim_ws = T)
 
-wb_gwas_df <- read_delim("data/ukb_populations/wb_all_id.txt", delim = " ", trim_ws = T)
+wb_gwas_df <- read_delim("data/ukb_populations/wb_gwas_id.txt", delim = " ", trim_ws = T)
 
 combined_labels <- bind_rows(
   wb_gwas_df %>% mutate(pop = 'WB_GWAS'),
