@@ -44,8 +44,7 @@ load_non_pgs_df <- function(num_bins) {
   
   # Load the individuals 
   population_files <- c('data/ukb_populations/nwb_all_id.txt', 
-                        'data/ukb_populations/wb_gwas_id.txt', 
-                        'data/ukb_populations/wb_pred_id.txt')
+                        'data/ukb_populations/wb_gwas_id.txt')
   populations_df <- data.frame()
   for (file in population_files) {
     pop_df <- read_delim(file, delim = ' ', trim_ws = T,
