@@ -31,7 +31,9 @@ partial.R2 <- function(nested.lm.list, ref.lm.list){
 load_non_pgs_df <- function(num_bins) {
   # Load covariates (age, sex, age-sex interactions, PC1, ..., PC20)
   covar_df <- read_tsv('data/ukb_merged/covar.tsv')
-  covar_df <- covar_df %>% select(-c(8:47))
+
+  # Drop all PC columns
+  covar_df <- covar_df %>% select(-starts_with("PC"))
   
   # Load array type
   array_df <- read_table("data/extracted_data_fields/array_type.txt")
@@ -47,8 +49,7 @@ load_non_pgs_df <- function(num_bins) {
   
   # Load the individuals 
   population_files <- c('data/ukb_populations/nwb_all_id.txt', 
-                        'data/ukb_populations/wb_gwas_id.txt', 
-                        'data/ukb_populations/wb_pred_id.txt')
+                        'data/ukb_populations/wb_gwas_id.txt')
   populations_df <- data.frame()
   for (file in population_files) {
     pop_df <- read_delim(file, delim = ' ', trim_ws = T,
@@ -141,14 +142,14 @@ make_pgs_evaluation_df <- function(non_pgs_df, group_var_as_string) {
 }
 
 # Data frame without PGS information
-non_pgs_df_1000_bins <- load_non_pgs_df(num_bins = 1000)
-non_pgs_df_1000_bins <- non_pgs_df_1000_bins %>% filter(!is.na(weighted_pc_groups))
-non_pgs_df_1000_bins <- non_pgs_df_1000_bins %>%
+non_pgs_df_500_bins <- load_non_pgs_df(num_bins = 500)
+non_pgs_df_500_bins <- non_pgs_df_500_bins %>% filter(!is.na(weighted_pc_groups))
+non_pgs_df_500_bins <- non_pgs_df_500_bins %>%
   mutate(array_type = as.factor(array_type))
 
 # Data frame with PGS information
-pgs_df_1000_bins  <- make_pgs_evaluation_df(non_pgs_df_1000_bins, "weighted_pc_groups")
-pgs_df_1000_bins <- pgs_df_1000_bins %>% 
+pgs_df_500_bins  <- make_pgs_evaluation_df(non_pgs_df_500_bins, "weighted_pc_groups")
+pgs_df_500_bins <- pgs_df_500_bins %>% 
   arrange(phenotype, weighted_pc_groups, threshold) %>%
   mutate(group_number = weighted_pc_groups)
 
@@ -287,7 +288,9 @@ pgs_df_prscs <- pgs_df_prscs %>%
 load_non_pgs_df_16 <- function(num_bins) {
   # Load covariates (age, sex, age-sex interactions, PC1, ..., PC20)
   covar_df <- read_tsv('data/ukb_merged/covar.tsv')
-  covar_df <- covar_df %>% select(-c(8:47))
+
+  # Drop all PC columns
+  covar_df <- covar_df %>% select(-starts_with("PC"))
   
   # Load array type
   array_df <- read_table("data/extracted_data_fields/array_type.txt")
@@ -303,8 +306,7 @@ load_non_pgs_df_16 <- function(num_bins) {
   
   # Load the individuals 
   population_files <- c('data/ukb_populations/nwb_all_id.txt', 
-                        'data/ukb_populations/wb_gwas_id.txt', 
-                        'data/ukb_populations/wb_pred_id.txt')
+                        'data/ukb_populations/wb_gwas_id.txt')
   populations_df <- data.frame()
   for (file in population_files) {
     pop_df <- read_delim(file, delim = ' ', trim_ws = T,
@@ -332,7 +334,7 @@ load_non_pgs_df_16 <- function(num_bins) {
 }
 
 # Data frame without PGS information
-non_pgs_df_16 <- load_non_pgs_df_16(num_bins = 500)
+non_pgs_df_16 <- load_non_pgs_df_16(num_bins = 250)
 non_pgs_df_16 <- non_pgs_df_16 %>% filter(!is.na(weighted_pc_groups))
 non_pgs_df_16 <- non_pgs_df_16 %>%
   mutate(array_type = as.factor(array_type))
@@ -358,19 +360,19 @@ get_median_pc <- function(file){
   return(median_pc_values)
 }
 
-# Order the bins by how close to genetic distance = 1 (mean distance to the GWAS centroidof the GWAS group)
-median_pc_1000_bins <- get_median_pc(non_pgs_df_1000_bins)
-median_pc_1000_bins$group_close_to_gwas <- abs(median_pc_1000_bins$median_pc - 1)
-median_pc_1000_bins <- median_pc_1000_bins %>% arrange(group_close_to_gwas)
-median_pc_1000_bins$group_close_to_gwas <- 1:1000
-median_pc_1000_bins <- median_pc_1000_bins %>% arrange(weighted_pc_groups)
-non_pgs_df_1000_bins <- non_pgs_df_1000_bins %>% left_join(median_pc_1000_bins[, c(1:2, 4)], by = "weighted_pc_groups")
-pgs_df_1000_bins <- pgs_df_1000_bins %>% left_join(median_pc_1000_bins[, c(1:2, 4)], by = "weighted_pc_groups")
+# Order the bins by how close to genetic distance = 1 (mean distance to the GWAS centroid of the GWAS group)
+median_pc_500_bins <- get_median_pc(non_pgs_df_500_bins)
+median_pc_500_bins$group_close_to_gwas <- abs(median_pc_500_bins$median_pc - 1)
+median_pc_500_bins <- median_pc_500_bins %>% arrange(group_close_to_gwas)
+median_pc_500_bins$group_close_to_gwas <- 1:500
+median_pc_500_bins <- median_pc_500_bins %>% arrange(weighted_pc_groups)
+non_pgs_df_500_bins <- non_pgs_df_500_bins %>% left_join(median_pc_500_bins[, c(1:2, 4)], by = "weighted_pc_groups")
+pgs_df_500_bins <- pgs_df_500_bins %>% left_join(median_pc_500_bins[, c(1:2, 4)], by = "weighted_pc_groups")
 
 median_pc <- get_median_pc(non_pgs_df)
 median_pc$group_close_to_gwas <- abs(median_pc$median_pc - 1)
 median_pc <- median_pc %>% arrange(group_close_to_gwas)
-median_pc$group_close_to_gwas <- 1:500
+median_pc$group_close_to_gwas <- 1:250
 median_pc <- median_pc %>% arrange(weighted_pc_groups)
 non_pgs_df <- non_pgs_df %>% left_join(median_pc[, c(1:2, 4)], by = "weighted_pc_groups")
 
@@ -383,14 +385,14 @@ pgs_df_prscs <- pgs_df_prscs %>% left_join(median_pc[, c(1:2, 4)], by = "weighte
 median_pc_16 <- get_median_pc(non_pgs_df_16)
 median_pc_16$group_close_to_gwas <- abs(median_pc_16$median_pc - 1)
 median_pc_16 <- median_pc_16 %>% arrange(group_close_to_gwas)
-median_pc_16$group_close_to_gwas <- 1:500
+median_pc_16$group_close_to_gwas <- 1:250
 median_pc_16 <- median_pc_16 %>% arrange(weighted_pc_groups)
 non_pgs_df_16 <- non_pgs_df_16 %>% left_join(median_pc_16[, c(1:2, 4)], by = "weighted_pc_groups")
 pgs_df_16 <- pgs_df_16 %>% left_join(median_pc_16[, c(1:2, 4)], by = "weighted_pc_groups")
 
 # Save the files
-non_pgs_df_1000_bins %>% write_tsv("data/pgs_pred/group_non_pgs_df_1000_bins.tsv")
-pgs_df_1000_bins %>% write_tsv("data/pgs_pred/group_pgs_df_1000_bins.tsv")
+non_pgs_df_500_bins %>% write_tsv("data/pgs_pred/group_non_pgs_df_500_bins.tsv")
+pgs_df_500_bins %>% write_tsv("data/pgs_pred/group_pgs_df_500_bins.tsv")
 
 pgs_df_array_center %>% write_tsv("data/pgs_pred/group_pgs_df_array_center.tsv")
 
