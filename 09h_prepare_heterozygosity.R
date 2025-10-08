@@ -8,7 +8,7 @@ bins <- bins[, c(1:2, 15)]
 bins <- bins %>% distinct(`#FID`, IID, weighted_pc_groups)
 
 # Write the IDs of each bin
-for(i in 1:500){
+for(i in 1:250){
   temp <- bins %>% filter(weighted_pc_groups == i)
   temp %>% 
     select(-weighted_pc_groups) %>% 
