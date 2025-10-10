@@ -88,7 +88,7 @@ plot_townsend <- townsend_plot_df %>%
         panel.grid.minor = element_blank()) +
   scale_x_continuous(breaks=c(0, 20, 40, 60, 80, 100, 120, 140, 160, 180), expand = c(0, 0)) +
   xlab("Genetic distance from the GWAS sample") +
-  ylab("Townsend deprivation index\n(mean ± SE)")
+  ylab("Townsend Deprivation Index\n(mean ± SE)")
 
 
 # Sex
