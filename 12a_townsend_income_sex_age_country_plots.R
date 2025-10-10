@@ -19,9 +19,9 @@ non_pgs_df <- non_pgs_df %>%
 age <- read_table('data/extracted_data_fields/age.txt')
 age_gwas_mean <- mean(age$`21022-0.0`[age$eid %in% gwas_id$IID], na.rm = T)
 age_gwas_sd <- sd(age$`21022-0.0`[age$eid %in% gwas_id$IID], na.rm = T)
-# 259.442 is the average number of people in each bin
+# 278 is the number of people in each bin
 # Use this number so the SE of GWAS set is comparable to other bins
-age_gwas_se <- age_gwas_sd / sqrt(259.442)
+age_gwas_se <- age_gwas_sd / sqrt(278)
 
 age_plot_df <- age %>% 
   filter(eid %in% pred_id$IID) %>%
@@ -36,7 +36,7 @@ age_plot_df <- age %>%
 
 plot_age <- age_plot_df %>%
   ggplot(aes(x = median_pc_dist, y = mean_age)) +
-  geom_vline(xintercept = 1.908283, linetype = "dashed") +
+  geom_vline(xintercept = 1.913934, linetype = "dashed") +
   geom_hline(yintercept = age_gwas_mean) +
   geom_hline(yintercept = age_gwas_mean - age_gwas_se, linetype = "dashed") +
   geom_hline(yintercept = age_gwas_mean + age_gwas_se, linetype = "dashed") +
@@ -57,7 +57,7 @@ plot_age <- age_plot_df %>%
 townsend <- read_table('data/extracted_data_fields/townsend.txt')
 townsend_gwas_mean <- mean(townsend$`189-0.0`[townsend$eid %in% gwas_id$IID], na.rm = T)
 townsend_gwas_sd <- sd(townsend$`189-0.0`[townsend$eid %in% gwas_id$IID], na.rm = T)
-townsend_gwas_se <- townsend_gwas_sd / sqrt(259.442)
+townsend_gwas_se <- townsend_gwas_sd / sqrt(278)
 
 townsend_plot_df <- townsend %>% 
   filter(eid %in% pred_id$IID) %>%
@@ -72,7 +72,7 @@ townsend_plot_df <- townsend %>%
 
 plot_townsend <- townsend_plot_df %>%
   ggplot(aes(x = median_pc_dist, y = mean_townsend)) +
-  geom_vline(xintercept = 1.908283, linetype = "dashed") +
+  geom_vline(xintercept = 1.913934, linetype = "dashed") +
   geom_hline(yintercept = townsend_gwas_mean) +
   geom_hline(yintercept = townsend_gwas_mean - townsend_gwas_se, linetype = "dashed") +
   geom_hline(yintercept = townsend_gwas_mean + townsend_gwas_se, linetype = "dashed") +
@@ -94,7 +94,7 @@ plot_townsend <- townsend_plot_df %>%
 # Sex
 sex <- read_table('data/extracted_data_fields/genetic_sex.txt')
 # Count frequency of females
-sex_gwas_mean <- length(sex$`22001-0.0`[sex$eid %in% gwas_id$IID & sex$`22001-0.0` == 0]) / 350000
+sex_gwas_mean <- length(sex$`22001-0.0`[sex$eid %in% gwas_id$IID & sex$`22001-0.0` == 0]) / 336923
 
 sex_plot_df <- sex %>% 
   filter(eid %in% pred_id$IID) %>%
@@ -107,7 +107,7 @@ sex_plot_df <- sex %>%
 
 plot_sex <- sex_plot_df %>%
   ggplot(aes(x = median_pc_dist, y = mean_sex)) +
-  geom_vline(xintercept = 1.908283, linetype = "dashed") +
+  geom_vline(xintercept = 1.913934, linetype = "dashed") +
   geom_hline(yintercept = sex_gwas_mean) +
   geom_point(size = 5,alpha = 0.4, fill = "#ff8934", color = "#f8766d", shape = 23)+
   theme_bw() + 
@@ -179,7 +179,7 @@ plot_income <- income_plot_df %>%
                income_gwas_mean$mean_income[income_gwas_mean$income == "<18K"] ,
              color = "#FED976") +
   geom_col(position = "stack", width = 0.5) +
-  geom_vline(xintercept = 1.908283, linetype = "dashed") +
+  geom_vline(xintercept = 1.913934, linetype = "dashed") +
   theme_bw() + 
   theme(axis.title=element_text(size=24, family = "Helvetica"),
         axis.text=element_text(size=20, family = "Helvetica"),
@@ -205,7 +205,7 @@ country$country <- factor(country$country, levels = c("England", "Scotland", "Wa
 
 country_gwas_mean <- country %>% filter(eid %in% gwas_id$IID) %>%
   group_by(country) %>%
-  summarize(mean_country = n() / 350000)
+  summarize(mean_country = n() / 336923)
 
 country_plot_df <- country %>% 
   filter(eid %in% pred_id$IID) %>%
@@ -241,7 +241,7 @@ plot_country <- country_plot_df %>%
                country_gwas_mean$mean_country[country_gwas_mean$country == "England"] ,
              color = "#FECC5C") +
   geom_col(position = "stack", width = 0.5) +
-  geom_vline(xintercept = 1.908283, linetype = "dashed") +
+  geom_vline(xintercept = 1.913934, linetype = "dashed") +
   theme_bw() + 
   theme(axis.title=element_text(size=24, family = "Helvetica"),
         axis.text=element_text(size=20, family = "Helvetica"),
