@@ -10,7 +10,7 @@ library(grid)
 library(gridExtra)
 
 # Phenotypes
-pheno <- c("Alzheimer","T2D","Asthma")
+pheno <- c("T2D","Asthma")
 
 # Read in group level and individual PGS files for covariates
 group_pgs_df <- read_tsv("data/pgs_pred/group_pgs_df_disease.tsv") %>%
@@ -37,12 +37,6 @@ knots <- c(upper,
            temp$pc_dist[round(nrow(temp) / 9 * 7)], 
            temp$pc_dist[round(nrow(temp) / 9 * 8)])
 
-alzheimer_knots = c(upper, 
-                    temp$pc_dist[round(nrow(temp) / 5)], 
-                    temp$pc_dist[round(nrow(temp) / 5 * 2)], 
-                    temp$pc_dist[round(nrow(temp) / 5 * 3)], 
-                    temp$pc_dist[round(nrow(temp) / 5 * 4)])
-
 # Group level plot
 plot_group_level <- function(pgs_df, trait, upper){
   
@@ -50,19 +44,10 @@ plot_group_level <- function(pgs_df, trait, upper){
   
   # Plot prediction accuracy relative to the 50 bins with a genetic distance most similar
   # to the GWAS set
-  # But for Alzheimer's use 5 bins as reference because it only has 25 bins
-  if(trait == "Alzheimer"){
-    denominator = plot_df %>%
-      filter(group_close_to_gwas <= 5) %>%
-      dplyr::summarise(mean_precision = mean(precision),
-                       mean_recall = mean(recall))
-  } else{
-    denominator = plot_df %>%
+  denominator = plot_df %>%
       filter(group_close_to_gwas <= 50) %>%
       dplyr::summarise(mean_precision = mean(precision),
                        mean_recall = mean(recall))
-  }
-  
   # Only plot the data points > upper
   plot_df <- plot_df %>% filter(median_pc > upper)
   
@@ -70,21 +55,12 @@ plot_group_level <- function(pgs_df, trait, upper){
   
   # Fit a spline for both precision and recall
   temp <- subset(plot_df, type == "precision")
-  if(trait == "Alzheimer"){
-    lm_precision <- lm(value ~ splines::bs(median_pc, knots = alzheimer_knots), data = temp)
-  } else{
-    lm_precision <- lm(value ~ splines::bs(median_pc, knots = knots), data = temp)
-  }
+  lm_precision <- lm(value ~ splines::bs(median_pc, knots = knots), data = temp)
   plot_df_2 <- cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
   plot_df_2$fitted_val <- unname(predict(lm_precision, newdata = plot_df_2))
   
   temp <- subset(plot_df, type == "recall")
-  
-  if(trait == "Alzheimer"){
-    lm_recall <- lm(value ~ splines::bs(median_pc, knots = alzheimer_knots), data = temp)
-  } else{
-    lm_recall <- lm(value ~ splines::bs(median_pc, knots = knots), data = temp)
-  }
+  lm_recall <- lm(value ~ splines::bs(median_pc, knots = knots), data = temp)
   plot_df_3 <- cbind.data.frame(median_pc = seq(1.908283, 197.5882, by = 0.4891998))
   plot_df_3$fitted_val = unname(predict(lm_recall, newdata = plot_df_2))
   
@@ -102,25 +78,6 @@ plot_group_level <- function(pgs_df, trait, upper){
                       labels = c("Precision", "Recall")) +
     scale_color_manual(values = c("#FFC20A", "#0C7BDC"),
                        labels = c("Precision", "Recall"))
-  
-  # Set the upper limit of the y-axis
-  if(trait == "Height"){
-    ymax <- 1.8
-  }  else if(trait %in% c("Body_Fat_Perc", "Weight")){
-    ymax <- 4.2
-  } else if(trait == "BMI"){
-    ymax <- 3.8
-  } else if(trait %in% c("Eosinophil", "LDL")){
-    ymax <- 3.4
-  } else if(trait %in% c("MCH", "MCV")){
-    ymax <- 1.8
-  } else if(trait == "Platelet"){
-    ymax <- 2.2
-  } else if(trait %in% c("Triglycerides", "Monocyte", "Lymphocyte", "WBC", "Cystatin_C")){
-    ymax <- 2.8
-  } else{
-    ymax <- 2.2
-  }
   
   plot <- plot + 
     theme_bw() + 
@@ -140,13 +97,7 @@ plot_group_level <- function(pgs_df, trait, upper){
           legend.title = element_blank())
   
   # Add some labels
-  if(trait == "Alzheimer"){
-    plot <- plot + annotate(geom = "segment", x = 39, y = 0.25, xend = 46, yend = 0.25, 
-                           color = "black", size = 1) +
-      annotate("text", label = "A bin of ~5172\nindividuals", x = 66, y = 0.25, size = 8, 
-               family = "Helvetica")
-      
-  } else if(trait == "T2D"){
+  if(trait == "T2D"){
     plot = plot + annotate(geom = "segment", x = 105, y = 0.5, xend = 112, yend = 0.5, 
                            color = "black", size = 1) +
       annotate("text", label = "A bin of ~260\nindividuals", x = 132, y = 0.5, size = 8, 
@@ -161,31 +112,24 @@ plot_group_level <- function(pgs_df, trait, upper){
 }
 
 # Make the plots
-plot_group_alzheimer <- plot_group_level(group_pgs_df, "Alzheimer", upper)
-
 plot_group_t2d <- plot_group_level(group_pgs_df, "T2D", upper)
 
 plot_group_asthma <- plot_group_level(group_pgs_df, "Asthma", upper)
 
 # Combine the panels
 # Main fig
-fig_rev_1 <- plot_grid(NULL, NULL, plot_group_alzheimer, plot_group_t2d, 
-                       NULL, NULL, plot_group_asthma, NULL, 
-                       labels = c('A. Alzheimer’s disease (74 positives) (group level)', 
-                                  'B. Type 2 diabetes (5,042 positives) (group level)',
+fig_5 <- plot_grid(NULL, plot_group_asthma, NULL, plot_group_t2d,  
+                       labels = c('A. Asthma', 
                                   '',
-                                  '',
-                                  'C. Asthma (4,496 positives) (group level)', 
-                                  '', 
-                                  '',
-                                  ''), ncol = 2, nrow = 4,
+                                  'B. Type 2 diabetes',
+                                  ''), ncol = 1, nrow = 4,
                        label_x = 0.01, hjust = 0,
                        label_size = 28, scale = 1,
                        rel_heights = c(0.1, 1, 0.1, 1),
                        label_fontfamily = "Helvetica")
 
-grDevices::cairo_pdf("img/fig_5_group_pred_disease.pdf", width = 24, height = 12)
-grid.arrange(arrangeGrob(fig_2,
+grDevices::cairo_pdf("img/fig_5_group_pred_disease.pdf", width = 12, height = 12)
+grid.arrange(arrangeGrob(fig_5,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
