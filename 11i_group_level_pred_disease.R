@@ -6,7 +6,7 @@ library(stringr)
 
 get_precision_recall <- function(df, phenotype, thres){
   
-  df <- df %>% mutate(phenotype_value_pred = ifelse(prs >= thres, 1, 0))
+  df <- df %>% mutate(phenotype_value_pred = ifelse(pgs >= thres, 1, 0))
 
   df1 <- df %>% mutate(new_pc_groups = weighted_pc_groups) %>%
       filter(!is.na(phenotype_value), !is.na(phenotype_value_pred)) %>%
@@ -74,10 +74,10 @@ load_non_pgs_df_disease <- function(num_bins) {
 }
 
 # Calculate precision and recall
-get_precision_recall_disease <- function(non_prs_df) {
+get_precision_recall_disease <- function(non_pgs_df) {
   col_types <- c('#FID' = col_integer(), 'IID' = col_integer(), 'ALLELE_CT' = col_integer(),
                  'NAMED_ALLELE_DOSAGE_SUM' = col_double(), 'SCORE1_AVG' = col_double())
-  prs_df <- data.frame()
+  pgs_df <- data.frame()
   
   for (file in list.files(path = 'data/pgs',
                           pattern = '[a-zA-Z]+_disease_[0-9]_scores.sscore', full.names = T)) {
@@ -85,27 +85,27 @@ get_precision_recall_disease <- function(non_prs_df) {
     
     this_df <- read_tsv(file, col_types = col_types) %>%
       filter(IID > 0) %>%
-      select('#FID', 'IID', prs = 'SCORE1_AVG') 
+      select('#FID', 'IID', pgs = 'SCORE1_AVG') 
     
-    gwas_prs <- read_tsv(gsub("_disease_", "_disease_gwas_", file))
+    gwas_pgs <- read_tsv(gsub("_disease_", "_disease_gwas_", file))
     
     # Got these thresholds by maximizing the F1 scores in the GWAS groups for each trait
     perc = ifelse(str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)') == "T2D", 0.75, 
                          ifelse(str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)') == "Asthma", 0.65, NA))
-    thres <- quantile(gwas_prs$SCORE1_AVG, perc, na.rm = TRUE)
+    thres <- quantile(gwas_pgs$SCORE1_AVG, perc, na.rm = TRUE)
     
     this_df <- this_df %>% mutate(
       phenotype = str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)'),
       threshold = ifelse(phenotype == "T2D", str_extract_all(string = file, pattern = '[0-4]')[[1]][2] %>% as.integer, 
                          str_extract_all(string = file, pattern = '[0-4]')[[1]] %>% as.integer)
     ) %>%
-      inner_join(non_prs_df, by = c('#FID', 'IID', 'phenotype')) %>%
+      inner_join(non_pgs_df, by = c('#FID', 'IID', 'phenotype')) %>%
       get_precision_recall(., str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)'), thres)
     
-    prs_df <- bind_rows(prs_df, this_df)
+    pgs_df <- bind_rows(pgs_df, this_df)
   }
   
-  return(prs_df)
+  return(pgs_df)
 }
 
 # Data frame without PGS information
