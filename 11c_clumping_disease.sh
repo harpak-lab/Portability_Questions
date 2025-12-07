@@ -24,7 +24,7 @@ plink='/work2/06568/joyce_w/stampede2/software/plink/plink/plink'
 thresholds=(5e-8 1e-5 1e-4 1e-3 1e-2)
 
 # Clump GWAS results 
-for phenotype in Alzheimer T2D Asthma
+for phenotype in T2D Asthma
 do
   for chromosome in $(seq 1 22);
   do
