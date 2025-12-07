@@ -1,19 +1,5 @@
 # Three Open Questions in Polygenic Score Portability
 
-Joyce Y. Wang<sup>1</sup>, Neeka Lin<sup>1</sup>, Michael Zietz<sup>2</sup>, Jason Mares<sup>3</sup>, Olivia S. Smith<sup>1</sup>, Paul J. Rathouz<sup>4,5</sup> and Arbel Harpak<sup>1,5,+</sup>
-
-<sub><sup>1</sup> Department of Integrative Biology, The University of Texas at Austin, Austin, TX</sub>
-
-<sub><sup>2</sup> Department of Biomedical Informatics, Columbia University, New York, NY</sub>
-
-<sub><sup>3</sup> Department of Neurology, Columbia University, New York, NY</sub>
-
-<sub><sup>4</sup> Department of Statistics and Data Science, The University of Texas at Austin, Austin, TX</sub>
-
-<sub><sup>5</sup> Department of Population Health, The University of Texas at Austin, Austin, TX</sub>
-
-<sub><sup>+</sup> Correspondence should be addressed to A.H. (arbelharpak@utexas.edu)</sub>
-
 Provided below are instructions and details for scripts used to generate the results and figures in ["Three Open Questions in Polygenic Score Portability"](https://www.biorxiv.org/content/10.1101/2024.08.20.608703v2).
 
 ## Installation
