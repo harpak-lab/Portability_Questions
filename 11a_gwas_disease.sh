@@ -26,7 +26,7 @@ conda activate pgs
 # Creates a file with 3 disease traits
 Rscript 11b_prepare_phenotypes.R
 
-for phenotype in Alzheimer T2D Asthma
+for phenotype in T2D Asthma
 do
   for chromosome in $(seq 1 22);
   do
