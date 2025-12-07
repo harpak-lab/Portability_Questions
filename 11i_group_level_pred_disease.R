@@ -7,11 +7,8 @@ library(stringr)
 get_precision_recall <- function(df, phenotype, thres){
   
   df <- df %>% mutate(phenotype_value_pred = ifelse(prs >= thres, 1, 0))
-  
-  # For Alzheimer's, make 25 bins instead of 1,000 due to the low number of
-  # positive individuals
-  if(phenotype == "Alzheimer"){
-    df1 <- df %>% mutate(weighted_pc_groups = pc_dist %>% ntile(25)) %>%
+
+  df1 <- df %>% mutate(new_pc_groups = weighted_pc_groups) %>%
       filter(!is.na(phenotype_value), !is.na(phenotype_value_pred)) %>%
       group_by(phenotype, threshold, weighted_pc_groups) %>%
       summarize(TP = sum(phenotype_value == 1 & phenotype_value_pred == 1),
@@ -21,19 +18,6 @@ get_precision_recall <- function(df, phenotype, thres){
                 recall = TP / (TP + FN),
                 f1_score = 2 * (precision * recall) / (precision + recall),
                 median_pc_dist = median(pc_dist))
-  } else{
-    df1 <- df %>% mutate(new_pc_groups = weighted_pc_groups) %>%
-      filter(!is.na(phenotype_value), !is.na(phenotype_value_pred)) %>%
-      group_by(phenotype, threshold, weighted_pc_groups) %>%
-      summarize(TP = sum(phenotype_value == 1 & phenotype_value_pred == 1),
-                FP = sum(phenotype_value_pred == 1 & phenotype_value == 0),
-                FN = sum(phenotype_value_pred == 0 & phenotype_value == 1),
-                precision = TP / (TP + FP),
-                recall = TP / (TP + FN),
-                f1_score = 2 * (precision * recall) / (precision + recall),
-                median_pc_dist = median(pc_dist))
-  }
-  
   
   df1 <- df1 %>%
     select(-c(TP, FP, FN, f1_score, median_pc_dist))
@@ -106,9 +90,8 @@ get_precision_recall_disease <- function(non_prs_df) {
     gwas_prs <- read_tsv(gsub("_disease_", "_disease_gwas_", file))
     
     # Got these thresholds by maximizing the F1 scores in the GWAS groups for each trait
-    perc = ifelse(str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)') == "Alzheimer", 0.95,
-                  ifelse(str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)') == "T2D", 0.75, 
-                         ifelse(str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)') == "Asthma", 0.65, NA)))
+    perc = ifelse(str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)') == "T2D", 0.75, 
+                         ifelse(str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)') == "Asthma", 0.65, NA))
     thres <- quantile(gwas_prs$SCORE1_AVG, perc, na.rm = TRUE)
     
     this_df <- this_df %>% mutate(
@@ -137,20 +120,7 @@ pgs_df <- pgs_df %>%
   mutate(group_number = weighted_pc_groups)
 
 # Calculate the median PC distance for each group
-get_median_pc_disease = function(file){
-  median_pc_values <- file %>% 
-    filter(phenotype =="Alzheimer") %>%
-    mutate(weighted_pc_groups = pc_dist %>% ntile(25)) %>%
-    select(weighted_pc_groups, pc_dist) %>%
-    group_by(weighted_pc_groups) %>%
-    dplyr::summarize(median_pc = median(pc_dist),
-                     count = n()) %>%
-    na.omit() %>%
-    as.data.frame()
-  return(median_pc_values)
-}
-
-get_median_pc_disease_2 = function(file){
+get_median_pc_disease_ = function(file){
   median_pc_values <- file %>% 
     filter(phenotype =="T2D") %>%
     select(weighted_pc_groups, pc_dist) %>%
@@ -163,26 +133,15 @@ get_median_pc_disease_2 = function(file){
 }
 
 # Order the bins by how close to genetic distance = 1 (mean distance to the GWAS centroid of the GWAS group)
-median_pc_alzheimer <- get_median_pc_disease(non_pgs_df)
-median_pc_alzheimer$group_close_to_gwas <- abs(median_pc_alzheimer$median_pc - 1)
-median_pc_alzheimer <- median_pc_alzheimer %>% arrange(group_close_to_gwas)
-median_pc_alzheimer$group_close_to_gwas <- 1:25
-median_pc_alzheimer <- median_pc_alzheimer %>% arrange(weighted_pc_groups)
-pgs_df_temp <- pgs_df %>%
-  filter(phenotype == "Alzheimer") %>%
-  left_join(median_pc_alzheimer[, c(1, 2, 4)], by = "weighted_pc_groups")
-
-median_pc <- get_median_pc_disease_2(non_pgs_df)
+median_pc <- get_median_pc_disease_(non_pgs_df)
 median_pc$group_close_to_gwas <- abs(median_pc$median_pc - 1)
 median_pc <- median_pc %>% arrange(group_close_to_gwas)
 median_pc$group_close_to_gwas <- 1:250
 median_pc <- median_pc %>% arrange(weighted_pc_groups)
-pgs_df_temp_2 <- pgs_df %>%
-  filter(phenotype != "Alzheimer") %>%
+pgs_df <- pgs_df %>%
   left_join(median_pc[, c(1, 2, 4)], by = "weighted_pc_groups")
 
-pgs_df <- pgs_df_temp %>% rbind.data.frame(pgs_df_temp_2)
-rm(pgs_df_temp, pgs_df_temp_2 )
+rm(pgs_df_temp)
 
 pgs_df <- pgs_df %>%
   arrange(phenotype, weighted_pc_groups)
