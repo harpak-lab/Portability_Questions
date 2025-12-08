@@ -91,7 +91,7 @@ get_precision_recall_disease <- function(non_pgs_df) {
     
     # Got these thresholds by maximizing the F1 scores in the GWAS groups for each trait
     perc = ifelse(str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)') == "T2D", 0.75, 
-                         ifelse(str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)') == "Asthma", 0.65, NA))
+                         ifelse(str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z0-9]+(?=_)') == "Asthma", 0.7, NA))
     thres <- quantile(gwas_pgs$SCORE1_AVG, perc, na.rm = TRUE)
     
     this_df <- this_df %>% mutate(
