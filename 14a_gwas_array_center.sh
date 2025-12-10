@@ -42,6 +42,7 @@ do
       --memory 70000 \
       --glm hide-covar \
       --covar-variance-standardize \
+      --no-input-missing-phenotype \
       --out data/gwas_results/${phenotype}.chr${chromosome}_array_center
   done
 done
