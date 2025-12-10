@@ -35,5 +35,6 @@ do
       --memory 35000 \
       --glm hide-covar \
       --covar-variance-standardize \
+      --no-input-missing-phenotype \
       --out data/gwas_results/${phenotype}_far
 done
