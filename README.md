@@ -2,6 +2,9 @@
 
 Provided below are instructions and details for scripts used to generate the results and figures in ["Three Open Questions in Polygenic Score Portability"](https://www.biorxiv.org/content/10.1101/2024.08.20.608703v2).
 
+For questions, please contact Joyce Wang at joyce.wang@utexas.edu.
+
+
 ## Installation
 
 Install the software:
@@ -116,7 +119,7 @@ For these disease traits, we ran GWAS, clumped and thresholded the SNPs, and cal
 
 Then we estimated group level portability of the disease traits:
 
-1. `11h_group_level_pred_disease.sh` (creates <b>Fig. 5</b>)
+1. `11h_group_level_pred_disease.sh` (creates <b>Fig. 5, S66</b>)
 
 ### Distribution of important variables in the dataset
 
