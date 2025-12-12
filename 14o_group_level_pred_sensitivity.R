@@ -76,6 +76,106 @@ load_non_pgs_df <- function(num_bins) {
   return(phenotypes_df)
 }
 
+# For stratifying individuals by Townsend index. num_strata can only be either 2 or 5
+load_non_pgs_df_townsend <- function(num_bins, num_strata) {
+  # Load covariates (age, sex, age-sex interactions, PC1, ..., PC20)
+  covar_df <- read_tsv('data/ukb_merged/covar.tsv')
+
+  # Drop all PC columns
+  covar_df <- covar_df %>% select(-starts_with("PC"))
+  
+  # Load array type
+  array_df <- read_table("data/extracted_data_fields/array_type.txt")
+  colnames(array_df) = c("IID", "array_batch")
+  array_df$array_type = ifelse(array_df$array_batch < 0, "BiLEVE",
+                               ifelse(array_df$array_batch > 0 & array_df$array_batch < 100, "Axiom",
+                                      ifelse(array_df$array_batch == 1000, "BiLEVE",
+                                             ifelse(array_df$array_batch == 2000, "Axiom", array_df$array_batch))))
+  
+  covar_df <- covar_df %>% filter(pop != "WB_GWAS")
+  
+  phenotypes_df <- read_tsv('data/phenotypes/phenotypes.tsv')
+  
+  # Load the individuals 
+  population_files <- c('data/ukb_populations/nwb_all_id.txt', 
+                        'data/ukb_populations/wb_gwas_id.txt')
+  populations_df <- data.frame()
+  for (file in population_files) {
+    pop_df <- read_delim(file, delim = ' ', trim_ws = T,
+                         col_types = c('#FID' = col_integer(), 'IID' = col_integer())) %>%
+      mutate(population = str_extract(file, '(?<=data/ukb_populations/)[a-z]+_[a-z]+'))
+    populations_df <- bind_rows(populations_df, pop_df)
+  }
+  pc_values <- read_tsv('data/pca/pc_dist_best_pred_std.tsv')
+  pc_values <- pc_values[, c(2:3)]
+
+  townsend <- read_table("data/extracted_phenotypes/townsend.txt")
+  colnames(townsend) <- c("IID", "townsend")
+  townsend <- townsend %>% filter(IID %in% covar_df$IID)
+
+  townsend$townsend_rank <- ntile(townsend$townsend, num_strata)
+  
+  # Combine all the above tables into a table that will be joined with PGS information for
+  # phenotype-threshold combinations.
+  phenotypes_df <- phenotypes_df %>%
+    inner_join(covar_df, by = c('#FID', 'IID')) %>%
+    inner_join(array_df, by = "IID") %>%
+    inner_join(populations_df, by = c('#FID', 'IID')) %>%
+    left_join(townsend, by = c('IID')) %>%
+    left_join(pc_values, by = c("IID")) %>%
+    pivot_longer(Height:LDL, names_to = 'phenotype', values_to = 'phenotype_value')
+  
+  if(num_strata == 2){
+    phenotypes_df_1 <- phenotypes_df %>% filter(townsend_rank == 1)
+    phenotypes_df_2 <- phenotypes_df %>% filter(townsend_rank == 2)
+  
+  phenotypes_df_1 <- phenotypes_df_1 %>%
+    mutate(weighted_pc_groups = pc_dist %>% ntile(num_bins))
+  
+  phenotypes_df_2 <- phenotypes_df_2 %>%
+    mutate(weighted_pc_groups = pc_dist %>% ntile(num_bins))
+  
+  phenotypes_df <- rbind.data.frame(phenotypes_df_1, phenotypes_df_2)
+    
+  } else if(num_strata == 5){
+    phenotypes_df_1 <- phenotypes_df %>% filter(townsend_rank == 1)
+    phenotypes_df_2 <- phenotypes_df %>% filter(townsend_rank == 2)
+    phenotypes_df_3 <- phenotypes_df %>% filter(townsend_rank == 3)
+    phenotypes_df_4 <- phenotypes_df %>% filter(townsend_rank == 4)
+    phenotypes_df_5 <- phenotypes_df %>% filter(townsend_rank == 5)
+  
+  phenotypes_df_1 <- phenotypes_df_1 %>%
+    mutate(weighted_pc_groups = pc_dist %>% ntile(num_bins))
+  
+  phenotypes_df_2 <- phenotypes_df_2 %>%
+    mutate(weighted_pc_groups = pc_dist %>% ntile(num_bins))
+  
+  phenotypes_df_3 <- phenotypes_df_3 %>%
+    mutate(weighted_pc_groups = pc_dist %>% ntile(num_bins))
+  
+  phenotypes_df_4 <- phenotypes_df_4 %>%
+    mutate(weighted_pc_groups = pc_dist %>% ntile(num_bins))
+  
+  phenotypes_df_5 <- phenotypes_df_5 %>%
+    mutate(weighted_pc_groups = pc_dist %>% ntile(num_bins))
+  
+  phenotypes_df <- rbind.data.frame(phenotypes_df_1, phenotypes_df_2, phenotypes_df_3, 
+                                    phenotypes_df_4, phenotypes_df_5)
+  
+  }
+
+  pc_groups <- phenotypes_df %>% select(weighted_pc_groups, median_pc_dist) %>% unique() %>%
+    arrange(median_pc_dist)
+  pc_groups$weighted_pc_groups_new <- 1:(num_bins * num_strata)
+  
+  phenotypes_df <- phenotypes_df %>%
+    left_join(pc_groups, by = c("weighted_pc_groups", "median_pc_dist")) %>%
+    select(-weighted_pc_groups) %>%
+    rename(weighted_pc_groups = weighted_pc_groups_new)
+  
+  return(phenotypes_df)
+}
+
 get_r2_values <- function(df, group_var) {
   df$group <- df %>% select(any_of(group_var)) %>% as.data.frame()
   
@@ -112,7 +212,6 @@ get_r2_values <- function(df, group_var) {
   return(df1)
 }
 
-# 1,000 bins
 # Calculate PGS prediction accuracy
 make_pgs_evaluation_df <- function(non_pgs_df, group_var_as_string) {
   # Combine partial R^2 values for each phenotype and threshold
@@ -150,6 +249,31 @@ non_pgs_df_500_bins <- non_pgs_df_500_bins %>%
 # Data frame with PGS information
 pgs_df_500_bins  <- make_pgs_evaluation_df(non_pgs_df_500_bins, "weighted_pc_groups")
 pgs_df_500_bins <- pgs_df_500_bins %>% 
+  arrange(phenotype, weighted_pc_groups, threshold) %>%
+  mutate(group_number = weighted_pc_groups)
+
+# Data frame without PGS information
+# 1/2 of 250 bins because of 2 stata
+non_pgs_df_townsend_2_strata <- load_non_pgs_df_townsend(num_bins = 125, num_strata = 2)
+non_pgs_df_townsend_2_strata <- non_pgs_df_townsend_2_strata %>% filter(!is.na(weighted_pc_groups))
+non_pgs_df_townsend_2_strata <- non_pgs_df_townsend_2_strata %>%
+  mutate(array_type = as.factor(array_type))
+
+# Data frame with PGS information
+pgs_df_townsend_2_strata  <- make_pgs_evaluation_df(non_pgs_df_townsend_2_strata, "weighted_pc_groups")
+pgs_df_townsend_2_strata <- pgs_df_townsend_2_strata %>% 
+  arrange(phenotype, weighted_pc_groups, threshold) %>%
+  mutate(group_number = weighted_pc_groups)
+
+# 1/5 of 250 bins because of 5 stata
+non_pgs_df_townsend_5_strata <- load_non_pgs_df_townsend(num_bins = 50, num_strata = 5)
+non_pgs_df_townsend_5_strata <- non_pgs_df_townsend_5_strata %>% filter(!is.na(weighted_pc_groups))
+non_pgs_df_townsend_5_strata <- non_pgs_df_townsend_5_strata %>%
+  mutate(array_type = as.factor(array_type))
+
+# Data frame with PGS information
+pgs_df_townsend_5_strata  <- make_pgs_evaluation_df(non_pgs_df_townsend_5_strata, "weighted_pc_groups")
+pgs_df_townsend_5_strata <- pgs_df_townsend_5_strata %>% 
   arrange(phenotype, weighted_pc_groups, threshold) %>%
   mutate(group_number = weighted_pc_groups)
 
@@ -393,6 +517,12 @@ pgs_df_16 <- pgs_df_16 %>% left_join(median_pc_16[, c(1:2, 4)], by = "weighted_p
 # Save the files
 non_pgs_df_500_bins %>% write_tsv("data/pgs_pred/group_non_pgs_df_500_bins.tsv")
 pgs_df_500_bins %>% write_tsv("data/pgs_pred/group_pgs_df_500_bins.tsv")
+
+non_pgs_df_townsend_2_strata %>% write_tsv("data/pgs_pred/group_non_pgs_df_townsend_2_strata.tsv")
+pgs_df_townsend_2_strata %>% write_tsv("data/pgs_pred/group_pgs_df_townsend_2_strata.tsv")
+
+non_pgs_df_townsend_5_strata %>% write_tsv("data/pgs_pred/group_non_pgs_df_townsend_5_strata.tsv")
+pgs_df_townsend_5_strata %>% write_tsv("data/pgs_pred/group_pgs_df_townsend_5_strata.tsv")
 
 pgs_df_array_center %>% write_tsv("data/pgs_pred/group_pgs_df_array_center.tsv")
 
