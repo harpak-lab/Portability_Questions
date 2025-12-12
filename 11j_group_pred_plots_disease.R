@@ -13,8 +13,7 @@ library(gridExtra)
 pheno <- c("T2D","Asthma")
 
 # Read in group level and individual PGS files for covariates
-group_pgs_df <- read_tsv("data/pgs_pred/group_pgs_df_disease.tsv") %>%
-  filter(threshold == 1)
+group_pgs_df <- read_tsv("data/pgs_pred/group_pgs_df_disease.tsv")
 # This is not the file for diease traits
 # Only using it to get the positions of knots
 ind_pgs_df <- read_tsv("data/pgs_pred/ind_pgs_df.tsv") %>%
@@ -130,6 +129,49 @@ fig_5 <- plot_grid(NULL, plot_group_asthma, NULL, plot_group_t2d,
 
 grDevices::cairo_pdf("img/fig_5_group_pred_disease.pdf", width = 12, height = 12)
 grid.arrange(arrangeGrob(fig_5,
+                         bottom = textGrob("Genetic distance from the GWAS sample", 
+                                           gp=gpar(fontfamily = "Helvetica", fontsize=24))))
+dev.off()
+
+# var(PGS) vs. genetic dist
+var_pgs = group_pgs_df %>%
+  dplyr::group_by(phenotype, weighted_pc_groups) %>%
+  dplyr::summarize(median_pc = median(pc_dist),
+                   var_pgs = var(pgs, na.rm = T))
+
+fig_s66 = var_pgs %>%
+  mutate(phenotype = factor(phenotype, 
+                            levels = c("Asthma", "T2D"))) %>%
+  ggplot(aes(x = median_pc, y = var_pgs_value_rel, color = phenotype, fill = phenotype)) +
+  scale_x_continuous(breaks=c(0, 20, 40, 60, 80, 100, 120, 140, 160, 180),
+                     expand = c(0, 0)) +
+  geom_hline(yintercept = 1, size = 2) +
+  geom_point(size=5, alpha=0.4, shape = 23) +
+  geom_line(method = "lm", se=F, na.rm=T, stat = "smooth", linewidth = 2.5) +
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(axis.title=element_text(size=24, family = "Helvetica"),
+        axis.text=element_text(size=20, family = "Helvetica"),
+        plot.title=element_text(size=28, family = "Helvetica"),
+        plot.subtitle=element_text(size=18, face = "bold", family = "Helvetica"),
+        plot.caption=element_text(size=16, family = "Helvetica"),
+        legend.title=element_text(size=16, family = "Helvetica"),
+        legend.text=element_text(size=16, family = "Helvetica"),
+        legend.position="none",
+        axis.title.x=element_blank()) +
+  xlab("Genetic distance from the GWAS sample") +
+  ylab("Variance in PGS") +
+  scale_color_manual(values = c("#AA4499", "#44AA99")) +
+  scale_fill_manual(values = c("#AA4499", "#44AA99")) +
+  annotate("text", label = "T2D", x = 195, y = 0.75, size = 8,  family = "Helvetica",
+           color = "#44AA99", hjust = 1) +
+  annotate("text", label = "Asthma", x = 160, y = 0.48, size = 8,  family = "Helvetica",
+           color = "#AA4499", hjust = 1) +
+  coord_cartesian(xlim = c(1.913934, 200))
+
+grDevices::cairo_pdf("img/fig_s66_var_pgs_dist_disease.pdf", width = 12, height = 6)
+grid.arrange(arrangeGrob(fig_s66,
                          bottom = textGrob("Genetic distance from the GWAS sample", 
                                            gp=gpar(fontfamily = "Helvetica", fontsize=24))))
 dev.off()
