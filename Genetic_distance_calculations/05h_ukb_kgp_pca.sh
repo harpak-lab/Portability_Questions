@@ -69,7 +69,7 @@ $plink \
     --make-bed \
     --out ${scratch}/ukb_merged/ukb_merged_snps_in_pca
 
-# First merging attemp
+# First merging attempt
 $plink \
     --bfile ${scratch}/ukb_merged/ukb_merged_snps_in_pca \
     --bmerge ${scratch}/kgp_filtered/kgp_filtered \
@@ -86,7 +86,7 @@ $plink \
   --make-bed \
   --out ${scratch}/kgp_merged/ukb_kgp_merged_source_2_trial
 
-# Second merging attemp
+# Second merging attempt
 $plink \
   --bfile ${scratch}/ukb_merged/ukb_merged_snps_in_pca \
   --allow-extra-chr \
@@ -108,7 +108,7 @@ $plink \
   --make-bed \
   --out ${scratch}/kgp_merged/ukb_kgp_merged_source_2_trial_tmp
 
-# Final merging attemp
+# Final merging attempt
 $plink \
   --bfile ${scratch}/ukb_merged/merged_snps_in_pca_tmp \
   --allow-extra-chr \
