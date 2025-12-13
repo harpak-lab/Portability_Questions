@@ -612,12 +612,6 @@ pgs_df_300K <- pgs_df_300K %>% left_join(median_pc_300K[, c(1:2, 4)], by = "weig
 non_pgs_df_500_bins %>% write_tsv("data/pgs_pred/group_non_pgs_df_500_bins.tsv")
 pgs_df_500_bins %>% write_tsv("data/pgs_pred/group_pgs_df_500_bins.tsv")
 
-non_pgs_df_townsend_2_strata %>% write_tsv("data/pgs_pred/group_non_pgs_df_townsend_2_strata.tsv")
-pgs_df_townsend_2_strata %>% write_tsv("data/pgs_pred/group_pgs_df_townsend_2_strata.tsv")
-
-non_pgs_df_townsend_5_strata %>% write_tsv("data/pgs_pred/group_non_pgs_df_townsend_5_strata.tsv")
-pgs_df_townsend_5_strata %>% write_tsv("data/pgs_pred/group_pgs_df_townsend_5_strata.tsv")
-
 pgs_df_array_center %>% write_tsv("data/pgs_pred/group_pgs_df_array_center.tsv")
 
 pgs_df_regenie %>% write_tsv("data/pgs_pred/group_pgs_df_regenie.tsv")
@@ -626,6 +620,12 @@ pgs_df_prscs %>% write_tsv("data/pgs_pred/group_pgs_df_prscs.tsv")
 
 non_pgs_df_16 %>% write_tsv("data/pgs_pred/group_non_pgs_df_16.tsv")
 pgs_df_16 %>% write_tsv("data/pgs_pred/group_pgs_df_16.tsv")
+
+non_pgs_df_townsend_2_strata %>% write_tsv("data/pgs_pred/group_non_pgs_df_townsend_2_strata.tsv")
+pgs_df_townsend_2_strata %>% write_tsv("data/pgs_pred/group_pgs_df_townsend_2_strata.tsv")
+
+non_pgs_df_townsend_5_strata %>% write_tsv("data/pgs_pred/group_non_pgs_df_townsend_5_strata.tsv")
+pgs_df_townsend_5_strata %>% write_tsv("data/pgs_pred/group_pgs_df_townsend_5_strata.tsv")
 
 non_pgs_df_300K %>% write_tsv("data/pgs_pred/group_non_pgs_df_300K.tsv")
 pgs_df_300K %>% write_tsv("data/pgs_pred/group_pgs_df_300K.tsv")
