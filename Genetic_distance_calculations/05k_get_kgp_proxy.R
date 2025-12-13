@@ -93,12 +93,14 @@ pc_dist_yri_closest <- pc_dist_yri %>%
   filter(is.na(Pop)) %>%
   filter(PC20_dist == min(PC20_dist, na.rm = T))
 
-# Use the genetic distance of the prediction individuals as a proxy for the 3 1000 Genomes centroids
+# Use the genetic distance of the individual closest to the 3 1000 Genomes centroids as a proxy
+best_pc_dist_gwas_std <- read_tsv("data/pca/pc_dist_best_gwas_std.tsv")
 best_pc_dist_pred_std <- read_tsv("data/pca/pc_dist_best_pred_std.tsv")
+best_pc_dist <- cbind.data.frame(best_pc_dist_gwas_std, best_pc_dist_pred_std)
 
-proxy <- c(best_pc_dist_pred_std$pc_dist[best_pc_dist_pred_std$IID == pc_dist_ceu_closest$IID],
-          best_pc_dist_pred_std$pc_dist[best_pc_dist_pred_std$IID == pc_dist_chb_closest$IID],
-          best_pc_dist_pred_std$pc_dist[best_pc_dist_pred_std$IID == pc_dist_yri_closest$IID])
+proxy <- c(best_pc_dist$pc_dist[best_pc_dist$IID == pc_dist_ceu_closest$IID],
+          best_pc_dist$pc_dist[best_pc_dist$IID == pc_dist_chb_closest$IID],
+          best_pc_dist$pc_dist[best_pc_dist$IID == pc_dist_yri_closest$IID])
 
 proxy <- cbind.data.frame(Pop = c("CEU", "CHB", "YRI"), pc_dist = proxy)
 
