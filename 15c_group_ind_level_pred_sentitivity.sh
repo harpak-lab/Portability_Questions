@@ -18,12 +18,12 @@ conda init bash
 conda activate pgs
 
 # Calculate gorup level prediction accuracy
-Rscript 14o_group_level_pred_sensitivity.R
+Rscript 15d_group_level_pred_sensitivity.R
 
 # Calculate individual level prediction error
-Rscript 14p_ind_level_pred_sensitivity.R
+Rscript 15e_ind_level_pred_sensitivity.R
 
 # Plot group and individual level results
-Rscript 14q_group_ind_pred_plots_sensitivity.R
+Rscript 15f_group_ind_pred_plots_sensitivity.R
 
 conda deactivate
