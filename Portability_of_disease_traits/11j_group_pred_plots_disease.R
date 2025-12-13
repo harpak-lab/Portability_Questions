@@ -99,12 +99,12 @@ plot_group_level <- function(pgs_df, trait, upper){
   if(trait == "T2D"){
     plot = plot + annotate(geom = "segment", x = 105, y = 0.5, xend = 112, yend = 0.5, 
                            color = "black", size = 1) +
-      annotate("text", label = "A bin of ~260\nindividuals", x = 132, y = 0.5, size = 8, 
+      annotate("text", label = "A bin of 278\nindividuals", x = 132, y = 0.5, size = 8, 
                family = "Helvetica") 
   } else{
     plot = plot + annotate(geom = "segment", x = 107, y = 0.72, xend = 114, yend = 0.72, 
                            color = "black", size = 1) +
-      annotate("text", label = "A bin of ~260\nindividuals", x = 134, y = 0.72, size = 8, 
+      annotate("text", label = "A bin of 278\nindividuals", x = 134, y = 0.72, size = 8, 
                family = "Helvetica")
   }
   return(plot)
