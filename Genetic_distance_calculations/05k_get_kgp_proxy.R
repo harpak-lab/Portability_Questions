@@ -80,7 +80,7 @@ pc_dist_yri <- as.data.frame(apply(pc_dist_yri_sq[, c(3:22)], 2, sqrt))
 pc_dist_yri <- cbind.data.frame(pc[, c(1:2)], pc_dist_yri)
 
 
-# Identify the prediction idividual closest to each of the centroids
+# Identify the prediction individual closest to each of the centroids
 pc_dist_ceu_closest <- pc_dist_ceu %>% 
   filter(is.na(Pop)) %>%
   filter(PC20_dist == min(PC20_dist, na.rm = T))
