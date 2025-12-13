@@ -570,6 +570,18 @@ get_median_pc <- function(file){
   return(median_pc_values)
 }
 
+get_median_pc_townsend <- function(file){
+  median_pc_values <- file %>% 
+    filter(phenotype =="Height") %>%
+    select(townsend_rank, weighted_pc_groups, pc_dist) %>%
+    group_by(townsend_rank, weighted_pc_groups) %>%
+    dplyr::summarize(median_pc = median(pc_dist),
+                     count = n()) %>%
+    na.omit() %>%
+    as.data.frame()
+  return(median_pc_values)
+}
+
 # Order the bins by how close to genetic distance = 1 (mean distance to the GWAS centroid of the GWAS group)
 median_pc_500_bins <- get_median_pc(non_pgs_df_500_bins)
 median_pc_500_bins$group_close_to_gwas <- abs(median_pc_500_bins$median_pc - 1)
@@ -599,6 +611,26 @@ median_pc_16$group_close_to_gwas <- 1:250
 median_pc_16 <- median_pc_16 %>% arrange(weighted_pc_groups)
 non_pgs_df_16 <- non_pgs_df_16 %>% left_join(median_pc_16[, c(1:2, 4)], by = "weighted_pc_groups")
 pgs_df_16 <- pgs_df_16 %>% left_join(median_pc_16[, c(1:2, 4)], by = "weighted_pc_groups")
+
+median_pc_townsend_2 <- get_median_pc_townsend(non_pgs_df_townsend_2_strata)
+median_pc_townsend_2$group_close_to_gwas <- abs(median_pc_townsend_2$median_pc - 1)
+median_pc_townsend_2 <- median_pc_townsend_2 %>% arrange(group_close_to_gwas)
+median_pc_townsend_2$group_close_to_gwas <- 1:250
+median_pc_townsend_2 <- median_pc_townsend_2 %>% arrange(weighted_pc_groups)
+non_pgs_df_townsend_2_strata <- non_pgs_df_townsend_2_strata %>% 
+    left_join(median_pc_townsend_2[, c(1:2, 4)], by = "weighted_pc_groups")
+pgs_df_townsend_2_strata <- pgs_df_townsend_2_strata %>% 
+    left_join(median_pc_townsend_2[, c(1:2, 4)], by = "weighted_pc_groups")
+
+median_pc_townsend_5 <- get_median_pc_townsend(non_pgs_df_townsend_5_strata)
+median_pc_townsend_5$group_close_to_gwas <- abs(median_pc_townsend_5$median_pc - 1)
+median_pc_townsend_5 <- median_pc_townsend_5 %>% arrange(group_close_to_gwas)
+median_pc_townsend_5$group_close_to_gwas <- 1:250
+median_pc_townsend_5 <- median_pc_townsend_5 %>% arrange(weighted_pc_groups)
+non_pgs_df_townsend_5_strata <- non_pgs_df_townsend_5_strata %>% 
+    left_join(median_pc_townsend_5[, c(1:2, 4)], by = "weighted_pc_groups")
+pgs_df_townsend_5_strata <- pgs_df_townsend_5_strata %>% 
+    left_join(median_pc_townsend_5[, c(1:2, 4)], by = "weighted_pc_groups")
 
 median_pc_300K <- get_median_pc(non_pgs_df_300K)
 median_pc_300K$group_close_to_gwas <- abs(median_pc_300K$median_pc - 1)
