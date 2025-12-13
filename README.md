@@ -26,11 +26,21 @@ conda env create -f environment.yml
 
 ## Modification
 
+Copy any scripts you need from the folder to the root directory of the cloned repo. Please note that scripts can depend on each other, and we do recommend copying all the scripts from one folder together. For example, to copy all the scripts under `Prepare_the_data`, use:
+
+```
+cd Prepare_the_data
+cp * ../
+cd ../
+```
+
+
+
 Before execution, the directories contained in the scripts need to be modified so that they point to your directories.
 
 ## Execution
 
-Execute the bash scripts ending with .sh with bash <script_name.sh>. Please see the details for each script in the following sections.
+Execute the bash scripts ending with `.sh` with `bash <script_name.sh>`. Please see the details for each script in the following sections.
 
 ### Preparing the data
 
