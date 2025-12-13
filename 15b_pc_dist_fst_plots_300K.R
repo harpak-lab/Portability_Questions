@@ -3,6 +3,8 @@ library(dplyr)
 library(readr)
 library(data.table)
 library(ggplot2)
+library(patchwork)
+library(cowplot)
 
 # Read Fst and PC distance files
 pc_dist <- read_tsv("data/pca/pc_dist_best_pred_300K_std.tsv")
