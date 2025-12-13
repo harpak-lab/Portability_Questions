@@ -614,6 +614,28 @@ pgs_df_16 <- pgs_df_16 %>% arrange(IID, phenotype)
 
 pgs_df_16 %>% write_tsv("data/pgs_pred/ind_pgs_df_16.tsv")
 
+# Townsend index w/ 2 strata
+# This file is only for getting the knots of the group level plot, so no need to do the actual calculations
+group_non_pgs_df_townsend_2 <- read_tsv("data/pgs_pred/group_non_pgs_df_townsend_2_strata.tsv")
+
+# Read in PGS for threshold 1 (p < 1e-5)
+pgs_df_townsend_2 <- data.frame()
+for(trait in pheno){
+  temp <- read_tsv(paste0("data/pgs/", trait, "_1_scores.sscore"))
+  temp$pgs <- temp$SCORE1_AVG
+  temp <- temp %>% select(-c(ALLELE_CT, NAMED_ALLELE_DOSAGE_SUM, SCORE1_AVG))
+  temp$phenotype <- rep(trait, nrow(temp))
+  pgs_df_townsend_2 <- rbind.data.frame(pgs_df_townsend_2, temp)
+  rm(temp)
+}
+
+pgs_df_townsend_2 <- left_join(group_non_pgs_df_townsend_2, pgs_df_townsend_2, by = c("#FID", "IID", "phenotype"))
+pgs_df_townsend_2 <- pgs_df_townsend_2 %>% select(`#FID`, IID, sex, age, age_sq, age_sex, age_sq_sex, array_type,
+                            pc_dist, pgs, phenotype, phenotype_value, weighted_pc_groups, group_close_to_gwas, townsend_rank)
+
+pgs_df_townsend_2 <- temp %>% arrange(IID)
+
+pgs_df_townsend_2 %>% write_tsv("data/pgs_pred/ind_pgs_df_townsend_2.tsv")
 
 # Townsend index w/ 5 strata
 group_non_pgs_df_townsend_5 <- read_tsv("data/pgs_pred/group_non_pgs_df_townsend_5_strata.tsv")
@@ -631,7 +653,7 @@ for(trait in pheno){
 
 pgs_df_townsend_5 <- left_join(group_non_pgs_df_townsend_5, pgs_df_townsend_5, by = c("#FID", "IID", "phenotype"))
 pgs_df_townsend_5 <- pgs_df_townsend_5 %>% select(`#FID`, IID, sex, age, age_sq, age_sex, age_sq_sex, array_type,
-                            pc_dist, pgs, phenotype, phenotype_value, weighted_pc_groups, group_close_to_gwas)
+                            pc_dist, pgs, phenotype, phenotype_value, weighted_pc_groups, group_close_to_gwas, townsend_rank)
 
 pgs_df_townsend_5 <- pgs_df_townsend_5 %>% mutate(
   sex_pc_dist = sex * pc_dist,
