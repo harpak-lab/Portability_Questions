@@ -221,7 +221,7 @@ make_pgs_evaluation_df <- function(non_pgs_df, group_var_as_string) {
   
   files <- list.files(path = 'data/pgs', pattern = '[a-zA-Z]+_[0-9]_scores.sscore', 
                       full.names = TRUE)
-  files <- files[!grepl("disease|array|regenie|prscs", files)]
+  files <- files[!grepl("disease|array|regenie|prscs|300K", files)]
   
   for (file in files) {
     print(file)
@@ -469,7 +469,93 @@ pgs_df_16 <- pgs_df_16 %>%
   arrange(phenotype, weighted_pc_groups, threshold) %>%
   mutate(group_number = weighted_pc_groups)
 
+# Genetic distance with 300K GWAS samples
+load_non_pgs_df_300K <- function(num_bins) {
+  # Load covariates (age, sex, age-sex interactions, PC1, ..., PC20)
+  covar_df <- read_tsv('data/ukb_merged/covar.tsv')
 
+  # Drop all PC columns
+  covar_df <- covar_df %>% select(-starts_with("PC"))
+  
+  # Load array type
+  array_df <- read_table("data/extracted_data_fields/array_type.txt")
+  colnames(array_df) = c("IID", "array_batch")
+  array_df$array_type = ifelse(array_df$array_batch < 0, "BiLEVE",
+                               ifelse(array_df$array_batch > 0 & array_df$array_batch < 100, "Axiom",
+                                      ifelse(array_df$array_batch == 1000, "BiLEVE",
+                                             ifelse(array_df$array_batch == 2000, "Axiom", array_df$array_batch))))
+  
+  covar_df <- covar_df %>% filter(pop != "WB_GWAS")
+  
+  phenotypes_df <- read_tsv('data/phenotypes/phenotypes.tsv')
+  
+  # Load the individuals 
+  population_files <- c('data/ukb_populations/nwb_all_id_300K.txt', 
+                        'data/ukb_populations/wb_gwas_id_300K.txt',
+                       'data/ukb_populations/wb_gwas_id_300K.txt')
+  populations_df <- data.frame()
+  for (file in population_files) {
+    pop_df <- read_delim(file, delim = ' ', trim_ws = T,
+                         col_types = c('#FID' = col_integer(), 'IID' = col_integer())) %>%
+      mutate(population = str_extract(file, '(?<=data/ukb_populations/)[a-z]+'))
+    populations_df <- bind_rows(populations_df, pop_df)
+  }
+  pc_values <- read_tsv('data/pca/pc_dist_300K.tsv')
+  pc_values <- pc_values[, c(2:3)]
+  
+  # Combine all the above tables into a table that will be joined with PGS information for
+  # phenotype-threshold combinations.
+  phenotypes_df <- phenotypes_df %>%
+    inner_join(covar_df, by = c('#FID', 'IID')) %>%
+    inner_join(array_df, by = "IID") %>%
+    inner_join(populations_df, by = c('#FID', 'IID')) %>%
+    left_join(pc_values, by = c("IID")) %>%
+    pivot_longer(Height:LDL, names_to = 'phenotype', values_to = 'phenotype_value')
+  
+  # Divides into equally-sized components
+  phenotypes_df <- phenotypes_df %>%
+    mutate(weighted_pc_groups = pc_dist %>% ntile(num_bins))
+  
+  return(phenotypes_df)
+}
+
+make_pgs_evaluation_df_300K <- function(non_pgs_df, group_var_as_string) {
+  # Combine partial R^2 values for each phenotype and threshold
+  col_types = c('#FID' = col_integer(), 'IID' = col_integer(), 'ALLELE_CT' = col_integer(),
+                'NAMED_ALLELE_DOSAGE_SUM' = col_double(), 'SCORE1_AVG' = col_double())
+  pgs_df <- data.frame()
+  
+  files <- list.files(path = 'data/pgs', pattern = '[a-zA-Z]+_300K_[0-9]_scores.sscore', 
+                      full.names = TRUE)
+  
+  for (file in files) {
+    print(file)
+    this_df <- read_tsv(file, col_types = col_types) %>%
+      filter(IID > 0) %>%
+      select('#FID', 'IID', pgs = 'SCORE1_AVG') %>%
+      mutate(
+        phenotype = str_extract(string = file, pattern = '(?<=data/pgs/)[A-Za-z_]+(?=_)'),
+        threshold = str_extract_all(string = file, pattern = '(?<=_300K_)[0-9]+(?=_scores)')[[1]] %>% as.integer
+      ) %>%
+      inner_join(non_pgs_df, by =  c('#FID', 'IID','phenotype')) %>%
+      get_r2_values(., group_var = group_var_as_string)
+    
+    pgs_df <- bind_rows(pgs_df, this_df)
+  }
+  return(pgs_df)
+}
+
+# Data frame without PGS information
+non_pgs_df_300K <- load_non_pgs_df_300K(num_bins = 250)
+non_pgs_df_300K <- non_pgs_df_300K %>% filter(!is.na(weighted_pc_groups))
+non_pgs_df_300K <- non_pgs_df_300K %>%
+  mutate(array_type = as.factor(array_type))
+
+# Data frame with PGS information
+pgs_df_300K  <- make_pgs_evaluation_df_300K(non_pgs_df_300K, "weighted_pc_groups")
+pgs_df_300K <- pgs_df_300K %>% 
+  arrange(phenotype, weighted_pc_groups, threshold) %>%
+  mutate(group_number = weighted_pc_groups)
 
 # Calculate the median PC distance for each group
 get_median_pc <- function(file){
@@ -514,6 +600,14 @@ median_pc_16 <- median_pc_16 %>% arrange(weighted_pc_groups)
 non_pgs_df_16 <- non_pgs_df_16 %>% left_join(median_pc_16[, c(1:2, 4)], by = "weighted_pc_groups")
 pgs_df_16 <- pgs_df_16 %>% left_join(median_pc_16[, c(1:2, 4)], by = "weighted_pc_groups")
 
+median_pc_300K <- get_median_pc(non_pgs_df_300K)
+median_pc_300K$group_close_to_gwas <- abs(median_pc_300K$median_pc - 1)
+median_pc_300K <- median_pc_300K %>% arrange(group_close_to_gwas)
+median_pc_300K$group_close_to_gwas <- 1:250
+median_pc_300K <- median_pc_300K %>% arrange(weighted_pc_groups)
+non_pgs_df_300K <- non_pgs_df_300K %>% left_join(median_pc_300K[, c(1:2, 4)], by = "weighted_pc_groups")
+pgs_df_300K <- pgs_df_300K %>% left_join(median_pc_300K[, c(1:2, 4)], by = "weighted_pc_groups")
+
 # Save the files
 non_pgs_df_500_bins %>% write_tsv("data/pgs_pred/group_non_pgs_df_500_bins.tsv")
 pgs_df_500_bins %>% write_tsv("data/pgs_pred/group_pgs_df_500_bins.tsv")
@@ -532,3 +626,6 @@ pgs_df_prscs %>% write_tsv("data/pgs_pred/group_pgs_df_prscs.tsv")
 
 non_pgs_df_16 %>% write_tsv("data/pgs_pred/group_non_pgs_df_16.tsv")
 pgs_df_16 %>% write_tsv("data/pgs_pred/group_pgs_df_16.tsv")
+
+non_pgs_df_300K %>% write_tsv("data/pgs_pred/group_non_pgs_df_300K.tsv")
+pgs_df_300K %>% write_tsv("data/pgs_pred/group_pgs_df_300K.tsv")
