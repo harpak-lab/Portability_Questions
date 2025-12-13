@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH -J GWAS
-#SBATCH -o GWAS.o%j
-#SBATCH -e GWAS.o%j
+#SBATCH -J GWAS_300K
+#SBATCH -o GWAS_300K.o%j
+#SBATCH -e GWAS_300K.o%j
 #SBATCH -p normal
 #SBATCH -N 3
 #SBATCH -n 10
