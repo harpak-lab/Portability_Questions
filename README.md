@@ -175,4 +175,4 @@ We performed a few sensitivity analyses to test the major portability trends of 
 
 Then we evaluated PGS prediction accuracy at both the group level and individual level and compared the results with the original plots (<b>Fig. 2; Supplementary Figs. 2-13</b>):
 
-1. `15c_group_ind_level_pred_sentitivity.sh` (creates <b>Supplementary Figs. 34-65, 67-70, 72-79</b>)
+1. `15c_group_ind_level_pred_sensitivity.sh` (creates <b>Supplementary Figs. 34-65, 67-70, 72-79</b>)
