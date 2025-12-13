@@ -58,7 +58,7 @@ pc_dist_16 = cbind.data.frame(pc_dist[, c(1:2)],
 
 pc_dist_16 %>% write_tsv("data/pca/pc_dist_16.tsv")
 
-# Separete the GWAS and prediction set
+# Separate the GWAS and prediction set
 wb_gwas <- read_delim('data/ukb_populations/wb_gwas_id.txt', delim = ' ', trim_ws = T)
 
 `%notin%` = Negate(`%in%`)
