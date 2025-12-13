@@ -24,7 +24,7 @@ conda init bash
 conda activate pgs
 
 # Creates a file with 3 disease traits
-Rscript 11b_prepare_phenotypes.R
+Rscript 11b_prepare_phenotypes_disease.R
 
 for phenotype in T2D Asthma
 do
