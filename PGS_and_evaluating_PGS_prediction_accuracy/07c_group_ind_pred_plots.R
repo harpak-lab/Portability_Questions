@@ -115,7 +115,7 @@ plot_group_level <- function(pgs_df, trait, upper){
                vjust = 0.8, family = "Helvetica") +
       annotate(geom = "segment", x = 108, y = 0.7, xend = 115, yend = 0.7, 
                color = "black", size = 1) +
-      annotate("text", label = "A bin of ~260\nindividuals", x = 135, y = 0.7, size = 8, 
+      annotate("text", label = "A bin of 278\nindividuals", x = 135, y = 0.7, size = 8, 
                family = "Helvetica")
   }
   return(plot)
