@@ -34,13 +34,13 @@ cp * ../
 cd ../
 ```
 
-
-
-Before execution, the directories contained in the scripts need to be modified so that they point to your directories.
+Before execution, the directories contained in the scripts need to be modified so that they point to your directories. `#SBATCH -A OTH21148` also needs to be updated according to your allocation information.
 
 ## Execution
 
-Execute the bash scripts ending with `.sh` with `bash <script_name.sh>`. Please see the details for each script in the following sections.
+Submit the bash scripts ending with `.sh` with `sbatch <script_name.sh>`, or refer to the documentation of your computing clusters on how to submit a job.
+
+Please see the details for each script in the following sections:
 
 ### Preparing the data
 
