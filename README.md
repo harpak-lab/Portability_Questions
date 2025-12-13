@@ -2,7 +2,7 @@
 
 Provided below are instructions and details for scripts used to generate the results and figures in ["Three Open Questions in Polygenic Score Portability"](https://www.biorxiv.org/content/10.1101/2024.08.20.608703v2).
 
-For questions, please contact Joyce Wang at joyce.wang@utexas.edu.
+For questions regarding the scripts, please contact Joyce Wang at joyce.wang@utexas.edu.
 
 
 ## Installation
@@ -64,16 +64,16 @@ Execute the following files to perform GWAS, clumping, and thresholding:
 
 ### Genetic distance calculations
 
-The fixation index (<i>F<sub>st</sub></i>) is a natural metric, a single number, to measure the divergence between two sets of chromosomes and we considered using it to measure the distance between the pair of chromosomes of an individual and chromosomes in the GWAS sample. However, calculating Fst was computationally costly, so we used Euclidean distance in the PC space as a single number proxying genetic distance from the GWAS sample.
+The fixation index (<i>F</i><sub>st</sub>) is a natural metric, a single number, to measure the divergence between two sets of chromosomes and we considered using it to measure the distance between the pair of chromosomes of an individual and chromosomes in the GWAS sample. However, calculating Fst was computationally costly, so we used Euclidean distance in the PC space as a single number proxying genetic distance from the GWAS sample.
 
-Execute the following files to calculate <i>F<sub>st</sub></i>:
+Execute the following files to calculate <i>F</i><sub>st</sub>:
 
 1. `05a_pc_dist_fst.sh`
 2. All the scripts created under `temp_fst_path`
 
 Then, execute the following files to calculate Euclidean distance:
 
-1. `05e_find_best_num_pc.sh` (creates <b>Fig. S1</b>)
+1. `05e_find_best_num_pc.sh` (creates <b>Supplementary Fig. 1</b>)
 2. `05h_ukb_kgp_pca.sh` (downloads [1000 Genomes phase 3 dataset provided by Plink](https://www.cog-genomics.org/plink/2.0/resources))
 3. `05j_pc_dist_fst_plots.sh` (creates <b>Fig. 1</b>)
 
@@ -85,13 +85,13 @@ Execute the following file to calculate PGS:
 
 We evaluated PGS prediction accuracy at both the group level and individual level:
 
-1. `07_group_ind_level_pred.sh` (creates <b>Fig. 2, S2-13</b>)
+1. `07_group_ind_level_pred.sh` (creates <b>Fig. 2; Supplementary Figs. 2-13</b>)
 
 We compared the variance in squared prediction error explained for 8 raw measures: genetic distance, Townsend Deprivation Index, average yearly total household income before tax, educational attainment, which we converted into years of education, minor allele counts for SNPs with different magnitudes of effects (three equally-sized bins of small, medium, and large squared effect sizes, see Fig. S23), and minor allele counts of all SNPs:
 
 1. `08a_prepare_for_ma_counts.sh`
 2. `08b_calc_ma_counts.sh`
-3. `08d_ind_pred_plots.sh` (creates <b>Fig. 3, S14-21</b>)
+3. `08d_ind_pred_plots.sh` (creates <b>Fig. 3; Supplementary Figs. 14-21</b>)
 
 ### Additional analyses on lymphocyte count
 
@@ -110,11 +110,11 @@ We calculated heterozygosity at index SNPs as a function of genetic distance:
 
 We examined the variance of PGS as a function of genetic distance:
 
-1. `09j_compare_effect_sizes_heterozygosity_var_pgs_plots.sh` (creates <b>Fig. 4, S22</b>)
+1. `09j_compare_effect_sizes_heterozygosity_var_pgs_plots.sh` (creates <b>Fig. 4; Supplementary Fig. 22</b>)
 
 We estimated the heritability associated with each index SNP:
 
-1. `10a_compare_heritability.sh` (creates <b>Fig. S23-24</b>)
+1. `10a_compare_heritability.sh` (creates <b>Supplementary Figs. 23-24</b>)
 
 ### Portability of disease traits
 
@@ -129,17 +129,17 @@ For these disease traits, we ran GWAS, clumped and thresholded the SNPs, and cal
 
 Then we estimated group level portability of the disease traits:
 
-1. `11h_group_level_pred_disease.sh` (creates <b>Fig. 5, S66</b>)
+1. `11h_group_level_pred_disease.sh` (creates <b>Fig. 5; Supplementary Fig. 66</b>)
 
 ### Distribution of important variables in the dataset
 
 We first plotted the distribution of Townsend deprivation index, household income, sex, age, and country as a function of genetic distance:
 
-1. `12_townsend_income_sex_age_country.sh` (creates <b>Fig. S25-29</b>)
+1. `12_townsend_income_sex_age_country.sh` (creates <b>Supplementary Figs. 25-29</b>)
 
-Then we plotted the correlation between <i>F<sub>st</sub></i> and PCs 1, 2, 3, and 40:
+Then we plotted the correlation between <i>F</i><sub>st</sub> and PCs 1, 2, 3, and 40:
 
-1. `13_pcs_vs_fst.sh` (creates <b>Fig. S30-33</b>)
+1. `13_pcs_vs_fst.sh` (creates <b>Supplementary Figs. 30-33</b>)
 
 ### Sensitivity analyses for major portability trends
 
@@ -163,6 +163,16 @@ We performed a few sensitivity analyses to test the major portability trends of 
 
 1. `14l_compute_pgs_prscs.sh`
 
-Then we evaluated PGS prediction accuracy at both the group level and individual level and compared the results with the original plots (<b>Fig. 2, S2-13</b>):
+#### Re-running GWAS with 300K WB
 
-1. `14q_group_ind_pred_plots_sensitivity.R` (creates <b>S34-65</b>)
+1. `14n_gwas_300K.sh`
+2. `14p_clumping_300K.sh`
+3. `14q_after_clumping_300K.sh`
+4. `14r_compute_pgs_300K.sh`
+5. `14s_pc_dist_fst_300K.sh`
+6. `14w_find_best_num_pc_300K.sh`
+7. `14z_pc_dist_fst_plots_300K.sh` (creates <b>Supplementary Fig. 71</b>)
+
+Then we evaluated PGS prediction accuracy at both the group level and individual level and compared the results with the original plots (<b>Fig. 2; Supplementary Figs. 2-13</b>):
+
+1. `15c_group_ind_level_pred_sentitivity.sh` (creates <b>Supplementary Figs. 34-65, 67-70, 72-79</b>)
